@@ -76,8 +76,7 @@ public class Robot extends IterativeRobot {
 		p1.rumbleNone();
 		int btn = Xbox360Controller.BUTTON.A;
 
-		//want to see what a pull request looks like in GitHub.
-		//turned off code owners setting.. now lets try.
+		//This is a little annoying.  Hopefully easier for kids.
 
 	}
 
