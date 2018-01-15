@@ -7,7 +7,8 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Wrapper/convenience class for the Xbox360 gamepads that MetalCow has
  * 
- * Drivers through here http://wccftech.com/xbox-controller-pc-drivers-download-courtesy-major-nelson/ to here: mjr.mn/XboxOnePCDriversx64
+ * Drivers through here http://wccftech.com/xbox-controller-pc-drivers-download-courtesy-major-nelson/
+ * to here: mjr.mn/XboxOnePCDriversx64 if needed
  */
 
 public class Xbox360Controller extends Joystick {
@@ -39,27 +40,27 @@ public class Xbox360Controller extends Joystick {
 		return getRawAxis(5);
 	}
 
-	public boolean getButton(int n) {
-		return getRawButton(n);
+	public boolean getButton(int button) {
+		return getRawButton(button);
 	}
 	
-	public void rumbleLeft(float amt){
+	public void rumbleLeft(double amt){
 		this.setRumble(RumbleType.kLeftRumble, amt);
 	}
-	public void rumbleRight(float amt){
+	public void rumbleRight(double amt){
 		this.setRumble(RumbleType.kRightRumble, amt);
 	}
-	public void rumbleAll(float amt){
-		this.setRumble(RumbleType.kRightRumble, amt);
-		this.setRumble(RumbleType.kRightRumble, amt);
+	public void rumbleAll(double amt){
+		rumbleLeft(amt);
+		rumbleRight(amt);
 	}
 	public void rumbleNone(){
-		this.setRumble(RumbleType.kRightRumble, 0.0);
-		this.setRumble(RumbleType.kRightRumble, 0.0);
+		rumbleLeft(0);
+		rumbleRight(0);
 	}
 	
 	
-    public static class BUTTON {
+    public static class Button {
 	    	public static final int A=1;
 	    	public static final int B=2;
 	    	public static final int X=3;

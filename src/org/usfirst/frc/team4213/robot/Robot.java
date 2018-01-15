@@ -1,9 +1,10 @@
 package org.usfirst.frc.team4213.robot;
 
 import org.usfirst.frc.team4213.lib14.Xbox360Controller;
+import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,6 +20,8 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
+	
+	DriverController driver;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -29,6 +32,8 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 	}
 
 	/**
@@ -65,6 +70,15 @@ public class Robot extends IterativeRobot {
 			break;
 		}
 	}
+	
+	/**
+	 * This should be called before teleop for any initilizations
+	 */
+	@Override
+	public void teleopInit() {
+		System.out.println("Teleop Init!");
+		
+	}
 
 	/**
 	 * This function is called periodically during operator control
@@ -72,12 +86,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		Xbox360Controller p1 = new Xbox360Controller(1);
-		p1.rumbleNone();
-		int btn = Xbox360Controller.BUTTON.A;
-
-		//want to see what a pull request looks like in GitHub.
-		//turned off code owners setting.. now lets try.
+		//if you run this the left trigger should make the 
+		//rumble go.
+		driver.rumbleAll( driver.getLT() );
+		
+		//Log something to the Driverstation
+		if(driver.getButton(Xbox360Controller.Button.A)) {
+			DriverStation.reportWarning("ButtonA was Pressed!!!", false);
+		}
 
 	}
 
