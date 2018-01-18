@@ -3,8 +3,12 @@ package org.usfirst.frc.team4213.robot;
 import org.usfirst.frc.team4213.lib14.Xbox360Controller;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,7 +25,9 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
-	DriverController driver;
+	Xbox360Controller driver;
+	SpeedController leftMotor;
+	Accelerometer acc;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -34,6 +40,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		leftMotor = new Talon(0);
+		acc = new BuiltInAccelerometer();
 	}
 
 	/**
@@ -88,13 +96,14 @@ public class Robot extends IterativeRobot {
 
 		//if you run this the left trigger should make the 
 		//rumble go.
-		driver.rumbleAll( driver.getLT() );
+		driver.rumbleAll(acc.getX()  );
+		System.out.println(acc.getX());
 		
 		//Log something to the Driverstation
 		if(driver.getButton(Xbox360Controller.Button.A)) {
 			DriverStation.reportWarning("ButtonA was Pressed!!!", false);
 		}
-
+leftMotor.set(driver.getLY());
 
 	}
 
@@ -103,5 +112,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		System.out.println("testing"); 
 	}
 }
