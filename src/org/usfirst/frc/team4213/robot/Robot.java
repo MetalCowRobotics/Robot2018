@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4213.robot;
 
-import org.usfirst.frc.team4213.lib14.Xbox360Controller;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -26,8 +25,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	DriverController driver;
-	SpeedController leftMotor;
-	SpeedController rightMotor;
+	SpeedController leftMotor; SpeedController rightMotor;
 	Accelerometer acc;
 
 	/**
