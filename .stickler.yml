@@ -1,0 +1,3 @@
+linters:
+    checkstyle:
+        config: ./resource/google-checkstyle.xml
