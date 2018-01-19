@@ -25,7 +25,8 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	DriverController driver;
-	SpeedController leftMotor; SpeedController rightMotor;
+	SpeedController leftMotor;
+	SpeedController rightMotor;
 	Accelerometer acc;
 
 	/**
