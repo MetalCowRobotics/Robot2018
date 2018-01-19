@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import org.usfirst.frc.team4213.lib14.Xbox360Controller;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -16,10 +17,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+		
 	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
+	final String customAuto = "Custom";
+	final double kUpdatePeriod = 0.005;
+	BuiltInAccelerometer accelerometer;
 	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
+	SendableChooser<String> autoChooser = new SendableChooser<>();
+	
+	//test variable
+	long lastTime;
 	
 	DriverController driver;
 
@@ -27,13 +35,19 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	
+	
+	
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		autoChooser.addDefault("Default program", defaultAuto);
+		autoChooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", autoChooser);
 		
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		accelerometer = new BuiltInAccelerometer();
+		
+		lastTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -49,7 +63,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
+		autoSelected = autoChooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
@@ -63,10 +77,19 @@ public class Robot extends IterativeRobot {
 		switch (autoSelected) {
 		case customAuto:
 			// Put custom auto code here
+			//System.out.println(3000 > (System.currentTimeMillis()-lastTime));
+			if (3000 < (System.currentTimeMillis()-lastTime)) {
+				System.out.println("customAuto");
+			System.out.println("gyroX " + accelerometer.getX());
+			System.out.println("gyroY " + accelerometer.getY());
+			System.out.println("gyroZ " + accelerometer.getZ());
+			lastTime = System.currentTimeMillis();
+			}
 			break;
 		case defaultAuto:
 		default:
 			// Put default auto code here
+			System.out.println("defaultAuto");
 			break;
 		}
 	}
