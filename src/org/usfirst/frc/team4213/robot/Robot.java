@@ -26,16 +26,16 @@ public class Robot extends IterativeRobot {
 	final double kUpdatePeriod = 0.005;
 	BuiltInAccelerometer accelerometer;
 	String autoSelected;
-<<<<<<< HEAD
+
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	
 	//test variable
 	long lastTime;
 	
-=======
+
 	SendableChooser<String> chooser = new SendableChooser<>();
 
->>>>>>> master
+
 	DriverController driver;
 	SpeedController leftMotor;
 	SpeedController rightMotor;
@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-<<<<<<< HEAD
+
 		autoChooser.addDefault("Default program", defaultAuto);
 		autoChooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 		accelerometer = new BuiltInAccelerometer();
 		
 		lastTime = System.currentTimeMillis();
-=======
+
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 		leftMotor = new Talon(0);
 		rightMotor = new Talon(1);
 		acc = new BuiltInAccelerometer();
->>>>>>> master
+
 	}
 
 	/**
