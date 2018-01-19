@@ -1,11 +1,13 @@
 package org.usfirst.frc.team4213.robot;
 
-import org.usfirst.frc.team4213.lib14.Xbox360Controller;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,22 +26,31 @@ public class Robot extends IterativeRobot {
 	final double kUpdatePeriod = 0.005;
 	BuiltInAccelerometer accelerometer;
 	String autoSelected;
+<<<<<<< HEAD
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	
 	//test variable
 	long lastTime;
 	
+=======
+	SendableChooser<String> chooser = new SendableChooser<>();
+
+>>>>>>> master
 	DriverController driver;
+	SpeedController leftMotor;
+	SpeedController rightMotor;
+	Accelerometer acc;
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	
 	
 	
 	@Override
 	public void robotInit() {
+<<<<<<< HEAD
 		autoChooser.addDefault("Default program", defaultAuto);
 		autoChooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
@@ -48,18 +59,28 @@ public class Robot extends IterativeRobot {
 		accelerometer = new BuiltInAccelerometer();
 		
 		lastTime = System.currentTimeMillis();
+=======
+		chooser.addDefault("Default Auto", defaultAuto);
+		chooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", chooser);
+
+		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		leftMotor = new Talon(0);
+		rightMotor = new Talon(1);
+		acc = new BuiltInAccelerometer();
+>>>>>>> master
 	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString line to get the
+	 * auto name from the text box below the Gyro
 	 *
 	 * You can add additional auto modes by adding additional comparisons to the
-	 * switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * switch structure below with additional strings. If using the SendableChooser
+	 * make sure to add them to the chooser code above as well.
 	 */
 	@Override
 	public void autonomousInit() {
@@ -93,14 +114,14 @@ public class Robot extends IterativeRobot {
 			break;
 		}
 	}
-	
+
 	/**
 	 * This should be called before teleop for any initilizations
 	 */
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-		
+
 	}
 
 	/**
@@ -109,15 +130,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		//if you run this the left trigger should make the 
-		//rumble go.
-		driver.rumbleAll( driver.getLT() );
-		
-		//Log something to the Driverstation
-		if(driver.getButton(Xbox360Controller.Button.A)) {
-			DriverStation.reportWarning("ButtonA was Pressed!!!", false);
-		}
+		// if you run this the Left Joystick should make the
 
+		 driver.rumbleAll(acc.getX());
+		 System.out.println(acc.getX());
+
+		// Log something to the Driverstation
+ 
+
+ leftMotor.set(driver.getLY());
+ rightMotor.set(-driver.getRY());
 
 	}
 
@@ -126,5 +148,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		System.out.println("testing");
 	}
 }
