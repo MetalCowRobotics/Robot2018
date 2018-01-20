@@ -1,12 +1,13 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import org.usfirst.frc.team4213.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Talon;
 
 public class Intake {
-	String elevator = "I'm the elevator";
-	SpeedController intakeMotor;
-	private IntakeState currentIntakeState = IntakeState.OFF; //start state is off
-	
+	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
+	String elevator;
+	private IntakeState currentIntakeState = IntakeState.OFF; // start state is off
 
 	public String getElevator() {
 		return elevator;
@@ -17,7 +18,7 @@ public class Intake {
 		this.elevator = elevator;
 	}
 
-	public void elevatorUp() { 
+	public void elevatorUp() {
 
 	}
 
@@ -26,26 +27,29 @@ public class Intake {
 	}
 
 	public void powerCubeIntake() {
-		if(IntakeState.IN == currentIntakeState) 
+		if (IntakeState.IN == currentIntakeState)
 			return;
-		//turn the motors to intake
+		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		currentIntakeState = IntakeState.IN;
 	}
 
 	public void powerCubeEject() {
-		if(IntakeState.OUT == currentIntakeState) 
+		if (IntakeState.OUT == currentIntakeState)
 			return;
-		//turn the motors to eject
+		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
+
 	public void powerCubeIdle() {
-		if(IntakeState.OFF == currentIntakeState)
+		if (IntakeState.OFF == currentIntakeState)
 			return;
-		intakeMotor.stopMotor();
+		LEFT_INTAKE_MOTOR.stopMotor();
 		currentIntakeState = IntakeState.OFF;
 	}
-	private enum IntakeState{
-		OFF,IN,OUT
+	
+	//enums
+	private enum IntakeState {
+		OFF, IN, OUT
 	}
 
 }

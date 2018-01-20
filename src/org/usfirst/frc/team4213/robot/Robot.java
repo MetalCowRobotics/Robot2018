@@ -161,8 +161,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		driver.rumbleAll(accelerometer.getX());
-		System.out.println(accelerometer.getX());
+		
+		if(driver.getLB()) {
+			intake.powerCubeIntake();
+		} else if(driver.getRB()) {
+			intake.powerCubeEject();
+		} else {
+			intake.powerCubeIdle();
+		}
 
 	}
 
