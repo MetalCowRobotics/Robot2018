@@ -31,12 +31,15 @@ public class DriverController extends XboxController {
 	public double getRX() {
 		return this.getX(Hand.kRight);
 	}
+
 	public boolean getLB() {
 		return this.getBumper(Hand.kLeft);
 	}
+
 	public boolean getRB() {
 		return this.getBumper(Hand.kRight);
 	}
+
 	public void rumbleLeft(double amt) {
 		this.setRumble(RumbleType.kLeftRumble, amt);
 	}
