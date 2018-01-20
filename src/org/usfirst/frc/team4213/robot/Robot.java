@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -19,22 +20,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
-		
+
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
-	final double kUpdatePeriod = 0.005;
 	BuiltInAccelerometer accelerometer;
 	String autoSelected;
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	
-	//test variable
+
+	// test variable
 	long lastTime;
-	
 
 	SendableChooser<String> chooser = new SendableChooser<>();
-
 
 	DriverController driver;
 	SpeedController leftMotor;
@@ -45,29 +42,25 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
-	
-	
-	
+
 	@Override
 	public void robotInit() {
-
-		autoChooser.addDefault("Default program", defaultAuto);
-		autoChooser.addObject("My Auto", customAuto);
+		autoSelected = defaultAuto;
+		autoChooser.addDefault("Default", defaultAuto);
+		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
-		
+
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 		accelerometer = new BuiltInAccelerometer();
-		
-		lastTime = System.currentTimeMillis();
 
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		lastTime = System.currentTimeMillis();
 
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 		leftMotor = new Talon(0);
 		rightMotor = new Talon(1);
 		acc = new BuiltInAccelerometer();
+		
+		CameraServer.getInstance().startAutomaticCapture(); 
 
 	}
 
@@ -95,17 +88,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		if (3000 < (System.currentTimeMillis() - lastTime)) {
+			lastTime = System.currentTimeMillis();
+
+			SmartDashboard.putNumber("gyroX", accelerometer.getX());
+			SmartDashboard.putNumber("gyroY", accelerometer.getY());
+			SmartDashboard.putNumber("gyroZ", accelerometer.getZ());
+
+		}
 		switch (autoSelected) {
 		case customAuto:
 			// Put custom auto code here
-			//System.out.println(3000 > (System.currentTimeMillis()-lastTime));
-			if (3000 < (System.currentTimeMillis()-lastTime)) {
-				System.out.println("customAuto");
-			System.out.println("gyroX " + accelerometer.getX());
-			System.out.println("gyroY " + accelerometer.getY());
-			System.out.println("gyroZ " + accelerometer.getZ());
-			lastTime = System.currentTimeMillis();
-			}
+			System.out.println("customAuto");
+
 			break;
 		case defaultAuto:
 		default:
@@ -132,14 +127,13 @@ public class Robot extends IterativeRobot {
 
 		// if you run this the Left Joystick should make the
 
-		 driver.rumbleAll(acc.getX());
-		 System.out.println(acc.getX());
+		driver.rumbleAll(acc.getX());
+		System.out.println(acc.getX());
 
 		// Log something to the Driverstation
- 
 
- leftMotor.set(driver.getLY());
- rightMotor.set(-driver.getRY());
+		leftMotor.set(driver.getLY());
+		rightMotor.set(-driver.getRY());
 
 	}
 
