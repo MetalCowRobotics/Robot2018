@@ -10,11 +10,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
-//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,18 +29,15 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	boolean firstTime = true;
 
-
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
 	// test variable
 	long lastTime;
 
 	SendableChooser<String> chooser = new SendableChooser<>();
+
 	// physical components
 
-	SpeedController leftMotor;
-	SpeedController rightMotor;
-	Accelerometer acc;
 	// Systems
 	DriverController driver;
 	Intake intake;
@@ -56,6 +49,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
@@ -69,28 +63,31 @@ public class Robot extends IterativeRobot {
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 		intake = new Intake("I'm not the intake");
 		System.out.println("Intake Value:" + intake.getElevator());
-		leftMotor = new Talon(0);
-		rightMotor = new Talon(1);
-		acc = new BuiltInAccelerometer();
 
-		//CameraServer.getInstance().startAutomaticCapture();
-		
+		// CameraServer.getInstance().startAutomaticCapture();
+
 		new Thread(() -> {
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-            camera.setResolution(640, 480);
-            
-            CvSink cvSink = CameraServer.getInstance().getVideo();
-            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-            
-            Mat source = new Mat();
-            Mat output = new Mat();
-            
-            while(!Thread.interrupted()) {
-                cvSink.grabFrame(source);
-                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-                outputStream.putFrame(output);
-            }
-        }).start();
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			camera.setResolution(640, 480);
+
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+
+			Mat source = new Mat();
+			Mat output = new Mat();
+
+			while (!Thread.interrupted()) {
+				cvSink.grabFrame(source);
+				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+				outputStream.putFrame(output);
+			}
+		}).start();
+
+		chooser.addDefault("Default Auto", defaultAuto);
+		chooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", chooser);
+
+		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 
 	}
 
@@ -164,15 +161,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		// if you run this the Left Joystick should make the
-
-		driver.rumbleAll(acc.getX());
-		System.out.println(acc.getX());
-
-		// Log something to the Driverstation
-
-		leftMotor.set(driver.getLY());
-		rightMotor.set(-driver.getRY());
+		driver.rumbleAll(accelerometer.getX());
+		System.out.println(accelerometer.getX());
 
 	}
 
