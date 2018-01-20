@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.cscore.CvSink;
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 	BuiltInAccelerometer accelerometer;
 	String autoSelected;
 	boolean firstTime = true;
+	Elevator elevator = new Elevator();
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -162,14 +164,21 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		
+//		if(driver.getLB()) {
+//			intake.powerCubeIntake();
+//		} else if(driver.getRB()) {
+//			intake.powerCubeEject();
+//		} else {
+//			intake.powerCubeIdle();
+//		}
+//
 		if(driver.getLB()) {
-			intake.powerCubeIntake();
+			elevator.moveUp();
 		} else if(driver.getRB()) {
-			intake.powerCubeEject();
+			elevator.moveDown();
 		} else {
-			intake.powerCubeIdle();
+			elevator.stop();
 		}
-
 	}
 
 	/**

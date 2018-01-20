@@ -22,6 +22,12 @@ public class RobotMap {
 		public static final double EJECT_SPEED = -0.2;
 		public static final int LEFT_MOTOR_CHANNEL = 5;
 	}
-
+	public final class Elevator {
+		public static final int STAGE_1_MOTOR_CHANNEL = 5;
+		public static final int STAGE_2_MOTOR_CHANNEL = 6;
+		public static final double UP_SPEED = 0.2;
+		public static final double DOWN_SPEED = -0.2;
+		
+	}
 	
 }
