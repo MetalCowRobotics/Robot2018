@@ -1,5 +1,11 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="0" y="182"/>
+		<width>557</width>
+		<height>278</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
 		<location x="19" y="87"/>
 		<property name="Text" value="Accelerometer"/>
@@ -30,39 +36,29 @@
 </dashboard>
 <live-window>
 	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
-		<widget field="BuiltInAccel[0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.ThreeAxisAccelerometer">
+		<widget field="Talon[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
 			<location x="0" y="0"/>
 			<height>0</height>
 			<width>0</width>
 		</widget>
-		<widget field="BuiltInAccel[0]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.ThreeAxisAccelerometer">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
-		</widget>
-		<widget field="Talon[0]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+		<widget field="Talon[1]" type="Table" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
 			<location x="0" y="0"/>
 			<height>0</height>
 			<width>0</width>
 		</widget>
 		<widget field="Talon[0]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
+			<location x="6" y="16"/>
+			<height>46</height>
+			<width>293</width>
 		</widget>
-		<widget field="Talon[1]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
-		</widget>
-		<widget field="Talon[1]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
-			<location x="0" y="0"/>
-			<height>0</height>
-			<width>0</width>
+		<widget field="BuiltInAccel[0]" type="3AxisAccelerometer" class="edu.wpi.first.smartdashboard.livewindow.elements.ThreeAxisAccelerometer">
+			<location x="6" y="62"/>
+			<height>75</height>
+			<width>293</width>
 		</widget>
 		<location x="7" y="31"/>
 		<width>305</width>
-		<height>115</height>
+		<height>144</height>
 	</widget>
 </live-window>
 </xml>

@@ -1,10 +1,16 @@
 package org.usfirst.frc.team4213.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.systems.Intake;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -25,6 +31,8 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "Custom";
 	BuiltInAccelerometer accelerometer;
 	String autoSelected;
+	boolean firstTime = true;
+
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -32,11 +40,14 @@ public class Robot extends IterativeRobot {
 	long lastTime;
 
 	SendableChooser<String> chooser = new SendableChooser<>();
+	// physical components
 
-	DriverController driver;
 	SpeedController leftMotor;
 	SpeedController rightMotor;
 	Accelerometer acc;
+	// Systems
+	DriverController driver;
+	Intake intake;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -56,11 +67,30 @@ public class Robot extends IterativeRobot {
 		lastTime = System.currentTimeMillis();
 
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		intake = new Intake("I'm not the intake");
+		System.out.println("Intake Value:" + intake.getElevator());
 		leftMotor = new Talon(0);
 		rightMotor = new Talon(1);
 		acc = new BuiltInAccelerometer();
+
+		//CameraServer.getInstance().startAutomaticCapture();
 		
-		CameraServer.getInstance().startAutomaticCapture(); 
+		new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+            camera.setResolution(640, 480);
+            
+            CvSink cvSink = CameraServer.getInstance().getVideo();
+            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+            
+            Mat source = new Mat();
+            Mat output = new Mat();
+            
+            while(!Thread.interrupted()) {
+                cvSink.grabFrame(source);
+                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+                outputStream.putFrame(output);
+            }
+        }).start();
 
 	}
 
@@ -88,7 +118,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		if (3000 < (System.currentTimeMillis() - lastTime)) {
+
+		if (1000 < (System.currentTimeMillis() - lastTime)) {
 			lastTime = System.currentTimeMillis();
 
 			SmartDashboard.putNumber("gyroX", accelerometer.getX());
@@ -99,13 +130,21 @@ public class Robot extends IterativeRobot {
 		switch (autoSelected) {
 		case customAuto:
 			// Put custom auto code here
-			System.out.println("customAuto");
+
+			if (firstTime) {
+				firstTime = false;
+				System.out.println("customAuto");
+			}
 
 			break;
 		case defaultAuto:
 		default:
 			// Put default auto code here
-			System.out.println("defaultAuto");
+
+			if (firstTime) {
+				firstTime = false;
+				System.out.println("defaultAuto");
+			}
 			break;
 		}
 	}
