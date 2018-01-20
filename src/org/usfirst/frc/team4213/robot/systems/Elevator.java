@@ -13,12 +13,13 @@ public class Elevator {
 	ElevatorState curStage2Location = ElevatorState.BOTTOM;
 
 	public void moveUp() {
-		if (!movingUp()) {
+		if (movingUp()) {
 			return;
 		}
 		if (ElevatorState.TOP != curStage1Location) {
 			STAGE_1_MOTOR.setSpeed(RobotMap.Elevator.UP_SPEED);
 			currentStage1State = MotorState.UP;
+			curStage1Location = ElevatorState.MIDDLE;
 		} else if (ElevatorState.TOP != curStage2Location) {
 			STAGE_2_MOTOR.setSpeed(RobotMap.Elevator.UP_SPEED);
 			currentStage2State = MotorState.UP;
@@ -26,7 +27,7 @@ public class Elevator {
 	}
 
 	public void moveDown() {
-		if (!movingDown()) {
+		if (movingDown()) {
 			return;
 		}
 		if (ElevatorState.BOTTOM != curStage2Location) {
