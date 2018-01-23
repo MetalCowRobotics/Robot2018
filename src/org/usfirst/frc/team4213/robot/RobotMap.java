@@ -19,8 +19,8 @@ public class RobotMap {
 	}
 
 	public final class Intake {
-		public static final double INTAKE_SPEED = 0.2;
-		public static final double EJECT_SPEED = -0.2;
+		public static final double INTAKE_SPEED = 0.5;
+		public static final double EJECT_SPEED = -0.5;
 		public static final int LEFT_MOTOR_CHANNEL = 5;
 		public static final int LIMIT_SWITCH_CHANNEL = 0;
 	}

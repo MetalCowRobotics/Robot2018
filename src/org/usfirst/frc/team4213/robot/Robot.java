@@ -10,7 +10,9 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -33,7 +35,15 @@ public class Robot extends IterativeRobot {
 
 	// test variable
 	long lastTime;
+	
+	PowerDistributionPanel pdp;
 
+	DriverStation DS;
+	public String getGameSpecficMessage(){
+		return DS.getGameSpecificMessage();
+	}
+	
+	
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	// physical components
@@ -54,34 +64,19 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
+		pdp = new PowerDistributionPanel();
+		
+		DS = DriverStation.getInstance();
 
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 		accelerometer = new BuiltInAccelerometer();
 
 		lastTime = System.currentTimeMillis();
 
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 		intake = new Intake("I'm not the intake");
 		System.out.println("Intake Value:" + intake.getElevator());
 
-		// CameraServer.getInstance().startAutomaticCapture();
-
-		new Thread(() -> {
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-			camera.setResolution(640, 480);
-
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-
-			Mat source = new Mat();
-			Mat output = new Mat();
-
-			while (!Thread.interrupted()) {
-				cvSink.grabFrame(source);
-				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-				outputStream.putFrame(output);
-			}
-		}).start();
+		 CameraServer.getInstance().startAutomaticCapture();
 
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -115,6 +110,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		
+
 
 		if (1000 < (System.currentTimeMillis() - lastTime)) {
 			lastTime = System.currentTimeMillis();
@@ -168,6 +165,11 @@ public class Robot extends IterativeRobot {
 		} else {
 			intake.powerCubeIdle();
 		}
+		
+		System.out.println( pdp.getTemperature() +" Degrees Celcius" );
+		System.out.println( pdp.getCurrent(1) + " Amps");
+		System.out.println( getGameSpecficMessage());
+		System.out.println(DS.getGameSpecificMessage());
 
 	}
 
