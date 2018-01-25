@@ -2,9 +2,9 @@ package org.usfirst.frc.team4213.robot.controllers;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public class DriverController extends XboxController {
+public class XboxControllerMetalCow extends XboxController {
 
-	public DriverController(int port) {
+	public XboxControllerMetalCow(int port) {
 		super(port);
 	}
 

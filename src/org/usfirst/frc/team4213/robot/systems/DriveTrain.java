@@ -1,18 +1,19 @@
 package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.robot.RobotMap;
-import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
 
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private DriverController controller;
+	private MasterControls controller;
 	
 	private int inverted = 1;
 	
-	public DriveTrain(DriverController controller){
+	public DriveTrain(MasterControls controller){
 		this.controller = controller;
 	}
 	
@@ -40,10 +41,10 @@ public class DriveTrain {
 		
 		System.out.println("Look I am driving!");
 		
-		double leftSpeed = controller.getLY() * getThrottle() * inverted;
-		double rightSpeed = controller.getRY() * getThrottle() * inverted;
+		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
 		
-		if (controller.getAButton()){	 //Go into half-arcade
+		if (controller.isHalfArcadeToggle()){	 //Go into half-arcade
 			setLeftMotorSpeed(leftSpeed);
 			setRightMotorSpeed(leftSpeed);
 		} else {						//Stay in regular drive
@@ -55,15 +56,15 @@ public class DriveTrain {
 	}
 	
 	/**
-	 * Determine the top speed threshold Bumper buttons on the controller will
-	 * limit the speed to the CRAWL value Trigger buttons on the controller will
-	 * limit the speed to the SPRINT value Otherwise it will allow the robot a
+	 * Determine the top speed threshold Bumper r buttons on the controller will
+	 * limit the speed to the SPRINT value Otherbuttons on the controller will
+	 * limit the speed to the CRAWL value Triggewise it will allow the robot a
 	 * speed up to Normal max.
 	 */
 	private double getThrottle() {
-		if ( controller.getLB() ) {
+		if ( controller.isCrawlToggle()) {
 			return RobotMap.Drivetrain.CRAWL_SPEED;
-		} else if ( controller.getRB() ) {
+		} else if ( controller.isSprintToggle()) {
 			return RobotMap.Drivetrain.SPRINT_SPEED;
 		} else {
 			return RobotMap.Drivetrain.NORMAL_SPEED;

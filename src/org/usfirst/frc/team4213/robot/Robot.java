@@ -1,14 +1,10 @@
 package org.usfirst.frc.team4213.robot;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -51,7 +47,7 @@ public class Robot extends IterativeRobot {
 
 	// Systems
 	DriveTrain driveTrain;
-	DriverController driver;
+	MasterControls controls;
 	Intake intake;
 
 	/**
@@ -70,8 +66,9 @@ public class Robot extends IterativeRobot {
 
 		driverStation = DriverStation.getInstance();
 
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
-		driveTrain = new DriveTrain(driver);
+		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
+				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
+		driveTrain = new DriveTrain(controls);
 		accelerometer = new BuiltInAccelerometer();
 
 		lastTime = System.currentTimeMillis();
@@ -84,8 +81,6 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
-
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
 
 	}
 
@@ -159,13 +154,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		driveTrain.drive(true);
-		if (driver.getRB()) {
-			intake.powerCubeIntake();
-		} else if (driver.getLB()) {
-			intake.powerCubeEject();
-		} else {
-			intake.powerCubeIdle();
-		}
+		// if (oprerator.getRB()) {
+		// intake.powerCubeIntake();
+		// } else if (operator.getLB()) {
+		// intake.powerCubeEject();
+		// } else {
+		// intake.powerCubeIdle();
+		// }
 
 		System.out.println(pdp.getTemperature() + " Degrees Celcius");
 		System.out.println(pdp.getCurrent(1) + " Amps");
