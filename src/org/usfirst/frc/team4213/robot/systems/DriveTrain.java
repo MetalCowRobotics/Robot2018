@@ -12,7 +12,7 @@ public class DriveTrain {
 	
 	private int inverted = 1;
 	
-	DriveTrain(DriverController controller){
+	public DriveTrain(DriverController controller){
 		this.controller = controller;
 	}
 	
@@ -38,12 +38,18 @@ public class DriveTrain {
 	
 	public void drive (boolean squareUnits) {
 		
-		if (controller.getAButton()){			//Go into half-arcade
-			setLeftMotorSpeed(-controller.getLY() * getThrottle() * inverted);
-			setRightMotorSpeed(controller.getLY() * getThrottle() * inverted);
-		} else {									//Stay in regular drive
-			setLeftMotorSpeed(-controller.getRY() * getThrottle() * inverted);
-			setRightMotorSpeed(controller.getLY() * getThrottle() * inverted);
+		System.out.println("Look I am driving!");
+		
+		double leftSpeed = controller.getLY() * getThrottle() * inverted;
+		double rightSpeed = controller.getRY() * getThrottle() * inverted;
+		
+		if (controller.getAButton()){	 //Go into half-arcade
+			setLeftMotorSpeed(leftSpeed);
+			setRightMotorSpeed(leftSpeed);
+		} else {						//Stay in regular drive
+			setLeftMotorSpeed(leftSpeed);
+			setRightMotorSpeed(rightSpeed);
+
 		}
 		
 	}

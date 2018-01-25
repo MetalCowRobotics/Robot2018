@@ -47,7 +47,7 @@ public class DriverController extends XboxController {
 	public void rumbleRight(double amt) {
 		this.setRumble(RumbleType.kRightRumble, amt);
 	}
-
+	
 	public void rumbleAll(double amt) {
 		rumbleLeft(amt);
 		rumbleRight(amt);

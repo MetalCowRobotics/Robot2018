@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.cscore.CvSink;
@@ -35,20 +36,21 @@ public class Robot extends IterativeRobot {
 
 	// test variable
 	long lastTime;
-	
+
 	PowerDistributionPanel pdp;
 
-	DriverStation DS;
-	public String getGameSpecficMessage(){
-		return DS.getGameSpecificMessage();
+	DriverStation driverStation;
+
+	public String getGameSpecficMessage() {
+		return driverStation.getGameSpecificMessage();
 	}
-	
-	
+
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	// physical components
 
 	// Systems
+	DriveTrain driveTrain;
 	DriverController driver;
 	Intake intake;
 
@@ -65,10 +67,11 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
 		pdp = new PowerDistributionPanel();
-		
-		DS = DriverStation.getInstance();
+
+		driverStation = DriverStation.getInstance();
 
 		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		driveTrain = new DriveTrain(driver);
 		accelerometer = new BuiltInAccelerometer();
 
 		lastTime = System.currentTimeMillis();
@@ -76,7 +79,7 @@ public class Robot extends IterativeRobot {
 		intake = new Intake("I'm not the intake");
 		System.out.println("Intake Value:" + intake.getElevator());
 
-		 CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -110,8 +113,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
-
 
 		if (1000 < (System.currentTimeMillis() - lastTime)) {
 			lastTime = System.currentTimeMillis();
@@ -157,19 +158,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
-		if (driver.getLB()) {
+		driveTrain.drive(true);
+		if (driver.getRB()) {
 			intake.powerCubeIntake();
-		} else if (driver.getRB()) {
+		} else if (driver.getLB()) {
 			intake.powerCubeEject();
 		} else {
 			intake.powerCubeIdle();
 		}
-		
-		System.out.println( pdp.getTemperature() +" Degrees Celcius" );
-		System.out.println( pdp.getCurrent(1) + " Amps");
-		System.out.println( getGameSpecficMessage());
-		System.out.println(DS.getGameSpecificMessage());
+
+		System.out.println(pdp.getTemperature() + " Degrees Celcius");
+		System.out.println(pdp.getCurrent(1) + " Amps");
+		System.out.println(getGameSpecficMessage());
+		System.out.println(driverStation.getGameSpecificMessage());
 
 	}
 
