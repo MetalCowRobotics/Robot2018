@@ -1,0 +1,195 @@
+{
+  "dividerPosition": 0.3264984227129338,
+  "tabPane": [
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              4,
+              3
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://USB Camera 0",
+              "_title": "USB Camera 0"
+            }
+          },
+          "3,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Differential Drivebase",
+              "_title": "",
+              "numberOfWheels": 4,
+              "wheelDiameter": 80.0,
+              "showVectors": true
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_title": "",
+              "majorTickSpace": 45.0,
+              "startAngle": 180.0,
+              "tickMarkRingVisible": true
+            }
+          },
+          "0,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "PDP",
+              "_title": "",
+              "showIndicatorText": true
+            }
+          },
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto choices",
+              "_title": "SmartDashboard/Auto choices"
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "LiveWindow/Ungrouped",
+              "_children": [
+                {
+                  "_type": "3-Axis Accelerometer",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/BuiltInAccel[0]",
+                  "_title": "BuiltInAccel[0]",
+                  "range": "k16G",
+                  "showText": true,
+                  "numDecimals": 2,
+                  "showTickMarks": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
+                  "_title": "DigitalInput[0]/Value",
+                  "colorWhenTrue": "#FF0000FF",
+                  "colorWhenFalse": "#00FF00FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[5]",
+                  "_title": "Talon[5]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[8]",
+                  "_title": "Talon[8]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[9]/Value",
+                  "_title": "DigitalInput[9]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[6]",
+                  "_title": "Talon[6]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "LiveWindow",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_children": [
+                {
+                  "_type": "3-Axis Accelerometer",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/BuiltInAccel[0]",
+                  "_title": "BuiltInAccel[0]",
+                  "range": "k16G",
+                  "showText": true,
+                  "numDecimals": 2,
+                  "showTickMarks": false
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[8]",
+                  "_title": "Talon[8]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[9]/Value",
+                  "_title": "DigitalInput[9]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[6]",
+                  "_title": "Talon[6]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[5]",
+                  "_title": "Talon[5]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}
