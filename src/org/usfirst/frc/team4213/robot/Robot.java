@@ -10,7 +10,7 @@ import org.usfirst.frc.team4213.robot.systems.Intake;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,16 +29,13 @@ public class Robot extends IterativeRobot {
 	Intake intake;
 	Elevator elevator;
 	Climber climber;
-	
-	//Other Stuff
+
+	// Other Stuff
 	DriverStation driverStation;
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	private enum AutoModes { One, Two, Three, Four }; //TODO: Name these something later
-	//final String defaultAuto = "Default";
-	//final String customAuto = "Custom";
-	AutoModes autoSelected;
+	final String defaultAuto = "one"; //TODO: Make these ENUMS
+	String autoSelected;
 	boolean firstTime = true;
-	
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -47,11 +44,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		
-		controls = new MasterControls(
-					new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
-					new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT)
-				);
+
+		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
+				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
 		driveTrain = new DriveTrain(controls);
 		elevator = new Elevator(controls);
 		intake = new Intake(controls, elevator);
@@ -59,18 +54,11 @@ public class Robot extends IterativeRobot {
 
 		driverStation = DriverStation.getInstance();
 
-		autoSelected = AutoModes.One;
 		autoChooser.addDefault("Default", defaultAuto);
-		autoChooser.addObject("Custom", customAuto);
+		autoChooser.addObject("Custom One", "One");
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		CameraServer.getInstance().startAutomaticCapture();
-
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
-		
-		
 
 	}
 
@@ -87,9 +75,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		System.out.println("Autonomous Init!");
 		autoSelected = autoChooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+
+		System.out.println(driverStation.getGameSpecificMessage());
+
 	}
 
 	/**
@@ -99,7 +91,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 
 		switch (autoSelected) {
-		case AutoOne:
+		case "ONE":
 			// Put custom auto code here
 
 			if (firstTime) {
@@ -108,7 +100,7 @@ public class Robot extends IterativeRobot {
 			}
 
 			break;
-		case AutoTwo:
+		case "TWO":
 		default:
 			// Put default auto code here
 
@@ -126,7 +118,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-
 	}
 
 	/**
@@ -135,12 +126,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		driveTrain.drive(true);
-		
+		elevator.execute();
+		intake.execute();
+		climber.execute();
+	}
 
-		System.out.println(pdp.getTemperature() + " Degrees Celcius");
-		System.out.println(pdp.getCurrent(1) + " Amps");
-		System.out.println(getGameSpecficMessage());
-		System.out.println(driverStation.getGameSpecificMessage());
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testInit() {
 
 	}
 
@@ -149,6 +144,28 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		System.out.println("testing");
+
 	}
+
+	private Hand getNearSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getScale() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getFarSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
 }

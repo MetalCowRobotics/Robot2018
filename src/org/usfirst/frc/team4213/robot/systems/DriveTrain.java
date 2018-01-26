@@ -4,6 +4,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
@@ -11,7 +12,7 @@ public class DriveTrain {
 	
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-
+	
 	private int inverted = 1;
 	
 	public DriveTrain(MasterControls controller){
@@ -19,11 +20,13 @@ public class DriveTrain {
 	}
 	
 	public void drive (boolean squareUnits) {
+		double exp = 1.0;
 		
 		System.out.println("Look I am driving!");
+		if(squareUnits) {exp=2.0;}
 		
-		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
+		double leftSpeed = Math.pow( (controller.getDriveLeftThrottle() * getThrottle() * inverted),exp);
+		double rightSpeed = Math.pow( (controller.getDriveRightThrottle() * getThrottle() * inverted), exp);
 		
 		if (controller.isHalfArcadeToggle()){	 //Go into half-arcade
 			setLeftMotorSpeed(leftSpeed);

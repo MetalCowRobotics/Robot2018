@@ -17,6 +17,10 @@ public class Elevator {
 		this.controller = controller;
 	}
 	
+	public void execute() {
+
+	}
+	
 	private void elevatorUp() {
 
 	}

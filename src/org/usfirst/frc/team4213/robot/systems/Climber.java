@@ -13,4 +13,8 @@ public class Climber {
 		this.controller = controller;
 	}
 	
+	public void execute() {
+
+	}
+	
 }
