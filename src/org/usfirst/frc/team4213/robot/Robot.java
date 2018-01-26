@@ -2,10 +2,11 @@ package org.usfirst.frc.team4213.robot;
 
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
+import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -22,33 +23,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	final String defaultAuto = "Default";
-	final String customAuto = "Custom";
-	BuiltInAccelerometer accelerometer;
-	String autoSelected;
-	boolean firstTime = true;
-
-	SendableChooser<String> autoChooser = new SendableChooser<>();
-
-	// test variable
-	long lastTime;
-
-	PowerDistributionPanel pdp;
-
-	DriverStation driverStation;
-
-	public String getGameSpecficMessage() {
-		return driverStation.getGameSpecificMessage();
-	}
-
-	SendableChooser<String> chooser = new SendableChooser<>();
-
-	// physical components
-
 	// Systems
-	DriveTrain driveTrain;
 	MasterControls controls;
+	DriveTrain driveTrain;
 	Intake intake;
+	Elevator elevator;
+	Climber climber;
+	
+	//Other Stuff
+	DriverStation driverStation;
+	SendableChooser<String> autoChooser = new SendableChooser<>();
+	private enum AutoModes { One, Two, Three, Four }; //TODO: Name these something later
+	//final String defaultAuto = "Default";
+	//final String customAuto = "Custom";
+	AutoModes autoSelected;
+	boolean firstTime = true;
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -57,30 +47,30 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-
-		autoSelected = defaultAuto;
-		autoChooser.addDefault("Default", defaultAuto);
-		autoChooser.addObject("Custom", customAuto);
-		SmartDashboard.putData("Auto choices", autoChooser);
-		pdp = new PowerDistributionPanel();
+		
+		controls = new MasterControls(
+					new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
+					new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT)
+				);
+		driveTrain = new DriveTrain(controls);
+		elevator = new Elevator(controls);
+		intake = new Intake(controls, elevator);
+		climber = new Climber(controls);
 
 		driverStation = DriverStation.getInstance();
 
-		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
-				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
-		driveTrain = new DriveTrain(controls);
-		accelerometer = new BuiltInAccelerometer();
-
-		lastTime = System.currentTimeMillis();
-
-		intake = new Intake("I'm not the intake");
-		System.out.println("Intake Value:" + intake.getElevator());
+		autoSelected = AutoModes.One;
+		autoChooser.addDefault("Default", defaultAuto);
+		autoChooser.addObject("Custom", customAuto);
+		SmartDashboard.putData("Auto choices", autoChooser);
 
 		CameraServer.getInstance().startAutomaticCapture();
 
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		
 
 	}
 
@@ -98,8 +88,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoSelected = autoChooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
 	}
 
@@ -109,16 +98,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 
-		if (1000 < (System.currentTimeMillis() - lastTime)) {
-			lastTime = System.currentTimeMillis();
-
-			SmartDashboard.putNumber("gyroX", accelerometer.getX());
-			SmartDashboard.putNumber("gyroY", accelerometer.getY());
-			SmartDashboard.putNumber("gyroZ", accelerometer.getZ());
-
-		}
 		switch (autoSelected) {
-		case customAuto:
+		case AutoOne:
 			// Put custom auto code here
 
 			if (firstTime) {
@@ -127,7 +108,7 @@ public class Robot extends IterativeRobot {
 			}
 
 			break;
-		case defaultAuto:
+		case AutoTwo:
 		default:
 			// Put default auto code here
 
@@ -154,13 +135,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		driveTrain.drive(true);
-		// if (oprerator.getRB()) {
-		// intake.powerCubeIntake();
-		// } else if (operator.getLB()) {
-		// intake.powerCubeEject();
-		// } else {
-		// intake.powerCubeIdle();
-		// }
+		
 
 		System.out.println(pdp.getTemperature() + " Degrees Celcius");
 		System.out.println(pdp.getCurrent(1) + " Amps");
