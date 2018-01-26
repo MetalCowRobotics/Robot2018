@@ -22,33 +22,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	//Define Autonomous Missions
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
-	BuiltInAccelerometer accelerometer;
-	String autoSelected;
-	boolean firstTime = true;
-
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-
-	// test variable
-	long lastTime;
-
+	String autoSelected = defaultAuto;
+	
+	BuiltInAccelerometer accelerometer;
 	PowerDistributionPanel pdp;
-
 	DriverStation driverStation;
-
-	public String getGameSpecficMessage() {
-		return driverStation.getGameSpecificMessage();
-	}
-
-	SendableChooser<String> chooser = new SendableChooser<>();
-
-	// physical components
-
-	// Systems
+	
+		// Systems
 	DriveTrain driveTrain;
 	MasterControls controls;
 	Intake intake;
+	
+	//Game Variables
+	private String gameData;
+	
+	// test variable
+	long lastTime;
+	boolean firstTime = true;
+	
+	//Get Scale and Switch information
+	public String getGameSpecificMessage() {
+		return driverStation.getGameSpecificMessage();
+	}
+
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -57,30 +57,27 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-
+		//Load avalible Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
+		
+		//Initialize Robot
 		pdp = new PowerDistributionPanel();
-
 		driverStation = DriverStation.getInstance();
-
+		accelerometer = new BuiltInAccelerometer();
+		CameraServer.getInstance().startAutomaticCapture();
+		
+		//Intitialize Systems
 		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
 				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
 		driveTrain = new DriveTrain(controls);
-		accelerometer = new BuiltInAccelerometer();
-
-		lastTime = System.currentTimeMillis();
-
 		intake = new Intake("I'm not the intake");
 		System.out.println("Intake Value:" + intake.getElevator());
 
-		CameraServer.getInstance().startAutomaticCapture();
-
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		//Initialize Test Variables
+		lastTime = System.currentTimeMillis();
 
 	}
 
@@ -98,9 +95,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoSelected = autoChooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		
+		while(null == gameData) {
+			gameData = getGameSpecificMessage();
+		}
+		
 	}
 
 	/**
@@ -153,6 +153,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		
+		if(controls.invertDrive()) {
+			driveTrain.invert();
+		}
+		
 		driveTrain.drive(true);
 		// if (oprerator.getRB()) {
 		// intake.powerCubeIntake();
@@ -164,8 +169,8 @@ public class Robot extends IterativeRobot {
 
 		System.out.println(pdp.getTemperature() + " Degrees Celcius");
 		System.out.println(pdp.getCurrent(1) + " Amps");
-		System.out.println(getGameSpecficMessage());
-		System.out.println(driverStation.getGameSpecificMessage());
+		System.out.println(gameData);
+		//System.out.println(driverStation.getGameSpecificMessage());
 
 	}
 

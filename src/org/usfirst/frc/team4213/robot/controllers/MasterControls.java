@@ -29,5 +29,9 @@ public class MasterControls {
 	public boolean isCrawlToggle() {
 		return driver.getLB();
 	}
+	
+	public boolean invertDrive() {
+		return driver.getYButtonPressed();	
+	}
 		
 }

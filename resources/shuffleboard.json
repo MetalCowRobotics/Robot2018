@@ -34,19 +34,6 @@
               "showVectors": true
             }
           },
-          "6,0": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_title": "",
-              "majorTickSpace": 45.0,
-              "startAngle": 180.0,
-              "tickMarkRingVisible": true
-            }
-          },
           "0,3": {
             "size": [
               3,
@@ -58,7 +45,7 @@
               "showIndicatorText": true
             }
           },
-          "0,5": {
+          "6,2": {
             "size": [
               2,
               1
@@ -82,7 +69,7 @@
                 {
                   "_type": "3-Axis Accelerometer",
                   "_source0": "network_table:///LiveWindow/Ungrouped/BuiltInAccel[0]",
-                  "_title": "BuiltInAccel[0]",
+                  "_title": "/LiveWindow/Ungrouped/BuiltInAccel[0]",
                   "range": "k16G",
                   "showText": true,
                   "numDecimals": 2,
@@ -91,35 +78,14 @@
                 {
                   "_type": "Boolean Box",
                   "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
-                  "_title": "DigitalInput[0]/Value",
-                  "colorWhenTrue": "#FF0000FF",
-                  "colorWhenFalse": "#00FF00FF"
-                },
-                {
-                  "_type": "Speed Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[5]",
-                  "_title": "Talon[5]",
-                  "controllable": false,
-                  "orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Speed Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[8]",
-                  "_title": "Talon[8]",
-                  "controllable": false,
-                  "orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[9]/Value",
-                  "_title": "DigitalInput[9]/Value",
+                  "_title": "/LiveWindow/Ungrouped/DigitalInput[0]/Value",
                   "colorWhenTrue": "#7CFC00FF",
                   "colorWhenFalse": "#8B0000FF"
                 },
                 {
                   "_type": "Speed Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[6]",
-                  "_title": "Talon[6]",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[0]",
+                  "_title": "Talon[0]",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
                 }
@@ -145,7 +111,6 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_source0": "network_table:///LiveWindow/Ungrouped",
               "_title": "Ungrouped",
               "_children": [
                 {
@@ -182,6 +147,62 @@
                   "_type": "Speed Controller",
                   "_source0": "network_table:///LiveWindow/Ungrouped/Talon[5]",
                   "_title": "Talon[5]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_children": [
+                {
+                  "_type": "PDP",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PowerDistributionPanel[0]",
+                  "_title": "PowerDistributionPanel[0]",
+                  "showIndicatorText": true
+                },
+                {
+                  "_type": "3-Axis Accelerometer",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/BuiltInAccel[0]",
+                  "_title": "/LiveWindow/Ungrouped/BuiltInAccel[0]",
+                  "range": "k16G",
+                  "showText": true,
+                  "numDecimals": 2,
+                  "showTickMarks": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
+                  "_title": "/LiveWindow/Ungrouped/DigitalInput[0]/Value",
+                  "colorWhenTrue": "#7CFC00FF",
+                  "colorWhenFalse": "#8B0000FF"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[1]",
+                  "_title": "Talon[1]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[0]",
+                  "_title": "Talon[0]",
+                  "controllable": false,
+                  "orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Talon[5]",
+                  "_title": "/LiveWindow/Ungrouped/Talon[5]",
                   "controllable": false,
                   "orientation": "HORIZONTAL"
                 }
