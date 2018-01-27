@@ -1,55 +1,68 @@
 package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.robot.RobotMap;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Intake {
+	MasterControls controller;
+	Elevator elevator;
+	
 	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
-	String elevator;
+	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
+	
+	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
+	
+	private enum IntakeState { OFF, IN, OUT };
 	private IntakeState currentIntakeState = IntakeState.OFF; // start state is off
-
-	public String getElevator() {
-		return elevator;
-	}
-
-	public Intake(String elevator) {
-		super();
+	
+	public Intake(MasterControls controller, Elevator elevator) {
+		this.controller = controller;
 		this.elevator = elevator;
 	}
-
-	public void elevatorUp() {
-
+	
+	public void execute() {
+		 if (controller.isCubeIntake()) {
+			 powerCubeIntake();
+		 } else if (controller.isCubeEject()) {
+			 powerCubeEject();
+		 } else {
+			 powerCubeIdle();
+		 }
 	}
-
-	public void elevatorDown() {
-
-	}
-
-	public void powerCubeIntake() {
-		if (IntakeState.IN == currentIntakeState)
-			return;
-		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
-		currentIntakeState = IntakeState.IN;
+	
+	private void powerCubeIntake() {
+		if (IntakeState.IN == currentIntakeState && !isCubeSensorSwitchActive()) { return; }
+		if(isCubeSensorSwitchActive()) {
+			LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
+			RIGHT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
+			currentIntakeState = IntakeState.IN;
+		} else {
+			powerCubeIdle();
+		}
+		
 	}
 
 	public void powerCubeEject() {
-		if (IntakeState.OUT == currentIntakeState)
-			return;
+		if (IntakeState.OUT == currentIntakeState) { return; }
 		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
 
 	public void powerCubeIdle() {
-		if (IntakeState.OFF == currentIntakeState)
-			return;
+		if (IntakeState.OFF == currentIntakeState) { return; }
 		LEFT_INTAKE_MOTOR.stopMotor();
+		RIGHT_INTAKE_MOTOR.stopMotor();
 		currentIntakeState = IntakeState.OFF;
 	}
 	
-	//enums
-	private enum IntakeState {
-		OFF, IN, OUT
+	private boolean isCubeSensorSwitchActive() {
+		return cubeSensorSwitch.get();
 	}
+
+
 
 }

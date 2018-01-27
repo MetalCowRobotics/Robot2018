@@ -1,16 +1,18 @@
 package org.usfirst.frc.team4213.robot;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team4213.robot.controllers.DriverController;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
+import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,24 +25,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	// Define Autonomous Missions
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
-	BuiltInAccelerometer accelerometer;
-	String autoSelected;
-	boolean firstTime = true;
-
 	SendableChooser<String> autoChooser = new SendableChooser<>();
+	String autoSelected = defaultAuto;
+
+	BuiltInAccelerometer accelerometer;
+	PowerDistributionPanel pdp;
+	DriverStation driverStation;
+
+	// Systems
+	DriveTrain driveTrain;
+	MasterControls controls;
+	Intake intake;
+	Elevator elevator;
+	Climber climber;
+
+	// Game Variables
+	private String gameData;
 
 	// test variable
 	long lastTime;
+	boolean firstTime = true;
 
-	SendableChooser<String> chooser = new SendableChooser<>();
-
-	// physical components
-
-	// Systems
-	DriverController driver;
-	Intake intake;
+	// Get Scale and Switch information
+	public String getGameSpecificMessage() {
+		return driverStation.getGameSpecificMessage();
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -49,45 +61,31 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-
+		// Load available Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		// Initialize Robot
+		pdp = new PowerDistributionPanel();
+		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
+		CameraServer.getInstance().startAutomaticCapture();
 
+		// Intitialize Systems
+		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
+				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
+		driveTrain = new DriveTrain(controls);
+		elevator = new Elevator(controls);
+		intake = new Intake(controls, elevator);
+		climber = new Climber(controls);
+
+		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
 
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
-		intake = new Intake("I'm not the intake");
-		System.out.println("Intake Value:" + intake.getElevator());
-
-		// CameraServer.getInstance().startAutomaticCapture();
-
-		new Thread(() -> {
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-			camera.setResolution(640, 480);
-
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
-
-			Mat source = new Mat();
-			Mat output = new Mat();
-
-			while (!Thread.interrupted()) {
-				cvSink.grabFrame(source);
-				Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-				outputStream.putFrame(output);
-			}
-		}).start();
-
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
-
-		driver = new DriverController(RobotMap.DriverController.USB_PORT);
+		driverStation = DriverStation.getInstance();
+		CameraServer.getInstance().startAutomaticCapture();
 
 	}
 
@@ -104,10 +102,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		System.out.println("Autonomous Init!");
 		autoSelected = autoChooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+
+		while (null == gameData) {
+			gameData = getGameSpecificMessage();
+		}
+
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+		System.out.println("Auto selected: " + autoSelected);
+
+		System.out.println(driverStation.getGameSpecificMessage());
+
 	}
 
 	/**
@@ -116,16 +123,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 
-		if (1000 < (System.currentTimeMillis() - lastTime)) {
-			lastTime = System.currentTimeMillis();
-
-			SmartDashboard.putNumber("gyroX", accelerometer.getX());
-			SmartDashboard.putNumber("gyroY", accelerometer.getY());
-			SmartDashboard.putNumber("gyroZ", accelerometer.getZ());
-
-		}
 		switch (autoSelected) {
-		case customAuto:
+		case "ONE":
 			// Put custom auto code here
 
 			if (firstTime) {
@@ -134,7 +133,7 @@ public class Robot extends IterativeRobot {
 			}
 
 			break;
-		case defaultAuto:
+		case "TWO":
 		default:
 			// Put default auto code here
 
@@ -152,7 +151,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-
 	}
 
 	/**
@@ -161,14 +159,23 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		
-		if(driver.getLB()) {
-			intake.powerCubeIntake();
-		} else if(driver.getRB()) {
-			intake.powerCubeEject();
-		} else {
-			intake.powerCubeIdle();
-		}
+		driveTrain.drive();
+		elevator.execute();
+		intake.execute();
+		climber.execute();
+
+		// if (oprerator.getRB()) {
+		// intake.powerCubeIntake();
+		// } else if (operator.getLB()) {
+		// intake.powerCubeEject();
+		// } else {
+		// intake.powerCubeIdle();
+		// }
+
+		System.out.println(pdp.getTemperature() + " Degrees Celcius");
+		System.out.println(pdp.getCurrent(1) + " Amps");
+		System.out.println(gameData);
+		// System.out.println(driverStation.getGameSpecificMessage());
 
 	}
 
@@ -176,7 +183,52 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testPeriodic() {
-		System.out.println("testing");
+	public void testInit() {
+
+		// if(driver.getLB()) {
+		// intake.powerCubeIntake();
+		// } else if(driver.getRB()) {
+		// intake.powerCubeEject();
+		// } else {
+		// intake.powerCubeIdle();
+		// }
+		//
+		// if(c.getLB()) {
+		// elevator.moveUp();
+		// } else if(driver.getRB()) {
+		// elevator.moveDown();
+		// } else {
+		// elevator.stop();
+		// }
 	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testPeriodic() {
+
+	}
+
+	private Hand getNearSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getScale() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getFarSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
 }
