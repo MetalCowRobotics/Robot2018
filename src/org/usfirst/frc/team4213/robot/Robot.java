@@ -80,10 +80,10 @@ public class Robot extends IterativeRobot {
 		elevator = new Elevator(controls);
 		intake = new Intake(controls, elevator);
 		climber = new Climber(controls);
-		
+
 		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
-		
+
 		driverStation = DriverStation.getInstance();
 		CameraServer.getInstance().startAutomaticCapture();
 
@@ -160,6 +160,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		driveTrain.drive();
+		elevator.execute();
+		intake.execute();
+		climber.execute();
 
 		// if (oprerator.getRB()) {
 		// intake.powerCubeIntake();
@@ -174,9 +177,6 @@ public class Robot extends IterativeRobot {
 		System.out.println(gameData);
 		// System.out.println(driverStation.getGameSpecificMessage());
 
-		elevator.execute();
-		intake.execute();
-		climber.execute();
 	}
 
 	/**
@@ -185,6 +185,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testInit() {
 
+		// if(driver.getLB()) {
+		// intake.powerCubeIntake();
+		// } else if(driver.getRB()) {
+		// intake.powerCubeEject();
+		// } else {
+		// intake.powerCubeIdle();
+		// }
+		//
+		// if(c.getLB()) {
+		// elevator.moveUp();
+		// } else if(driver.getRB()) {
+		// elevator.moveDown();
+		// } else {
+		// elevator.stop();
+		// }
 	}
 
 	/**
