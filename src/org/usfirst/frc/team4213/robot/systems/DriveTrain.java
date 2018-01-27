@@ -18,13 +18,13 @@ public class DriveTrain {
 	}
 
 	public void drive() {
-		
-		if(controller.invertDrive()) {
+
+		if (controller.invertDrive()) {
 			invert();
 		}
 		// TODO: fix exponetion
-		double leftSpeed = Math.pow((controller.getDriveLeftThrottle() * getThrottle() * inverted), 2);
-		double rightSpeed = Math.pow((controller.getDriveRightThrottle() * getThrottle() * inverted), 2);
+		double leftSpeed = Math.pow(controller.getDriveLeftThrottle(), 2);
+		double rightSpeed = Math.pow(controller.getDriveRightThrottle(), 2);
 
 		if (controller.isHalfArcadeToggle()) { // Go into half-arcade
 			setLeftMotorSpeed(leftSpeed);
@@ -42,11 +42,11 @@ public class DriveTrain {
 	}
 
 	private void setLeftMotorSpeed(double speed) {
-		LEFT_MOTOR.set(speed);
+		LEFT_MOTOR.set(speed * getThrottle() * inverted);
 	}
 
 	private void setRightMotorSpeed(double speed) {
-		RIGHT_MOTOR.set(speed);
+		RIGHT_MOTOR.set(speed * getThrottle() * inverted);
 	}
 
 	private double getRightMotorSpeed() {
