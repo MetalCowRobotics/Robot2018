@@ -6,14 +6,35 @@ import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
+	private MasterControls controller;
+
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private MasterControls controller;
 
 	private int inverted = 1;
 
 	public DriveTrain(MasterControls controller) {
 		this.controller = controller;
+	}
+
+	public void drive() {
+		
+		if(controller.invertDrive()) {
+			invert();
+		}
+		// TODO: fix exponetion
+		double leftSpeed = Math.pow((controller.getDriveLeftThrottle() * getThrottle() * inverted), 2);
+		double rightSpeed = Math.pow((controller.getDriveRightThrottle() * getThrottle() * inverted), 2);
+
+		if (controller.isHalfArcadeToggle()) { // Go into half-arcade
+			setLeftMotorSpeed(leftSpeed);
+			setRightMotorSpeed(leftSpeed);
+		} else { // Stay in regular drive
+			setLeftMotorSpeed(leftSpeed);
+			setRightMotorSpeed(rightSpeed);
+
+		}
+
 	}
 
 	public void invert() {
@@ -34,24 +55,6 @@ public class DriveTrain {
 
 	private double getLeftMotorSpeed() {
 		return LEFT_MOTOR.get();
-	}
-
-	public void drive(boolean squareUnits) {
-
-		System.out.println("Look I am driving!");
-
-		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-
-		if (controller.isHalfArcadeToggle()) { // Go into half-arcade
-			setLeftMotorSpeed(leftSpeed);
-			setRightMotorSpeed(leftSpeed);
-		} else { // Stay in regular drive
-			setLeftMotorSpeed(leftSpeed);
-			setRightMotorSpeed(rightSpeed);
-
-		}
-
 	}
 
 	/**

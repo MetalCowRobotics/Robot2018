@@ -2,12 +2,15 @@ package org.usfirst.frc.team4213.robot;
 
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
+import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,33 +25,34 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	//Define Autonomous Missions
+	// Define Autonomous Missions
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = defaultAuto;
-	
+
 	BuiltInAccelerometer accelerometer;
 	PowerDistributionPanel pdp;
 	DriverStation driverStation;
-	
-		// Systems
+
+	// Systems
 	DriveTrain driveTrain;
 	MasterControls controls;
 	Intake intake;
-	
-	//Game Variables
+	Elevator elevator;
+	Climber climber;
+
+	// Game Variables
 	private String gameData;
-	
+
 	// test variable
 	long lastTime;
 	boolean firstTime = true;
-	
-	//Get Scale and Switch information
+
+	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
 		return driverStation.getGameSpecificMessage();
 	}
-
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -57,27 +61,31 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		//Load available Autonomous misisons to the driverstation
+		// Load available Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
 		SmartDashboard.putData("Auto choices", autoChooser);
-		
-		//Initialize Robot
+
+		// Initialize Robot
 		pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
 		CameraServer.getInstance().startAutomaticCapture();
-		
-		//Intitialize Systems
+
+		// Intitialize Systems
 		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
 				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
 		driveTrain = new DriveTrain(controls);
-		intake = new Intake("I'm not the intake");
-		System.out.println("Intake Value:" + intake.getElevator());
-
-		//Initialize Test Variables
+		elevator = new Elevator(controls);
+		intake = new Intake(controls, elevator);
+		climber = new Climber(controls);
+		
+		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
+		
+		driverStation = DriverStation.getInstance();
+		CameraServer.getInstance().startAutomaticCapture();
 
 	}
 
@@ -94,13 +102,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		System.out.println("Autonomous Init!");
 		autoSelected = autoChooser.getSelected();
 		System.out.println("Auto selected: " + autoSelected);
-		
-		while(null == gameData) {
+
+		while (null == gameData) {
 			gameData = getGameSpecificMessage();
 		}
-		
+
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+		System.out.println("Auto selected: " + autoSelected);
+
+		System.out.println(driverStation.getGameSpecificMessage());
+
 	}
 
 	/**
@@ -109,16 +123,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 
-		if (1000 < (System.currentTimeMillis() - lastTime)) {
-			lastTime = System.currentTimeMillis();
-
-			SmartDashboard.putNumber("gyroX", accelerometer.getX());
-			SmartDashboard.putNumber("gyroY", accelerometer.getY());
-			SmartDashboard.putNumber("gyroZ", accelerometer.getZ());
-
-		}
 		switch (autoSelected) {
-		case customAuto:
+		case "ONE":
 			// Put custom auto code here
 
 			if (firstTime) {
@@ -127,7 +133,7 @@ public class Robot extends IterativeRobot {
 			}
 
 			break;
-		case defaultAuto:
+		case "TWO":
 		default:
 			// Put default auto code here
 
@@ -145,7 +151,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-
 	}
 
 	/**
@@ -153,12 +158,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		
-		if(controls.invertDrive()) {
-			driveTrain.invert();
-		}
-		
-		driveTrain.drive(true);
+
+		driveTrain.drive();
+
 		// if (oprerator.getRB()) {
 		// intake.powerCubeIntake();
 		// } else if (operator.getLB()) {
@@ -170,7 +172,18 @@ public class Robot extends IterativeRobot {
 		System.out.println(pdp.getTemperature() + " Degrees Celcius");
 		System.out.println(pdp.getCurrent(1) + " Amps");
 		System.out.println(gameData);
-		//System.out.println(driverStation.getGameSpecificMessage());
+		// System.out.println(driverStation.getGameSpecificMessage());
+
+		elevator.execute();
+		intake.execute();
+		climber.execute();
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testInit() {
 
 	}
 
@@ -179,6 +192,28 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		System.out.println("testing");
+
 	}
+
+	private Hand getNearSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getScale() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
+	private Hand getFarSwitch() {
+		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L') {
+			return Hand.kLeft;
+		}
+		return Hand.kRight;
+	}
+
 }

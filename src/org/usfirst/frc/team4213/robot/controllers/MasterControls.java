@@ -25,13 +25,25 @@ public class MasterControls {
 	public boolean isSprintToggle() {
 		return driver.getRB();
 	}
-	
+
 	public boolean isCrawlToggle() {
 		return driver.getLB();
 	}
-	
+
 	public boolean invertDrive() {
-		return driver.getYButtonPressed();	
+		return driver.getYButtonPressed();
 	}
-		
+
+	public boolean isCubeIntake() {
+		// TODO Auto-generated method stub
+		// operator.getSomeButton check and return....
+		return false;
+	}
+
+	public boolean isCubeEject() {
+		// TODO Auto-generated method stub
+		// operator.getSomeButton check and return....
+		return false;
+	}
+
 }
