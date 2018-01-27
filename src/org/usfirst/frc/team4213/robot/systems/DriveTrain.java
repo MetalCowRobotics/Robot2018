@@ -21,7 +21,6 @@ public class DriveTrain {
 		this.controller = controller;
 		gyroSPI.calibrate();
 		gyroSPI.reset();
-		
 	}
 
 	public void drive() {
@@ -45,12 +44,7 @@ public class DriveTrain {
 		System.out.println("angle:" + gyroSPI.getAngle());
 		
 		
-		
-		
-		
-		
-		
-		
+
 
 	}
 
