@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		//Load avalible Autonomous misisons to the driverstation
+		//Load available Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
