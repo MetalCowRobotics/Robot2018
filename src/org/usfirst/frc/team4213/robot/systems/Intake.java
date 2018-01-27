@@ -11,7 +11,8 @@ public class Intake {
 	Elevator elevator;
 	
 	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
-	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
+	private static final Talon RIGHT_INTAKE_MOTOR = LEFT_INTAKE_MOTOR;
+	//private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 	
 	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
 	

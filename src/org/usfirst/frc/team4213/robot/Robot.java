@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 		pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
 		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 		lastTime = System.currentTimeMillis();
 
 		driverStation = DriverStation.getInstance();
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 
 	}
 
@@ -172,9 +172,9 @@ public class Robot extends IterativeRobot {
 		// intake.powerCubeIdle();
 		// }
 
-		System.out.println(pdp.getTemperature() + " Degrees Celcius");
-		System.out.println(pdp.getCurrent(1) + " Amps");
-		System.out.println(gameData);
+		//System.out.println(pdp.getTemperature() + " Degrees Celcius");
+		//System.out.println(pdp.getCurrent(1) + " Amps");
+		//System.out.println(gameData);
 		// System.out.println(driverStation.getGameSpecificMessage());
 
 	}

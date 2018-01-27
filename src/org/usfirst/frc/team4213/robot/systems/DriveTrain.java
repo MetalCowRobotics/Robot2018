@@ -4,7 +4,6 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
@@ -20,6 +19,9 @@ public class DriveTrain {
 
 	public DriveTrain(MasterControls controller) {
 		this.controller = controller;
+		gyroSPI.calibrate();
+		gyroSPI.reset();
+		
 	}
 
 	public void drive() {
@@ -40,7 +42,7 @@ public class DriveTrain {
 
 		}
 		
-		System.out.println(gyroSPI.getAngle());
+		System.out.println("angle:" + gyroSPI.getAngle());
 		
 		
 		
