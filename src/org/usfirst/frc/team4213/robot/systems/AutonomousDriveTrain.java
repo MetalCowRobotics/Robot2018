@@ -31,6 +31,11 @@ public class AutonomousDriveTrain {
 		//TODO: at some speeds may need to use
 		//drive.curvatureDrive(xSpeed, zRotation, isQuickTurn); //for quick turns.
 
+		/**
+   		double angle = gyro.getAngle();
+    		myDrive.arcadeDrive(-1.0, -angle * Kp);
+		 */
+		
 	}
 
 }
