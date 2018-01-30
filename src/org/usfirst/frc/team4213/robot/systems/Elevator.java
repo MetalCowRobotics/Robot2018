@@ -8,9 +8,8 @@ import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Elevator {
-	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
-	
 	private static final Elevator instance = new Elevator();
+	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final Talon STAGE_1_MOTOR = new Talon(RobotMap.Elevator.STAGE_1_MOTOR_CHANNEL);
@@ -25,7 +24,7 @@ public class Elevator {
 	}
 
 	public void execute() {
-		//ToDo:Elevator control code gos here
+		// ToDo:Elevator control code goes here
 	}
 
 	public static Elevator getInstance() {

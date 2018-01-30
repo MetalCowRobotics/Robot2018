@@ -9,15 +9,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Intake {
-	private static final Logger logger = Logger.getLogger(Intake.class.getName());
 	private static final Intake instance = new Intake();
+	private static final Logger logger = Logger.getLogger(Intake.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final Elevator elevator = Elevator.getInstance();
 	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
-	private static final Talon RIGHT_INTAKE_MOTOR = LEFT_INTAKE_MOTOR;
-	// private static final Talon RIGHT_INTAKE_MOTOR = new
-	// Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
+	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
 	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
 

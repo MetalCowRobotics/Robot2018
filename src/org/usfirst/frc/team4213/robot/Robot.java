@@ -3,9 +3,8 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.usfirst.frc.team4213.robot.controllers.MasterControls;
-import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
 import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
@@ -27,9 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
+
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
-	
+
 	// Define Autonomous Missions
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
@@ -41,7 +40,7 @@ public class Robot extends IterativeRobot {
 	DriverStation driverStation;
 
 	// Systems
-	// DriveTrain driveTrain;
+	DriveTrain driveTrain;
 	Intake intake;
 	Elevator elevator;
 	Climber climber;
@@ -69,7 +68,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.entering(getClass().getName(), "doIt");
 		logger.log(Level.INFO, "Logging Stuff Example");
-		
+
 		// Load available Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
@@ -83,7 +82,7 @@ public class Robot extends IterativeRobot {
 		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
-		// driveTrain = DriveTrain.getInstance();
+		driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
@@ -173,7 +172,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		// driveTrain.drive();
+		driveTrain.drive();
 		elevator.execute();
 		intake.execute();
 		climber.execute();
