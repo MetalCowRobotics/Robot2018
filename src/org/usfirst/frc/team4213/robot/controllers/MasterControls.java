@@ -1,8 +1,11 @@
 package org.usfirst.frc.team4213.robot.controllers;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
+	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
 	private static final MasterControls instance = new MasterControls();
 
