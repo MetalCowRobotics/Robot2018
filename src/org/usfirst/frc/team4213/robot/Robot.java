@@ -3,20 +3,16 @@ package org.usfirst.frc.team4213.robot;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
 import org.usfirst.frc.team4213.robot.systems.Climber;
-import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,19 +32,17 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	BuiltInAccelerometer accelerometer;
-	//PowerDistributionPanel pdp;
+	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
 	// Systems
-	//DriveTrain driveTrain;
+	// DriveTrain driveTrain;
 	MasterControls controls;
 	Intake intake;
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
 	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-
-	
 
 	// Game Variables
 	private String gameData;
@@ -76,15 +70,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
-		//pdp = new PowerDistributionPanel();
+		// pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
-		//CameraServer.getInstance().startAutomaticCapture();
+		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
 		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
 				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
-		//driveTrain = new DriveTrain(controls);
+		// driveTrain = new DriveTrain(controls);
 		elevator = new Elevator(controls);
 		intake = new Intake(controls, elevator);
 		climber = new Climber(controls);
@@ -93,13 +87,9 @@ public class Robot extends IterativeRobot {
 		lastTime = System.currentTimeMillis();
 
 		driverStation = DriverStation.getInstance();
-		//CameraServer.getInstance().startAutomaticCapture();
-		
-		
+		// CameraServer.getInstance().startAutomaticCapture();
 
 	}
-		
-	
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -126,14 +116,12 @@ public class Robot extends IterativeRobot {
 		System.out.println("Auto selected: " + autoSelected);
 
 		System.out.println(driverStation.getGameSpecificMessage());
-		autoDrive = new DifferentialDrive (new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL), new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL));
+		autoDrive = new DifferentialDrive(new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL),
+				new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL));
 		gyroSPI.calibrate();
 		gyroSPI.reset();
 	}
 
-	
-	
-	
 	/**
 	 * This function is called periodically during autonomous
 	 */
@@ -142,7 +130,7 @@ public class Robot extends IterativeRobot {
 		double angle = gyroSPI.getAngle();
 		double Kp = 0.03;
 		autoDrive.arcadeDrive(-1.0, -angle * Kp);
-		
+
 		switch (autoSelected) {
 		case "ONE":
 			// Put custom auto code here
@@ -165,9 +153,6 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-		
-	
-
 	/**
 	 * This should be called before teleop for any initilizations
 	 */
@@ -182,7 +167,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		//driveTrain.drive();
+		// driveTrain.drive();
 		elevator.execute();
 		intake.execute();
 		climber.execute();
