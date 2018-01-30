@@ -21,7 +21,7 @@ public class DriveTrain {
 		this.controller = controller;
 		gyroSPI.calibrate();
 		gyroSPI.reset();
-		RIGHT_MOTOR.setInverted(true);
+		LEFT_MOTOR.setInverted(true);
 	}
 
 	public void drive() {
@@ -30,8 +30,8 @@ public class DriveTrain {
 			invert();
 		}
 		// TODO: fix exponetion
-		double leftSpeed = Math.pow(controller.getDriveLeftThrottle(), 2);
-		double rightSpeed = Math.pow(controller.getDriveRightThrottle(), 2);
+		double leftSpeed = squareSpeed(controller.getDriveLeftThrottle());
+		double rightSpeed = squareSpeed(controller.getDriveRightThrottle());
 
 		if (controller.isHalfArcadeToggle()) { // Go into half-arcade
 			setLeftMotorSpeed(leftSpeed);
@@ -44,6 +44,14 @@ public class DriveTrain {
 
 		System.out.println("angle:" + gyroSPI.getAngle());
 
+	}
+
+	private double squareSpeed(double controllerSpeed) {
+		if (0 < controllerSpeed) {
+			return Math.pow(controller.getDriveLeftThrottle(), 2);
+		} else {
+			return -1 * Math.pow(controller.getDriveLeftThrottle(), 2);
+		}
 	}
 
 	public void invert() {

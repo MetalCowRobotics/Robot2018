@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	BuiltInAccelerometer accelerometer;
-	PowerDistributionPanel pdp;
+	//PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
 	// Systems
@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
-		pdp = new PowerDistributionPanel();
+		//pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
 		//CameraServer.getInstance().startAutomaticCapture();
@@ -164,19 +164,6 @@ public class Robot extends IterativeRobot {
 		intake.execute();
 		climber.execute();
 
-		// if (oprerator.getRB()) {
-		// intake.powerCubeIntake();
-		// } else if (operator.getLB()) {
-		// intake.powerCubeEject();
-		// } else {
-		// intake.powerCubeIdle();
-		// }
-
-		//System.out.println(pdp.getTemperature() + " Degrees Celcius");
-		//System.out.println(pdp.getCurrent(1) + " Amps");
-		//System.out.println(gameData);
-		// System.out.println(driverStation.getGameSpecificMessage());
-
 	}
 
 	/**
@@ -185,21 +172,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testInit() {
 
-		// if(driver.getLB()) {
-		// intake.powerCubeIntake();
-		// } else if(driver.getRB()) {
-		// intake.powerCubeEject();
-		// } else {
-		// intake.powerCubeIdle();
-		// }
-		//
-		// if(c.getLB()) {
-		// elevator.moveUp();
-		// } else if(driver.getRB()) {
-		// elevator.moveDown();
-		// } else {
-		// elevator.stop();
-		// }
 	}
 
 	/**
