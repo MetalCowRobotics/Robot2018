@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
+	private static final DriveTrain instance = new DriveTrain();
+	private MasterControls controller = MasterControls.getInstance();
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
@@ -20,6 +22,7 @@ public class DriveTrain {
 
 	}
 
+	public static DriveTrain getInstance() {
 		gyroSPI.calibrate();
 		gyroSPI.reset();
 		LEFT_MOTOR.setInverted(true);

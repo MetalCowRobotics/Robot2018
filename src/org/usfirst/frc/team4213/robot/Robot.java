@@ -75,6 +75,10 @@ public class Robot extends IterativeRobot {
 		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
+		// driveTrain = DriveTrain.getInstance();
+		elevator = Elevator.getInstance();
+		intake = Intake.getInstance();
+		climber = Climber.getinstance();
 
 		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
