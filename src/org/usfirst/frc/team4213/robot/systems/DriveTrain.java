@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
-	private MasterControls controller;
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
@@ -17,11 +16,14 @@ public class DriveTrain {
 
 	private int inverted = 1;
 
-	public DriveTrain(MasterControls controller) {
-		this.controller = controller;
+	private DriveTrain() {
+
+	}
+
 		gyroSPI.calibrate();
 		gyroSPI.reset();
 		LEFT_MOTOR.setInverted(true);
+		return instance;
 	}
 
 	public void drive() {
@@ -29,7 +31,7 @@ public class DriveTrain {
 		if (controller.invertDrive()) {
 			invert();
 		}
-		// TODO: fix exponetion
+		
 		double leftSpeed = squareSpeed(controller.getDriveLeftThrottle());
 		double rightSpeed = squareSpeed(controller.getDriveRightThrottle());
 
@@ -75,10 +77,11 @@ public class DriveTrain {
 	}
 
 	/**
-	 * Determine the top speed threshold Bumper r buttons on the controller will
-	 * limit the speed to the SPRINT value Otherbuttons on the controller will limit
-	 * the speed to the CRAWL value Triggewise it will allow the robot a speed up to
-	 * Normal max.
+	 * Determine the top speed threshold:
+	 * CRAWL - Lowest speed threshold
+	 * Normal - Normal driving conditions
+	 * SPRINT - Highest speed threshold
+	 * @link org.usfirst.frc.team4213.robot.RobotMap
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {

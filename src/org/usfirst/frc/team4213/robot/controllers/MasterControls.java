@@ -12,10 +12,10 @@ public class MasterControls {
 			RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
-		// Intentionally Blank for Singleton... getInstance bcomes constructor?
+		// Intentionally Blank for Singleton
 	}
 
-	public MasterControls getInstance() {
+	public static MasterControls getInstance() {
 		return instance;
 	}
 

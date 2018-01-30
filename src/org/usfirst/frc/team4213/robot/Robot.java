@@ -37,7 +37,6 @@ public class Robot extends IterativeRobot {
 
 	// Systems
 	// DriveTrain driveTrain;
-	MasterControls controls;
 	Intake intake;
 	Elevator elevator;
 	Climber climber;
@@ -76,12 +75,6 @@ public class Robot extends IterativeRobot {
 		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
-		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
-				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
-		// driveTrain = new DriveTrain(controls);
-		elevator = new Elevator(controls);
-		intake = new Intake(controls, elevator);
-		climber = new Climber(controls);
 
 		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
