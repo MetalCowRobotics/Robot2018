@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4213.robot.systems;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -7,6 +9,9 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
+	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
+	
+	
 	private static final DriveTrain instance = new DriveTrain();
 	private MasterControls controller = MasterControls.getInstance();
 

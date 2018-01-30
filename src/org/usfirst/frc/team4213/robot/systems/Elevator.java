@@ -1,11 +1,15 @@
 package org.usfirst.frc.team4213.robot.systems;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import edu.wpi.first.wpilibj.Talon;
 
 public class Elevator {
+	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
+	
 	private static final Elevator instance = new Elevator();
 
 	private static final MasterControls controller = MasterControls.getInstance();
