@@ -12,8 +12,8 @@ public class DriveTrain {
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
 	private static final ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-	//gyroSPI = new ADXRS453Gyro();
-	//MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
+	// gyroSPI = new ADXRS453Gyro();
+	// MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
 
 	private int inverted = 1;
 
@@ -21,11 +21,12 @@ public class DriveTrain {
 		this.controller = controller;
 		gyroSPI.calibrate();
 		gyroSPI.reset();
+		RIGHT_MOTOR.setInverted(true);
 	}
 
 	public void drive() {
-		
-		if(controller.invertDrive()) {
+
+		if (controller.invertDrive()) {
 			invert();
 		}
 		// TODO: fix exponetion
@@ -40,11 +41,8 @@ public class DriveTrain {
 			setRightMotorSpeed(rightSpeed);
 
 		}
-		
-		System.out.println("angle:" + gyroSPI.getAngle());
-		
-		
 
+		System.out.println("angle:" + gyroSPI.getAngle());
 
 	}
 
