@@ -11,7 +11,7 @@ public class MasterControls {
 	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
 			RobotMap.OperatorController.USB_PORT);
 
-	public MasterControls() {
+	private MasterControls() {
 		// Intentionally Blank for Singleton... getInstance bcomes constructor?
 	}
 
