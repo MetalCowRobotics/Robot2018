@@ -1,18 +1,20 @@
 package org.usfirst.frc.team4213.robot;
 
-import org.usfirst.frc.team4213.robot.controllers.MasterControls;
-import org.usfirst.frc.team4213.robot.controllers.XboxControllerMetalCow;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,6 +27,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	private static final Logger logger = Logger.getLogger(Robot.class.getName());
+
 	// Define Autonomous Missions
 	final String defaultAuto = "Default";
 	final String customAuto = "Custom";
@@ -32,15 +36,16 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	BuiltInAccelerometer accelerometer;
-	PowerDistributionPanel pdp;
+	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
 	// Systems
 	DriveTrain driveTrain;
-	MasterControls controls;
 	Intake intake;
 	Elevator elevator;
 	Climber climber;
+	DifferentialDrive autoDrive;
+	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
 
 	// Game Variables
 	private String gameData;
@@ -61,6 +66,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+		logger.entering(getClass().getName(), "doIt");
+		logger.log(Level.INFO, "Logging Stuff Example");
+
 		// Load available Autonomous misisons to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
@@ -68,25 +76,24 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
-		pdp = new PowerDistributionPanel();
+		// pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 		accelerometer = new BuiltInAccelerometer();
-		//CameraServer.getInstance().startAutomaticCapture();
+		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Intitialize Systems
-		controls = new MasterControls(new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT),
-				new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT));
-		driveTrain = new DriveTrain(controls);
-		elevator = new Elevator(controls);
-		intake = new Intake(controls, elevator);
-		climber = new Climber(controls);
+		driveTrain = DriveTrain.getInstance();
+		elevator = Elevator.getInstance();
+		intake = Intake.getInstance();
+		climber = Climber.getinstance();
 
 		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
 
 		driverStation = DriverStation.getInstance();
-		//CameraServer.getInstance().startAutomaticCapture();
+		// CameraServer.getInstance().startAutomaticCapture();
 
+		logger.exiting(getClass().getName(), "doIt");
 	}
 
 	/**
@@ -114,7 +121,10 @@ public class Robot extends IterativeRobot {
 		System.out.println("Auto selected: " + autoSelected);
 
 		System.out.println(driverStation.getGameSpecificMessage());
-
+		autoDrive = new DifferentialDrive(new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL),
+				new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL));
+		gyroSPI.calibrate();
+		gyroSPI.reset();
 	}
 
 	/**
@@ -122,6 +132,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		double angle = gyroSPI.getAngle();
+		double Kp = 0.03;
+		autoDrive.arcadeDrive(-1.0, -angle * Kp);
 
 		switch (autoSelected) {
 		case "ONE":
@@ -164,19 +177,6 @@ public class Robot extends IterativeRobot {
 		intake.execute();
 		climber.execute();
 
-		// if (oprerator.getRB()) {
-		// intake.powerCubeIntake();
-		// } else if (operator.getLB()) {
-		// intake.powerCubeEject();
-		// } else {
-		// intake.powerCubeIdle();
-		// }
-
-		//System.out.println(pdp.getTemperature() + " Degrees Celcius");
-		//System.out.println(pdp.getCurrent(1) + " Amps");
-		//System.out.println(gameData);
-		// System.out.println(driverStation.getGameSpecificMessage());
-
 	}
 
 	/**
@@ -185,21 +185,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testInit() {
 
-		// if(driver.getLB()) {
-		// intake.powerCubeIntake();
-		// } else if(driver.getRB()) {
-		// intake.powerCubeEject();
-		// } else {
-		// intake.powerCubeIdle();
-		// }
-		//
-		// if(c.getLB()) {
-		// elevator.moveUp();
-		// } else if(driver.getRB()) {
-		// elevator.moveDown();
-		// } else {
-		// elevator.stop();
-		// }
 	}
 
 	/**

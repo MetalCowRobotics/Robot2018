@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4213.robot.systems;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -7,30 +9,38 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 
 public class DriveTrain {
-	private MasterControls controller;
+	private static final DriveTrain instance = new DriveTrain();
+	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
+
+	private MasterControls controller = MasterControls.getInstance();
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
 	private static final ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-	//gyroSPI = new ADXRS453Gyro();
-	//MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
+	// gyroSPI = new ADXRS453Gyro();
+	// MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
 
 	private int inverted = 1;
 
-	public DriveTrain(MasterControls controller) {
-		this.controller = controller;
+	private DriveTrain() {
+
+	}
+
+	public static DriveTrain getInstance() {
 		gyroSPI.calibrate();
 		gyroSPI.reset();
+		LEFT_MOTOR.setInverted(true);
+		return instance;
 	}
 
 	public void drive() {
-		
-		if(controller.invertDrive()) {
+
+		if (controller.invertDrive()) {
 			invert();
 		}
-		// TODO: fix exponetion
-		double leftSpeed = Math.pow((controller.getDriveLeftThrottle() * getThrottle() * inverted), 2);
-		double rightSpeed = Math.pow((controller.getDriveRightThrottle() * getThrottle() * inverted), 2);
+
+		double leftSpeed = squareSpeed(controller.getDriveLeftThrottle());
+		double rightSpeed = squareSpeed(controller.getDriveRightThrottle());
 
 		if (controller.isHalfArcadeToggle()) { // Go into half-arcade
 			setLeftMotorSpeed(leftSpeed);
@@ -40,12 +50,17 @@ public class DriveTrain {
 			setRightMotorSpeed(rightSpeed);
 
 		}
-		
+
 		System.out.println("angle:" + gyroSPI.getAngle());
-		
-		
 
+	}
 
+	private double squareSpeed(double controllerSpeed) {
+		if (0 < controllerSpeed) {
+			return Math.pow(controller.getDriveLeftThrottle(), 2);
+		} else {
+			return -1 * Math.pow(controller.getDriveLeftThrottle(), 2);
+		}
 	}
 
 	public void invert() {
@@ -53,11 +68,11 @@ public class DriveTrain {
 	}
 
 	private void setLeftMotorSpeed(double speed) {
-		LEFT_MOTOR.set(speed);
+		LEFT_MOTOR.set(speed * getThrottle() * inverted);
 	}
 
 	private void setRightMotorSpeed(double speed) {
-		RIGHT_MOTOR.set(speed);
+		RIGHT_MOTOR.set(speed * getThrottle() * inverted);
 	}
 
 	private double getRightMotorSpeed() {
@@ -69,10 +84,10 @@ public class DriveTrain {
 	}
 
 	/**
-	 * Determine the top speed threshold Bumper r buttons on the controller will
-	 * limit the speed to the SPRINT value Otherbuttons on the controller will limit
-	 * the speed to the CRAWL value Triggewise it will allow the robot a speed up to
-	 * Normal max.
+	 * Determine the top speed threshold: CRAWL - Lowest speed threshold Normal -
+	 * Normal driving conditions SPRINT - Highest speed threshold
+	 * 
+	 * @link org.usfirst.frc.team4213.robot.RobotMap
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {

@@ -1,25 +1,34 @@
 package org.usfirst.frc.team4213.robot.systems;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import edu.wpi.first.wpilibj.Talon;
 
 public class Elevator {
+	private static final Elevator instance = new Elevator();
+	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
+
+	private static final MasterControls controller = MasterControls.getInstance();
 	private static final Talon STAGE_1_MOTOR = new Talon(RobotMap.Elevator.STAGE_1_MOTOR_CHANNEL);
 	private static final Talon STAGE_2_MOTOR = new Talon(RobotMap.Elevator.STAGE_2_MOTOR_CHANNEL);
 	MotorState currentStage1State = MotorState.OFF; // start state is off
 	MotorState currentStage2State = MotorState.OFF; // start state is off
-	MasterControls controller;
 	ElevatorState curStage1Location = ElevatorState.BOTTOM;
 	ElevatorState curStage2Location = ElevatorState.BOTTOM;
 
-	public Elevator(MasterControls controller) {
-		this.controller = controller;
+	private Elevator() {
+		// Singleton Pattern
 	}
 
 	public void execute() {
+		// ToDo:Elevator control code goes here
+	}
 
+	public static Elevator getInstance() {
+		return instance;
 	}
 
 	public void moveUp() {
