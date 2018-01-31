@@ -3,13 +3,13 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.Mission;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -34,6 +34,8 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "Custom";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = defaultAuto;
+	
+	Mission autoMission;
 
 	BuiltInAccelerometer accelerometer;
 	// PowerDistributionPanel pdp;
@@ -45,12 +47,6 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
-
-	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-	// AutonomousDriveTrain autoDriveTrain;
-
-	// Game Variables
-	private String gameData;
 
 	// test variable
 	long lastTime;
@@ -96,11 +92,7 @@ public class Robot extends IterativeRobot {
 		driverStation = DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
 
-		System.out.println("GyroAngle: " + gyroSPI.getAngle() + " | Calibrating Gyro.... ");
-		DriverStation.reportWarning("Calibrating gyro... ", false);
-		gyroSPI.calibrate();
-		DriverStation.reportWarning("C... Done! ", false);
-		System.out.println("... Complete!  | New GyroAngle: " + gyroSPI.getAngle());
+		driveTrain.calibrateGyro();
 
 		logger.exiting(getClass().getName(), "doIt");
 		SmartDashboard.putNumber("Kp", .15);
@@ -120,37 +112,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
+		driveTrain.resetGyro();
+		
+		//TODO: Choose autonomous mission here?
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		System.out.println("Auto selected: " + autoSelected);
-
-		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
-		System.out.println("Game Message: " + driverStation.getGameSpecificMessage());
-		System.out.println("Gyro Before Reset: " + gyroSPI.getAngle());
-		gyroSPI.reset();
-		System.out.println("Gryo After Reset: " + gyroSPI.getAngle());
-		System.out.println("Autonomous Init - Exit!");
-		DriverStation.reportWarning("Robot is Ready!", false);
-
-	}
-
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
-
-		double angle = gyroSPI.getAngle();
-		// double Kp = 0.15;
-
-		double Kp = SmartDashboard.getNumber("Kp", .15);
-		System.out.println("Drive angle: " + (angle));
-		driveTrain.autoDrive(0, -angle * Kp);
-
 		// switch (autoSelected) {
 		// case "ONE":
 		// // Put custom auto code here
+		//autoMission = new AutoMission1();
 		//
 		// if (firstTime) {
 		// firstTime = false;
@@ -169,7 +141,19 @@ public class Robot extends IterativeRobot {
 		// break;
 		// }
 		//
+		
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+		
+		System.out.println("Autonomous Init - Exit!");
+	}
 
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		System.out.println("Autonomous Periodic!");
+		//TODO: autoMission.execute();
 	}
 
 	/**
@@ -185,12 +169,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
 		driveTrain.drive();
 		elevator.execute();
 		intake.execute();
 		climber.execute();
-
 	}
 
 	/**
@@ -209,25 +191,5 @@ public class Robot extends IterativeRobot {
 
 	}
 
-	private Hand getNearSwitch() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
-	}
-
-	private Hand getScale() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
-	}
-
-	private Hand getFarSwitch() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
-	}
 
 }

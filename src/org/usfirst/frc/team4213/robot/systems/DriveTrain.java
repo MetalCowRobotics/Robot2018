@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -19,9 +21,7 @@ public class DriveTrain {
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
-	// private static final ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-	// gyroSPI = new ADXRS453Gyro();
-	// MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
+	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 
 	private boolean inverted = false;
 
@@ -64,6 +64,22 @@ public class DriveTrain {
 
 	public void invert() {
 		inverted = !inverted;
+	}
+	
+	public void calibrateGyro() {
+		DriverStation.reportWarning("Calibrating gyro... "+GYRO.getAngle(), false);
+		GYRO.calibrate();
+		DriverStation.reportWarning("C... Done! "+GYRO.getAngle(), false);
+	}
+	
+	public void resetGyro() {
+		DriverStation.reportWarning("Gyro Before Reset: " + GYRO.getAngle(), false);
+		GYRO.reset();
+		DriverStation.reportWarning("Gryo After Reset: " + GYRO.getAngle(), false);
+	}
+	
+	public double getAngle() {
+		return GYRO.getAngle();
 	}
 
 	/**

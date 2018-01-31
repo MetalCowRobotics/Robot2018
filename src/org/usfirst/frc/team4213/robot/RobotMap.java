@@ -16,7 +16,7 @@ public class RobotMap {
 		public static final double CRAWL_SPEED = 0.3;
 		public static final int LEFT_MOTOR_CHANNEL = 0;
 		public static final int RIGHT_MOTOR_CHANNEL = 1;
-		// public static final double MY_GYRO_CHANNEL = 1;
+		public static final double MY_GYRO_CHANNEL = 1;
 	}
 
 	public final class Intake {
