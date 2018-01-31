@@ -12,7 +12,6 @@ import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,7 +33,7 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "Custom";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = defaultAuto;
-	
+
 	Mission autoMission;
 
 	BuiltInAccelerometer accelerometer;
@@ -113,8 +112,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
 		driveTrain.resetGyro();
-		
-		//TODO: Choose autonomous mission here?
+
+		// TODO: Choose autonomous mission here?
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		System.out.println("Auto selected: " + autoSelected);
@@ -122,7 +121,7 @@ public class Robot extends IterativeRobot {
 		// switch (autoSelected) {
 		// case "ONE":
 		// // Put custom auto code here
-		//autoMission = new AutoMission1();
+		// autoMission = new AutoMission1();
 		//
 		// if (firstTime) {
 		// firstTime = false;
@@ -141,9 +140,9 @@ public class Robot extends IterativeRobot {
 		// break;
 		// }
 		//
-		
+
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-		
+
 		System.out.println("Autonomous Init - Exit!");
 	}
 
@@ -153,7 +152,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		System.out.println("Autonomous Periodic!");
-		//TODO: autoMission.execute();
+		// TODO: autoMission.execute();
 	}
 
 	/**
@@ -190,6 +189,5 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 
 	}
-
 
 }

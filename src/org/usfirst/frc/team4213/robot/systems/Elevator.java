@@ -13,12 +13,12 @@ public class Elevator {
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
-	
+
 	private static final Talon ELEVATOR_MOTOR = new Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
 
 	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
-	
+
 	MotorState motorState = MotorState.OFF; // start state is off
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
 
@@ -62,9 +62,9 @@ public class Elevator {
 	private boolean movingDown() {
 		return MotorState.DOWN == motorState ? true : false;
 	}
-	
+
 	private void setElevatorSpeed(double speed) {
-		motorState = (speed<0) ? MotorState.DOWN : MotorState.UP;
+		motorState = (speed < 0) ? MotorState.DOWN : MotorState.UP;
 		ELEVATOR_MOTOR.set(speed);
 	}
 

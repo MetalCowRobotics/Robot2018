@@ -65,19 +65,19 @@ public class DriveTrain {
 	public void invert() {
 		inverted = !inverted;
 	}
-	
+
 	public void calibrateGyro() {
-		DriverStation.reportWarning("Calibrating gyro... "+GYRO.getAngle(), false);
+		DriverStation.reportWarning("Calibrating gyro... " + GYRO.getAngle(), false);
 		GYRO.calibrate();
-		DriverStation.reportWarning("C... Done! "+GYRO.getAngle(), false);
+		DriverStation.reportWarning("C... Done! " + GYRO.getAngle(), false);
 	}
-	
+
 	public void resetGyro() {
 		DriverStation.reportWarning("Gyro Before Reset: " + GYRO.getAngle(), false);
 		GYRO.reset();
 		DriverStation.reportWarning("Gryo After Reset: " + GYRO.getAngle(), false);
 	}
-	
+
 	public double getAngle() {
 		return GYRO.getAngle();
 	}

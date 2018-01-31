@@ -85,10 +85,11 @@ public class Intake {
 		return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
 	}
-	
+
 	private boolean isIntakeUp() {
 		return upSensor.get();
 	}
+
 	private boolean isIntakeDown() {
 		return downSensor.get();
 	}
