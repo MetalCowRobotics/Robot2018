@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Elevator {
@@ -12,12 +13,14 @@ public class Elevator {
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
-	private static final Talon STAGE_1_MOTOR = new Talon(RobotMap.Elevator.STAGE_1_MOTOR_CHANNEL);
-	// fix stage 1 and stage 2 problem
-	MotorState currentStage1State = MotorState.OFF; // start state is off
-	MotorState currentStage2State = MotorState.OFF; // start state is off
-	ElevatorState curStage1Location = ElevatorState.BOTTOM;
-	ElevatorState curStage2Location = ElevatorState.BOTTOM;
+	
+	private static final Talon ELEVATOR_MOTOR = new Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
+
+	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	
+	MotorState motorState = MotorState.OFF; // start state is off
+	ElevatorState elevatorState = ElevatorState.BOTTOM;
 
 	private Elevator() {
 		// Singleton Pattern
@@ -39,58 +42,35 @@ public class Elevator {
 	}
 
 	public void moveUp() {
-		if (movingUp()) {
-			return;
+		if (!movingUp() && ElevatorState.TOP != elevatorState) {
+			setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		}
-		if (ElevatorState.TOP != curStage1Location) {
-			STAGE_1_MOTOR.setSpeed(RobotMap.Elevator.UP_SPEED);
-			currentStage1State = MotorState.UP;
-			curStage1Location = ElevatorState.MIDDLE;
-		} else if (ElevatorState.TOP != curStage2Location) {
-			STAGE_2_MOTOR.setSpeed(RobotMap.Elevator.UP_SPEED);
-			// get rid of stage 2 and replace stage 1 and 2 with Elevator
-			currentStage2State = MotorState.UP;
-		}
+		elevatorState = topLimit.get() ? ElevatorState.TOP : ElevatorState.MIDDLE;
 	}
 
 	public void moveDown() {
-		if (movingDown()) {
-			return;
+		if (!movingDown() && ElevatorState.BOTTOM != elevatorState) {
+			setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
 		}
-		if (ElevatorState.BOTTOM != curStage2Location) {
-			STAGE_2_MOTOR.setSpeed(RobotMap.Elevator.DOWN_SPEED);
-			// get rid of stage 2 and replace stage 1 and 2 with Elevator
-			currentStage2State = MotorState.DOWN;
-		} else if (ElevatorState.BOTTOM != curStage1Location) {
-			STAGE_1_MOTOR.setSpeed(RobotMap.Elevator.DOWN_SPEED);
-			currentStage1State = MotorState.DOWN;
-		}
+		elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM : ElevatorState.MIDDLE;
 	}
 
 	private boolean movingUp() {
-		if (MotorState.UP == currentStage1State || MotorState.UP == currentStage2State) {
-			return true;
-		} else {
-			return false;
-		}
+		return MotorState.UP == motorState ? true : false;
 	}
 
 	private boolean movingDown() {
-		if (MotorState.DOWN == currentStage1State || MotorState.DOWN == currentStage2State) {
-			return true;
-		} else {
-			return false;
-		}
+		return MotorState.DOWN == motorState ? true : false;
+	}
+	
+	private void setElevatorSpeed(double speed) {
+		motorState = (speed<0) ? MotorState.DOWN : MotorState.UP;
+		ELEVATOR_MOTOR.set(speed);
 	}
 
 	public void stop() {
-		if (movingUp() || movingDown()) {
-			STAGE_1_MOTOR.stopMotor();
-			STAGE_2_MOTOR.stopMotor();
-			// get rid of stage 2 and replace stage 1 and 2 with Elevator
-			currentStage1State = MotorState.OFF;
-			currentStage2State = MotorState.OFF;
-		}
+		ELEVATOR_MOTOR.stopMotor();
+		motorState = MotorState.OFF;
 	}
 
 	private enum MotorState {

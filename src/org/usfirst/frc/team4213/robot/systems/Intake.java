@@ -18,8 +18,9 @@ public class Intake {
 	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
-	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
-	MaxBotixRangeFinder rangeFinder = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
+	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
+	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
+	MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
 
 	private enum IntakeState {
 		OFF, IN, OUT
@@ -81,8 +82,15 @@ public class Intake {
 	}
 
 	private boolean isCubeSensorSwitchActive() {
-		return rangeFinder.getDistanceInches() < 12;
+		return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
+	}
+	
+	private boolean isIntakeUp() {
+		return upSensor.get();
+	}
+	private boolean isIntakeDown() {
+		return downSensor.get();
 	}
 
 }
