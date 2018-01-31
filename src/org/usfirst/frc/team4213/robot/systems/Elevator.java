@@ -13,7 +13,7 @@ public class Elevator {
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	private static final Talon STAGE_1_MOTOR = new Talon(RobotMap.Elevator.STAGE_1_MOTOR_CHANNEL);
-	private static final Talon STAGE_2_MOTOR = new Talon(RobotMap.Elevator.STAGE_2_MOTOR_CHANNEL);
+	// fix stage 1 and stage 2 problem
 	MotorState currentStage1State = MotorState.OFF; // start state is off
 	MotorState currentStage2State = MotorState.OFF; // start state is off
 	ElevatorState curStage1Location = ElevatorState.BOTTOM;
@@ -25,6 +25,13 @@ public class Elevator {
 
 	public void execute() {
 		// ToDo:Elevator control code goes here
+		if (controller.isElevatorDown()) {
+			moveDown();
+		} else if (controller.isElevatorUp()) {
+			moveUp();
+		} else {
+			stop();
+		}
 	}
 
 	public static Elevator getInstance() {
@@ -41,6 +48,7 @@ public class Elevator {
 			curStage1Location = ElevatorState.MIDDLE;
 		} else if (ElevatorState.TOP != curStage2Location) {
 			STAGE_2_MOTOR.setSpeed(RobotMap.Elevator.UP_SPEED);
+			// get rid of stage 2 and replace stage 1 and 2 with Elevator
 			currentStage2State = MotorState.UP;
 		}
 	}
@@ -51,6 +59,7 @@ public class Elevator {
 		}
 		if (ElevatorState.BOTTOM != curStage2Location) {
 			STAGE_2_MOTOR.setSpeed(RobotMap.Elevator.DOWN_SPEED);
+			// get rid of stage 2 and replace stage 1 and 2 with Elevator
 			currentStage2State = MotorState.DOWN;
 		} else if (ElevatorState.BOTTOM != curStage1Location) {
 			STAGE_1_MOTOR.setSpeed(RobotMap.Elevator.DOWN_SPEED);
@@ -78,6 +87,7 @@ public class Elevator {
 		if (movingUp() || movingDown()) {
 			STAGE_1_MOTOR.stopMotor();
 			STAGE_2_MOTOR.stopMotor();
+			// get rid of stage 2 and replace stage 1 and 2 with Elevator
 			currentStage1State = MotorState.OFF;
 			currentStage2State = MotorState.OFF;
 		}
