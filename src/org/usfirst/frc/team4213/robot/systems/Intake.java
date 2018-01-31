@@ -19,7 +19,7 @@ public class Intake {
 	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
 	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
-	MaxBotixRangeFinder fidndnf = new MaxBotixRangeFinder();
+	MaxBotixRangeFinder rangeFinder = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
 
 	private enum IntakeState {
 		OFF, IN, OUT
@@ -43,12 +43,9 @@ public class Intake {
 		} else {
 			powerCubeIdle();
 		}
-		
-		
+
 		/// Do stuff with the range finder and whatever
-		
-		
-		
+
 	}
 
 	private void powerCubeIntake() {
@@ -56,11 +53,11 @@ public class Intake {
 			return;
 		}
 		if (isCubeSensorSwitchActive()) {
+			powerCubeIdle();
+		} else {
 			LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
 			RIGHT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
 			currentIntakeState = IntakeState.IN;
-		} else {
-			powerCubeIdle();
 		}
 
 	}
@@ -84,7 +81,8 @@ public class Intake {
 	}
 
 	private boolean isCubeSensorSwitchActive() {
-		return cubeSensorSwitch.get();
+		return rangeFinder.getDistanceInches() < 12;
+		// return cubeSensorSwitch.get();
 	}
 
 }

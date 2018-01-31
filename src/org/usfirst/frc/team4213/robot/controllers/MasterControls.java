@@ -44,15 +44,11 @@ public class MasterControls {
 	}
 
 	public boolean isCubeIntake() {
-		// TODO Auto-generated method stub
-		// operator.getSomeButton check and return....
-		return false;
+		return operator.getRB();
 	}
 
 	public boolean isCubeEject() {
-		// TODO Auto-generated method stub
-		// operator.getSomeButton check and return....
-		return false;
+		return operator.getLB();
 	}
 
 }
