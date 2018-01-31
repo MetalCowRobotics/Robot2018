@@ -17,7 +17,7 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 0.7;
 		public static final double NORMAL_SPEED = 0.5;
 		public static final double CRAWL_SPEED = 0.3;
-		//public static final double MY_GYRO_CHANNEL = 1;
+		// public static final double MY_GYRO_CHANNEL = 1;
 
 	}
 
