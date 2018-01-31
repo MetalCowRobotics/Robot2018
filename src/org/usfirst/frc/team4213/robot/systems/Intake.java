@@ -2,6 +2,7 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -18,6 +19,7 @@ public class Intake {
 	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
 	DigitalInput cubeSensorSwitch = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_CHANNEL);
+	MaxBotixRangeFinder fidndnf = new MaxBotixRangeFinder();
 
 	private enum IntakeState {
 		OFF, IN, OUT
@@ -41,6 +43,12 @@ public class Intake {
 		} else {
 			powerCubeIdle();
 		}
+		
+		
+		/// Do stuff with the range finder and whatever
+		
+		
+		
 	}
 
 	private void powerCubeIntake() {
