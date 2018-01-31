@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -19,21 +19,22 @@ public class DriveTrain {
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
-	private static final ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
+	protected static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
+	
+	//private static final ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
 	// gyroSPI = new ADXRS453Gyro();
 	// MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
 
 	private int inverted = 1;
 
-	private DriveTrain() {
+	protected DriveTrain() {
 		// Singleton
 	}
 
 	public static DriveTrain getInstance() {
-		gyroSPI.calibrate();
-		gyroSPI.reset();
-		LEFT_MOTOR.setInverted(true);
+//		gyroSPI.calibrate();
+//		gyroSPI.reset();
+		//LEFT_MOTOR.setInverted(true);
 		return instance;
 	}
 
@@ -52,8 +53,25 @@ public class DriveTrain {
 			drive.tankDrive(leftSpeed, rightSpeed, true);
 		}
 
-		System.out.println("angle:" + gyroSPI.getAngle());
+		//System.out.println("angle:" + gyroSPI.getAngle());
 
+	}
+	
+	
+	
+	public void autoDrive(double speed, double angle) {
+		drive.arcadeDrive(speed, angle, true);
+		
+		//TODO: at some speeds may need to use
+		//drive.curvatureDrive(xSpeed, zRotation, isQuickTurn); //for quick turns.
+
+		/**
+   		double angle = gyro.getAngle();
+    		myDrive.arcadeDrive(-1.0, -angle * Kp);
+		 */
+		
+		
+		
 	}
 
 //	private double squareSpeed(double controllerSpeed) {
