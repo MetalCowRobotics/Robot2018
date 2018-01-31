@@ -24,7 +24,7 @@ public class DriveTrain {
 	// gyroSPI = new ADXRS453Gyro();
 	// MY_GYRO = new AnalogGyro(RobotMap.Drivetrain.MY_GYRO_CHANNEL);
 
-	private int inverted = 1;
+	private boolean inverted = false;
 
 	protected DriveTrain() {
 		// Singleton
@@ -45,8 +45,8 @@ public class DriveTrain {
 			invert();
 		}
 
-		double leftSpeed = controller.getDriveLeftThrottle();
-		double rightSpeed = controller.getDriveRightThrottle();
+		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle();
+		double rightSpeed = controller.getDriveRightThrottle() * getThrottle();
 
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
@@ -70,30 +70,19 @@ public class DriveTrain {
    		double angle = gyro.getAngle();
     		myDrive.arcadeDrive(-1.0, -angle * Kp);
 		 */
-		
-		
-		
 	}
-
-//	private double squareSpeed(double controllerSpeed) {
-//		if (0 < controllerSpeed) {
-//			return Math.pow(controller.getDriveLeftThrottle(), 2);
-//		} else {
-//			return -1 * Math.pow(controller.getDriveLeftThrottle(), 2);
-//		}
-//	}
 
 	public void invert() {
-		inverted *= -1;
+		inverted = !inverted;
 	}
 
-	private double getRightMotorSpeed() {
-		return RIGHT_MOTOR.get();
-	}
-
-	private double getLeftMotorSpeed() {
-		return LEFT_MOTOR.get();
-	}
+//	private double getRightMotorSpeed() {
+//		return RIGHT_MOTOR.get();
+//	}
+//
+//	private double getLeftMotorSpeed() {
+//		return LEFT_MOTOR.get();
+//	}
 
 	/**
 	 * Determine the top speed threshold: CRAWL - Lowest speed threshold Normal -
