@@ -3,16 +3,19 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,7 +47,10 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
-	// ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
+
+	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
+	//AutonomousDriveTrain autoDriveTrain;
+
 
 	// Game Variables
 	private String gameData;
@@ -68,7 +74,7 @@ public class Robot extends IterativeRobot {
 		logger.entering(getClass().getName(), "doIt");
 		logger.log(Level.INFO, "Logging Stuff Example");
 
-		// Load available Autonomous misisons to the driverstation
+		// Load available Autonomous missions to the driverstation
 		autoSelected = defaultAuto;
 		autoChooser.addDefault("Default", defaultAuto);
 		autoChooser.addObject("Custom", customAuto);
@@ -80,11 +86,12 @@ public class Robot extends IterativeRobot {
 		accelerometer = new BuiltInAccelerometer();
 		// CameraServer.getInstance().startAutomaticCapture();
 
-		// Intitialize Systems
+		// Initialize Systems
 		driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
+		//autoDriveTrain = AutonomousDriveTrain.getInstance();
 
 		// Initialize Test Variables
 		lastTime = System.currentTimeMillis();
@@ -92,7 +99,14 @@ public class Robot extends IterativeRobot {
 		driverStation = DriverStation.getInstance();
 		 //CameraServer.getInstance().startAutomaticCapture();
 
+		System.out.println("GyroAngle: " + gyroSPI.getAngle() + " | Calibrating Gyro.... ");
+		DriverStation.reportWarning("Calibrating gyro... ", false);
+		gyroSPI.calibrate();
+		DriverStation.reportWarning("C... Done! ", false);
+		System.out.println("... Complete!  | New GyroAngle: " + gyroSPI.getAngle());
+		
 		logger.exiting(getClass().getName(), "doIt");
+		SmartDashboard.putNumber("Kp", .15);
 	}
 
 	/**
@@ -112,18 +126,18 @@ public class Robot extends IterativeRobot {
 		autoSelected = autoChooser.getSelected();
 		System.out.println("Auto selected: " + autoSelected);
 
-		while (null == gameData) {
-			gameData = getGameSpecificMessage();
-		}
-
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
 
-		System.out.println(driverStation.getGameSpecificMessage());
-		autoDrive = new DifferentialDrive(new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL),
-				new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL));
-		// gyroSPI.calibrate();
-		// gyroSPI.reset();
+		System.out.println("Game Message: " + driverStation.getGameSpecificMessage());
+
+		System.out.println("Gyro Before Reset: " + gyroSPI.getAngle());
+		gyroSPI.reset();
+		System.out.println("Gryo After Reset: " + gyroSPI.getAngle());
+		
+		System.out.println("Autonomous Init - Exit!");
+		DriverStation.reportWarning("Robot is Ready!", false);
+
 	}
 
 	/**
@@ -131,30 +145,37 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// double angle = gyroSPI.getAngle();
-		// double Kp = 0.03;
-		// autoDrive.arcadeDrive(-1.0, -angle * Kp);
+		System.out.println("Autonomous Periodic!");
 
-		switch (autoSelected) {
-		case "ONE":
-			// Put custom auto code here
+		double angle = gyroSPI.getAngle();
+		//double Kp = 0.15;
+		
+		double Kp = SmartDashboard.getNumber("Kp", .15);
+		System.out.println("Drive angle: " +  (angle) );
+		driveTrain.autoDrive(0, -angle* Kp);
 
-			if (firstTime) {
-				firstTime = false;
-				System.out.println("customAuto");
-			}
+//		switch (autoSelected) {
+//		case "ONE":
+//			// Put custom auto code here
+//
+//			if (firstTime) {
+//				firstTime = false;
+//				System.out.println("customAuto");
+//			}
+//
+//			break;
+//		case "TWO":
+//		default:
+//			// Put default auto code here
+//
+//			if (firstTime) {
+//				firstTime = false;
+//				System.out.println("defaultAuto");
+//			}
+//			break;
+//		}
+//		
 
-			break;
-		case "TWO":
-		default:
-			// Put default auto code here
-
-			if (firstTime) {
-				firstTime = false;
-				System.out.println("defaultAuto");
-			}
-			break;
-		}
 	}
 
 	/**
