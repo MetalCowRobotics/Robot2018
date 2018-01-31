@@ -8,7 +8,6 @@ import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -23,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
- * directory.
+ * directory.c
  */
 public class Robot extends IterativeRobot {
 
@@ -45,7 +44,7 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
-	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
+	// ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
 
 	// Game Variables
 	private String gameData;
@@ -91,7 +90,7 @@ public class Robot extends IterativeRobot {
 		lastTime = System.currentTimeMillis();
 
 		driverStation = DriverStation.getInstance();
-		// CameraServer.getInstance().startAutomaticCapture();
+		 //CameraServer.getInstance().startAutomaticCapture();
 
 		logger.exiting(getClass().getName(), "doIt");
 	}
@@ -123,8 +122,8 @@ public class Robot extends IterativeRobot {
 		System.out.println(driverStation.getGameSpecificMessage());
 		autoDrive = new DifferentialDrive(new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL),
 				new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL));
-		gyroSPI.calibrate();
-		gyroSPI.reset();
+		// gyroSPI.calibrate();
+		// gyroSPI.reset();
 	}
 
 	/**
@@ -132,9 +131,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		double angle = gyroSPI.getAngle();
-		double Kp = 0.03;
-		autoDrive.arcadeDrive(-1.0, -angle * Kp);
+		// double angle = gyroSPI.getAngle();
+		// double Kp = 0.03;
+		// autoDrive.arcadeDrive(-1.0, -angle * Kp);
 
 		switch (autoSelected) {
 		case "ONE":
