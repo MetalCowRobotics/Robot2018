@@ -9,7 +9,8 @@ public class MasterControls {
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
-	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
+	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
+			RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -44,15 +45,19 @@ public class MasterControls {
 	}
 
 	public boolean isCubeIntake() {
-		// TODO Auto-generated method stub
-		// operator.getSomeButton check and return....
-		return false;
+		return operator.getRB();
 	}
 
 	public boolean isCubeEject() {
-		// TODO Auto-generated method stub
-		// operator.getSomeButton check and return....
-		return false;
+		return operator.getLB();
+	}
+	
+	public boolean isElevatorUp() {
+		return operator.getYButton();
+	}
+	
+	public boolean isElevatorDown() {
+		return operator.getXButton();
 	}
 
 }
