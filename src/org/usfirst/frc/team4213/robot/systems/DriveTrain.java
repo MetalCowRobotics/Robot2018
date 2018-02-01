@@ -6,10 +6,12 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
@@ -22,7 +24,8 @@ public class DriveTrain {
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
-
+	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
+	
 	private boolean inverted = false;
 
 	protected DriveTrain() {
@@ -30,9 +33,6 @@ public class DriveTrain {
 	}
 
 	public static DriveTrain getInstance() {
-		// gyroSPI.calibrate();
-		// gyroSPI.reset();
-		// LEFT_MOTOR.setInverted(true);
 		return instance;
 	}
 
@@ -56,7 +56,7 @@ public class DriveTrain {
 
 		// TODO: at some speeds may need to use
 		// drive.curvatureDrive(xSpeed, zRotation, isQuickTurn); //for quick turns.
-
+		SmartDashboard.putNumber("Kp", .15);
 		/**
 		 * double angle = gyro.getAngle(); myDrive.arcadeDrive(-1.0, -angle * Kp);
 		 */
@@ -67,9 +67,11 @@ public class DriveTrain {
 	}
 
 	public void calibrateGyro() {
-		DriverStation.reportWarning("Calibrating gyro... " + GYRO.getAngle(), false);
+		DriverStation.reportWarning("Gyro Reading:"+ + GYRO.getAngle(),false);
+				DriverStation.reportWarning("Calibrating gyro... ", false);
 		GYRO.calibrate();
-		DriverStation.reportWarning("C... Done! " + GYRO.getAngle(), false);
+		DriverStation.reportWarning("... Done! ",false);
+		DriverStation.reportWarning("Gryo Reading: "+ GYRO.getAngle(), false);
 	}
 
 	public void resetGyro() {

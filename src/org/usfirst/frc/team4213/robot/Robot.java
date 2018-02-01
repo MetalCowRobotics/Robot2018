@@ -10,7 +10,6 @@ import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -36,7 +35,6 @@ public class Robot extends IterativeRobot {
 
 	Mission autoMission;
 
-	BuiltInAccelerometer accelerometer;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
@@ -47,10 +45,6 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-	// test variable
-	long lastTime;
-	boolean firstTime = true;
-
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
 		return driverStation.getGameSpecificMessage();
@@ -60,10 +54,8 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
-
 	@Override
 	public void robotInit() {
-		logger.entering(getClass().getName(), "doIt");
 		logger.log(Level.INFO, "Logging Stuff Example");
 
 		// Load available Autonomous missions to the driverstation
@@ -75,7 +67,7 @@ public class Robot extends IterativeRobot {
 		// Initialize Robot
 		// pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
-		accelerometer = new BuiltInAccelerometer();
+
 		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
@@ -83,18 +75,11 @@ public class Robot extends IterativeRobot {
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-		// autoDriveTrain = AutonomousDriveTrain.getInstance();
-
-		// Initialize Test Variables
-		lastTime = System.currentTimeMillis();
-
-		driverStation = DriverStation.getInstance();
-		// CameraServer.getInstance().startAutomaticCapture();
 
 		driveTrain.calibrateGyro();
 
-		logger.exiting(getClass().getName(), "doIt");
-		SmartDashboard.putNumber("Kp", .15);
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+
 	}
 
 	/**
@@ -111,6 +96,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
+		logger.entering(getClass().getName(), "doIt");
+
 		driveTrain.resetGyro();
 
 		// TODO: Choose autonomous mission here?
@@ -141,9 +128,8 @@ public class Robot extends IterativeRobot {
 		// }
 		//
 
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-
 		System.out.println("Autonomous Init - Exit!");
+		logger.exiting(getClass().getName(), "doIt");
 	}
 
 	/**

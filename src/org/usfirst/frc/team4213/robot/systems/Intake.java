@@ -50,29 +50,18 @@ public class Intake {
 	}
 
 	private void powerCubeIntake() {
-		if (IntakeState.IN == currentIntakeState && !isCubeSensorSwitchActive()) {
-			return;
-		}
-		if (isCubeSensorSwitchActive()) {
-			powerCubeIdle();
-		} else {
-			LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
-			RIGHT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
-			currentIntakeState = IntakeState.IN;
-		}
-
+		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.INTAKE_SPEED);
+		RIGHT_INTAKE_MOTOR.setSpeed(-RobotMap.Intake.INTAKE_SPEED);
+		currentIntakeState = IntakeState.IN;
 	}
 
-	public void powerCubeEject() {
-		if (IntakeState.OUT == currentIntakeState) {
-			return;
-		}
+	private void powerCubeEject() {
 		LEFT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.EJECT_SPEED);
-		RIGHT_INTAKE_MOTOR.setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.setSpeed(-RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
 
-	public void powerCubeIdle() {
+	private void powerCubeIdle() {
 		if (IntakeState.OFF == currentIntakeState) {
 			return;
 		}

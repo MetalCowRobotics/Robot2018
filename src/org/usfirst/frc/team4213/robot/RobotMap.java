@@ -33,7 +33,7 @@ public class RobotMap {
 		public static final double UP_SPEED = 0.2;
 		public static final double DOWN_SPEED = -0.2;
 		public static final int ELEVATOR_CHANNEL = 4;
-		public static final int LIMIT_SWITCH_TOP = 1; //DIO
-		public static final int LIMIT_SWITCH_BOTTOM = 2; //DIO
+		public static final int LIMIT_SWITCH_TOP = 3; //DIO
+		public static final int LIMIT_SWITCH_BOTTOM = 4; //DIO
 	}
 }
