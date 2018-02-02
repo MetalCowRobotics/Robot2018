@@ -2,6 +2,7 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,6 +27,12 @@ public class DriveTrain {
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
+
+	private PDController driveController;
+	private Timer timer = new Timer();
+	private double seconds = 0;
+	private final double baseSpeed = .8;
+	private double targetAngle = 0;
 	
 	private boolean inverted = false;
 
@@ -52,16 +60,29 @@ public class DriveTrain {
 	}
 
 	public void autoDrive(double speed, double angle) {
-		drive.arcadeDrive(speed, angle, true);
-
-		// TODO: at some speeds may need to use
-		// drive.curvatureDrive(xSpeed, zRotation, isQuickTurn); //for quick turns.
-		SmartDashboard.putNumber("Kp", .15);
-		/**
-		 * double angle = gyro.getAngle(); myDrive.arcadeDrive(-1.0, -angle * Kp);
-		 */
+		if (timer.get() > seconds) {
+			timer.stop();
+			drive.stopMotor();
+		} else {
+			double correction = driveController.calculateAdjustment(getAngle());
+			drive.arcadeDrive(baseSpeed, correction, true);
+			System.out.println("Angle:" + getAngle());
+			System.out.println("Left:" + LEFT_MOTOR.getSpeed());
+			System.out.println("Right:" + RIGHT_MOTOR.getSpeed());
+			System.out.println("correction:" + correction);
+		}
 	}
 
+	public void driveStraightTime(double seconds) {
+		resetGyro();
+		double setPoint = getAngle();
+		driveController = new PDController(setPoint);
+		drive.arcadeDrive(baseSpeed, setPoint, true);
+		this.seconds = seconds;
+		timer.reset();
+		timer.start();
+	}
+	
 	public void invert() {
 		inverted = !inverted;
 	}

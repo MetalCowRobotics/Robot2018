@@ -44,6 +44,9 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
+	
+	//temp variables
+	boolean firstTime = true;
 
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
@@ -130,6 +133,7 @@ public class Robot extends IterativeRobot {
 
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
+		firstTime=true;
 	}
 
 	/**
@@ -137,8 +141,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
+		//System.out.println("Autonomous Periodic!");
 		// TODO: autoMission.execute();
+		if(firstTime) {
+			driveTrain.driveStraightTime(2);
+			firstTime=false;
+		}
+		driveTrain.autoDrive(0, 0);
 	}
 
 	/**
