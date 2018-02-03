@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.autonomous.Mission;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveStraight;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
+import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -34,7 +36,8 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	Mission autoMission;
-
+	DriveStraight driveStraight;
+	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
@@ -44,6 +47,9 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
+	
+	//temp variables
+	boolean firstTime = true;
 
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
@@ -130,6 +136,9 @@ public class Robot extends IterativeRobot {
 
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
+		firstTime=true;
+		driveStraight = new DriveStraight(3);
+		turnDegrees = new TurnDegrees(90);
 	}
 
 	/**
@@ -137,8 +146,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
+		//System.out.println("Autonomous Periodic!");
 		// TODO: autoMission.execute();
+//		if(firstTime) {
+//			//driveTrain.driveStraightTime(2);
+//			driveTrain.turnDegrees(90);
+//			firstTime = false;
+//			
+//		}
+		//driveTrain.autoDrive(0, 0);
+		if (!driveStraight.isFinished()) {
+			driveStraight.run();
+		} else if (!turnDegrees.isFinished()) {
+			turnDegrees.run();
+		}
 	}
 
 	/**
