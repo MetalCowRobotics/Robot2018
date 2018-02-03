@@ -9,6 +9,7 @@ import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
@@ -41,6 +42,7 @@ public class Robot extends IterativeRobot {
 	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
+	DriveWithEncoder driveWithEncoder;
 
 	// Systems
 	DriveTrain driveTrain;
@@ -140,6 +142,7 @@ public class Robot extends IterativeRobot {
 		firstTime=true;
 		driveStraight = new DriveToWall(3);
 		turnDegrees = new TurnDegrees(90);
+		driveWithEncoder = new DriveWithEncoder (10);
 	}
 
 	/**
@@ -156,8 +159,8 @@ public class Robot extends IterativeRobot {
 //			
 //		}
 		//driveTrain.autoDrive(0, 0);
-		if (!driveStraight.isFinished()) {
-			driveStraight.run();
+		if (!driveWithEncoder.isFinished()) {
+			driveWithEncoder.run();
 		} else if (!turnDegrees.isFinished()) {
 			//turnDegrees.run();
 		}

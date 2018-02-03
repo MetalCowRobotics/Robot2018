@@ -2,19 +2,22 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
 
-public class DriveToWall extends AutoDrive {
-	
-	private double howClose = 0;
+public class DriveWithEncoder extends AutoDrive {
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
+	private int ticsPerRotation = 600;
+	private double inchesPerRotation = Math.PI * 4;
+	private double startTics = driveTrain.getEncoderTics();
+	private double targetInches;
+	private double targetTics;
 
-	public DriveToWall(double howClose) {
+	public DriveWithEncoder(double targetInches) {
 		super();
-		this.howClose = howClose;
+		this.targetInches = targetInches;
+		targetTics = targetInches / inchesPerRotation * ticsPerRotation;
 	}
 
 	public void run() {
-		System.out.println("Distance:" + driveTrain.wallSensorInches());
 		switch (currentState) {
 		case IDLE:
 			driveTrain.resetGyro();
@@ -24,18 +27,19 @@ public class DriveToWall extends AutoDrive {
 			currentState = State.ACTIVE;
 			break;
 		case ACTIVE:
-			if (howClose > driveTrain.wallSensorInches()) {
+			double pastTics = driveTrain.getEncoderTics() - startTics;
+			System.out.println("pastTics:" + pastTics);
+			if (targetTics < pastTics) {
 				driveTrain.stop();
 				currentState = State.DONE;
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
-				System.out.println("Angle:" + driveTrain.getAngle());
-				System.out.println("correction:" + correction);
 			}
 			break;
 		case DONE:
 			break;
 		}
 	}
+
 }

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class DriveStraightTime extends AutoDrive {
 	private Timer timer = new Timer();
 	private double seconds = 0;
-	private PDController driveController;
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
 

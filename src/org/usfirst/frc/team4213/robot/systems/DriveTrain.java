@@ -39,6 +39,8 @@ public class DriveTrain {
 	public double wallSensorInches() {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
+	
+
 
 	private boolean inverted = false;
 
@@ -113,8 +115,7 @@ public class DriveTrain {
 	}
 
 	public void stop() {
-		LEFT_MOTOR.stopMotor();
-		RIGHT_MOTOR.stopMotor();
+		drive.stopMotor();
 
 	}
 
@@ -145,5 +146,7 @@ public class DriveTrain {
 		return 0;
 
 	}
-
+	public double getEncoderTics() {
+		return 0;
+	}
 }

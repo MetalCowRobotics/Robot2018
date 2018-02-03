@@ -5,7 +5,6 @@ import org.usfirst.frc.team4213.lib14.UtilityMethods;
 
 
 public class TurnDegrees extends AutoDrive {
-	private PDController driveController;
 	private double baseSpeed = 0;
 	private double degrees;
 	private final double maxAdjustment = .5;
