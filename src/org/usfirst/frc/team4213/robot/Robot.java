@@ -147,7 +147,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//System.out.println("Autonomous Periodic!");
+		System.out.println("Autonomous Periodic!");
 		// TODO: autoMission.execute();
 //		if(firstTime) {
 //			//driveTrain.driveStraightTime(2);
@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
 		if (!driveStraight.isFinished()) {
 			driveStraight.run();
 		} else if (!turnDegrees.isFinished()) {
-			//turnDegrees.run();
+			turnDegrees.run();
 		}
 	}
 
