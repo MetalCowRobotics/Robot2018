@@ -16,8 +16,8 @@ public class Elevator {
 
 	private static final Talon ELEVATOR_MOTOR = new Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
 
-	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
-	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	DigitalInput topLimit ;//= new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
 	MotorState motorState = MotorState.OFF; // start state is off
 	ElevatorState elevatorState = ElevatorState.BOTTOM;

@@ -5,7 +5,7 @@ import org.usfirst.frc.team4213.lib14.PDController;
 public class DriveWithEncoder extends AutoDrive {
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
-	private int ticsPerRotation = 600;
+	private int ticsPerRotation = 354;
 	private double inchesPerRotation = Math.PI * 4;
 	private double startTics = driveTrain.getEncoderTics();
 	private double targetInches;
