@@ -9,7 +9,6 @@ package org.usfirst.frc.team4213.lib14;
 // LeftMotorSpeed = LeftBaseSpeed - MotorSpeed;
 public class PDController {
 
-	private final double maxAdjustment = .4;
 
 	// must experiment to get these right
 	private double Kp = .4;
@@ -30,11 +29,10 @@ public class PDController {
 	}
 
 	public double calculateAdjustment(double currentAngle) {
-		// currentAngle = getGyroAngle();
 		double currentError = calaculateError(setPoint, currentAngle);
 		double motorAdjustment = determineAdjustment(currentError, previousError);
 		previousError = currentError;
-		return maxAdjustment(motorAdjustment);
+		return motorAdjustment;
 	}
 
 	private double calaculateError(double setPoint, double curPosition) {
@@ -45,13 +43,6 @@ public class PDController {
 		return Kp * currentError + Kd * (currentError - previousError);
 	}
 
-	private double maxAdjustment(double speed) {
-		if (Math.abs(speed) > Math.abs(maxAdjustment))
-			if(speed<0)
-				return -maxAdjustment;
-			else
-				return maxAdjustment;
-		return speed;
-	}
+
 
 }

@@ -9,7 +9,7 @@ public class AutoMission1 extends Mission {
 	}
 
 	private void stepOne() {
-		// Drive Straight for 15 fee
+		// Drive Straight for 15 feet
 
 		// if(distanceTraveled < 15 feet) {
 		// double angle = driveTrain.getAngle();

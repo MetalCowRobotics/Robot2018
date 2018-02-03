@@ -27,7 +27,8 @@ public class MasterControls {
 	public double getDriveRightThrottle() {
 		return driver.getRY();
 	}
-
+	
+	//Arcade
 	public boolean isHalfArcadeToggle() {
 		return driver.getAButton();
 	}

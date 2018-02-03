@@ -9,6 +9,7 @@ import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDController;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
@@ -31,9 +32,10 @@ public class DriveTrain {
 	private PDController driveController;
 	private Timer timer = new Timer();
 	private double seconds = 0;
-	private final double baseSpeed = .8;
+	private final double baseSpeed = 0;
 	private double targetAngle = 0;
-	
+	private double currentSpeed = 0;
+
 	private boolean inverted = false;
 
 	protected DriveTrain() {
@@ -59,40 +61,17 @@ public class DriveTrain {
 		}
 	}
 
-	public void autoDrive(double speed, double angle) {
-		if (timer.get() > seconds) {
-			timer.stop();
-			drive.stopMotor();
-		} else {
-			double correction = driveController.calculateAdjustment(getAngle());
-			drive.arcadeDrive(baseSpeed, correction, true);
-			System.out.println("Angle:" + getAngle());
-			System.out.println("Left:" + LEFT_MOTOR.getSpeed());
-			System.out.println("Right:" + RIGHT_MOTOR.getSpeed());
-			System.out.println("correction:" + correction);
-		}
-	}
 
-	public void driveStraightTime(double seconds) {
-		resetGyro();
-		double setPoint = getAngle();
-		driveController = new PDController(setPoint);
-		drive.arcadeDrive(baseSpeed, setPoint, true);
-		this.seconds = seconds;
-		timer.reset();
-		timer.start();
-	}
-	
 	public void invert() {
 		inverted = !inverted;
 	}
 
 	public void calibrateGyro() {
-		DriverStation.reportWarning("Gyro Reading:"+ + GYRO.getAngle(),false);
-				DriverStation.reportWarning("Calibrating gyro... ", false);
+		DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
+		DriverStation.reportWarning("Calibrating gyro... ", false);
 		GYRO.calibrate();
-		DriverStation.reportWarning("... Done! ",false);
-		DriverStation.reportWarning("Gryo Reading: "+ GYRO.getAngle(), false);
+		DriverStation.reportWarning("... Done! ", false);
+		DriverStation.reportWarning("Gryo Reading: " + GYRO.getAngle(), false);
 	}
 
 	public void resetGyro() {
@@ -119,6 +98,49 @@ public class DriveTrain {
 		} else {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
 		}
+	}
+
+	public void tankDrive(double leftSpeed, double rightSpeed) {
+
+	}
+
+	public void arcadeDrive(double speed, double angle) {
+		//if only used in autonomous may not need the throttle
+		drive.arcadeDrive(speed * getThrottle(), angle);
+	}
+
+	public void stop() {
+		LEFT_MOTOR.stopMotor();
+		RIGHT_MOTOR.stopMotor();
+
+	}
+
+	public void setToOpenLoop() {
+
+	}
+
+	public void setToClosedLoop() {
+
+	}
+
+	public double getLeftDistance() {
+		return 0;
+
+	}
+
+	public double getLeftSpeed() {
+		return 0;
+
+	}
+
+	public double getRightDistance() {
+		return 0;
+
+	}
+
+	public double getRightSpeed() {
+		return 0;
+
 	}
 
 }
