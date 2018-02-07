@@ -3,19 +3,17 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.Mission;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveStraight;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
+import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
- * directory.
+ * directory.c
  */
 public class Robot extends IterativeRobot {
 
@@ -37,7 +35,9 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = defaultAuto;
 
-	BuiltInAccelerometer accelerometer;
+	Mission autoMission;
+	DriveStraight driveStraight;
+	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 
@@ -47,14 +47,8 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
-	ADXRS450_Gyro gyroSPI = new ADXRS450_Gyro();
-	//AutonomousDriveTrain autoDriveTrain;
-
-	// Game Variables
-	private String gameData;
-
-	// test variable
-	long lastTime;
+	
+	//temp variables
 	boolean firstTime = true;
 
 	// Get Scale and Switch information
@@ -66,10 +60,8 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
-
 	@Override
 	public void robotInit() {
-		logger.entering(getClass().getName(), "doIt");
 		logger.log(Level.INFO, "Logging Stuff Example");
 
 		// Load available Autonomous missions to the driverstation
@@ -81,7 +73,7 @@ public class Robot extends IterativeRobot {
 		// Initialize Robot
 		// pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
-		accelerometer = new BuiltInAccelerometer();
+
 		// CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
@@ -89,20 +81,11 @@ public class Robot extends IterativeRobot {
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-		//autoDriveTrain = AutonomousDriveTrain.getInstance();
 
-		// Initialize Test Variables
-		lastTime = System.currentTimeMillis();
+		driveTrain.calibrateGyro();
 
-		driverStation = DriverStation.getInstance();
-		// CameraServer.getInstance().startAutomaticCapture();
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 
-		System.out.println("Gyro before: " + gyroSPI.getAngle());
-		gyroSPI.calibrate();
-		System.out.println("Gyro calibrated: " + gyroSPI.getAngle());
-		
-		logger.exiting(getClass().getName(), "doIt");
-		SmartDashboard.putNumber("Kp", .15);
 	}
 
 	/**
@@ -119,20 +102,43 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
+		logger.entering(getClass().getName(), "doIt");
+
+		driveTrain.resetGyro();
+
+		// TODO: Choose autonomous mission here?
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		System.out.println("Auto selected: " + autoSelected);
-
-		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		// switch (autoSelected) {
+		// case "ONE":
+		// // Put custom auto code here
+		// autoMission = new AutoMission1();
+		//
+		// if (firstTime) {
+		// firstTime = false;
+		// System.out.println("customAuto");
+		// }
+		//
+		// break;
+		// case "TWO":
+		// default:
+		// // Put default auto code here
+		//
+		// if (firstTime) {
+		// firstTime = false;
+		// System.out.println("defaultAuto");
+		// }
+		// break;
+		// }
+		//
 
-		System.out.println(driverStation.getGameSpecificMessage());
-
-
-		System.out.println("Gyro Before Reset: " + gyroSPI.getAngle());
-		gyroSPI.reset();
-		System.out.println("Gryo Reseted: " + gyroSPI.getAngle());
-		
 		System.out.println("Autonomous Init - Exit!");
+		logger.exiting(getClass().getName(), "doIt");
+		firstTime=true;
+		driveStraight = new DriveStraight(3);
+		turnDegrees = new TurnDegrees(90);
 	}
 
 	/**
@@ -140,36 +146,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
-		//gameData = getGameSpecificMessage();
-		double angle = gyroSPI.getAngle();
-		//double Kp = 0.15;
-		
-		double Kp = SmartDashboard.getNumber("Kp", .15);
-		System.out.println("Drive angle: " +  (angle) );
-		driveTrain.autoDrive(0, -angle* Kp);
-
-//		switch (autoSelected) {
-//		case "ONE":
-//			// Put custom auto code here
-//
-//			if (firstTime) {
-//				firstTime = false;
-//				System.out.println("customAuto");
-//			}
-//
-//			break;
-//		case "TWO":
-//		default:
-//			// Put default auto code here
-//
-//			if (firstTime) {
-//				firstTime = false;
-//				System.out.println("defaultAuto");
-//			}
-//			break;
+		//System.out.println("Autonomous Periodic!");
+		// TODO: autoMission.execute();
+//		if(firstTime) {
+//			//driveTrain.driveStraightTime(2);
+//			driveTrain.turnDegrees(90);
+//			firstTime = false;
+//			
 //		}
-//		
+		//driveTrain.autoDrive(0, 0);
+		if (!driveStraight.isFinished()) {
+			driveStraight.run();
+		} else if (!turnDegrees.isFinished()) {
+			turnDegrees.run();
+		}
 	}
 
 	/**
@@ -185,12 +175,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
 		driveTrain.drive();
 		elevator.execute();
 		intake.execute();
 		climber.execute();
-
 	}
 
 	/**
@@ -207,27 +195,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 
-	}
-
-	private Hand getNearSwitch() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
-	}
-
-	private Hand getScale() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
-	}
-
-	private Hand getFarSwitch() {
-		if (driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L') {
-			return Hand.kLeft;
-		}
-		return Hand.kRight;
 	}
 
 }
