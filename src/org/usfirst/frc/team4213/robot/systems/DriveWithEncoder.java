@@ -35,6 +35,7 @@ public class DriveWithEncoder extends AutoDrive {
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+				System.out.println("angle: " + driveTrain.getAngle());
 			}
 			break;
 		case DONE:

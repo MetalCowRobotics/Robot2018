@@ -138,13 +138,13 @@ public class Robot extends IterativeRobot {
 		// break;
 		// }
 		//
-		autoMission = new AutoMission1();
+		//autoMission = new AutoMission1();
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
-//		driveStraight = new DriveToWall(3);
-//		turnDegrees = new TurnDegrees(90);
-//		driveWithEncoder = new DriveWithEncoder(72);
+		driveStraight = new DriveToWall(3);
+		turnDegrees = new TurnDegrees(90);
+		driveWithEncoder = new DriveWithEncoder(72);
 	}
 
 	/**
@@ -153,15 +153,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		System.out.println("Autonomous Periodic!");
-		autoMission.execute();
-//		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
-//		if (!driveWithEncoder.isFinished()) {
-//			driveWithEncoder.run();
-//		} else if (!turnDegrees.isFinished()) {
-//			turnDegrees.run();
-//		} else if (!driveStraight.isFinished()) {
-//			driveStraight.run();
-//		}
+//		autoMission.execute();
+		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
+		if (!driveWithEncoder.isFinished()) {
+			driveWithEncoder.run();
+		} else if (!turnDegrees.isFinished()) {
+			turnDegrees.run();
+		} else if (!driveStraight.isFinished()) {
+			driveStraight.run();
+		}
 	}
 
 	/**

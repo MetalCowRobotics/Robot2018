@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4213.autonomous;
 
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
-import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
+import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 
 public class AutoMission1 extends Mission {
 	private enum MissionStates {
@@ -17,8 +17,7 @@ public class AutoMission1 extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			// driveStep = new DriveToWall(6);
-			driveStep = new DriveStraightTime(3);
+			driveStep = new DriveToWall(6);
 			intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
 			curState = MissionStates.driving;

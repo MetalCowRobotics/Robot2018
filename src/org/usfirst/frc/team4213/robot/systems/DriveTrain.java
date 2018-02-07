@@ -42,7 +42,7 @@ public class DriveTrain {
 	private MaxBotixRangeFinder wallSensor = new MaxBotixRangeFinder(RobotMap.Drivetrain.RANGE_FINDER);
 
 	public double wallSensorInches() {
-		return wallSensor.getDistanceInches() ;//- 11.4;
+		return wallSensor.getDistanceInches() - 11.4;
 	}
 	
 
