@@ -1,19 +1,20 @@
 package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
-import org.usfirst.frc.team4213.lib14.UtilityMethods;
+
+import edu.wpi.first.wpilibj.Timer;
 
 
-public class TurnDegrees extends AutoDrive {
-	private double baseSpeed = 0;
-	private double degrees;
-	private final double maxAdjustment = .5;
-	private final double variance = .25;
+public class DriveStraightTime extends AutoDrive {
+	private Timer timer = new Timer();
+	private double seconds = 0;
+	private double baseSpeed = .8;
+	private final double maxAdjustment = .4;
 
 	
-	public TurnDegrees(double degrees) {
+	public DriveStraightTime(double seconds) {
 		super();
-		this.degrees = degrees;
+		this.seconds = seconds;
 	}
 
 	public void run() {
@@ -21,13 +22,15 @@ public class TurnDegrees extends AutoDrive {
 		case IDLE:
 			driveTrain.resetGyro();
 			double setPoint = driveTrain.getAngle();
-			driveController = new PDController(setPoint + degrees);
-			driveTrain.arcadeDrive(baseSpeed, driveController.calculateAdjustment(setPoint));
+			driveController = new PDController(setPoint);
+			driveTrain.arcadeDrive(baseSpeed, setPoint);
+			timer.reset();
+			timer.start();
 			currentState = State.ACTIVE;
 			break;
 		case ACTIVE:
-			double currentAngle = driveTrain.getAngle();
-			if (UtilityMethods.between(currentAngle, degrees - variance, degrees + variance)) {
+			if (timer.get() > seconds) {
+				timer.stop();
 				driveTrain.stop();
 				currentState = State.DONE;
 			} else {
@@ -40,6 +43,6 @@ public class TurnDegrees extends AutoDrive {
 		case DONE:
 			break;
 		}
-
 	}
+
 }

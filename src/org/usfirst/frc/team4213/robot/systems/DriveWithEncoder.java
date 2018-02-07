@@ -2,20 +2,19 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
 
-import edu.wpi.first.wpilibj.Timer;
-
-
-public class DriveStraight extends AutoDrive {
-	private Timer timer = new Timer();
-	private double seconds = 0;
-	private PDController driveController;
+public class DriveWithEncoder extends AutoDrive {
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
+	private int ticsPerRotation = 354;
+	private double inchesPerRotation = Math.PI * 4;
+	private double startTics = driveTrain.getEncoderTics();
+	private double targetInches;
+	private double targetTics;
 
-	
-	public DriveStraight(double seconds) {
+	public DriveWithEncoder(double targetInches) {
 		super();
-		this.seconds = seconds;
+		this.targetInches = targetInches;
+		targetTics = targetInches / inchesPerRotation * ticsPerRotation;
 	}
 
 	public void run() {
@@ -25,32 +24,23 @@ public class DriveStraight extends AutoDrive {
 			double setPoint = driveTrain.getAngle();
 			driveController = new PDController(setPoint);
 			driveTrain.arcadeDrive(baseSpeed, setPoint);
-			timer.reset();
-			timer.start();
 			currentState = State.ACTIVE;
 			break;
 		case ACTIVE:
-			if (timer.get() > seconds) {
-				timer.stop();
+			double pastTics = driveTrain.getEncoderTics() - startTics;
+			System.out.println("pastTics:" + pastTics);
+			if (targetTics < pastTics) {
 				driveTrain.stop();
 				currentState = State.DONE;
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
-				System.out.println("Angle:" + driveTrain.getAngle());
-				System.out.println("correction:" + correction);
+				System.out.println("angle: " + driveTrain.getAngle());
 			}
 			break;
 		case DONE:
 			break;
 		}
 	}
-
-
-
-	
-
-	
-	
 
 }

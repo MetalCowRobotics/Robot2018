@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-public class AutoDrive {
+import org.usfirst.frc.team4213.lib14.PDController;
+
+public abstract class AutoDrive {
 	protected DriveTrain driveTrain = DriveTrain.getInstance();
 
 	protected enum State {
@@ -8,6 +10,7 @@ public class AutoDrive {
 	};
 
 	protected State currentState = State.IDLE;
+	protected PDController driveController;
 
 	protected double limitCorrection(double correction, double maxAdjustment) {
 		if (Math.abs(correction) > Math.abs(maxAdjustment))
@@ -22,4 +25,6 @@ public class AutoDrive {
 		return State.DONE == currentState;
 
 	}
+	
+	public abstract void run();
 }

@@ -12,4 +12,8 @@ public class UtilityMethods {
 	public static boolean between(double value, double lower, double upper) {
 		return value >= lower && value <= upper;
 	}
+	
+	public static double round(double number, int precision) {
+		return (double) Math.round(number * precision) / precision;
+	}
 }
