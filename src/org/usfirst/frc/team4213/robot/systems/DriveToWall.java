@@ -2,36 +2,29 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
 
-import edu.wpi.first.wpilibj.Timer;
-
-
-public class DriveStraight extends AutoDrive {
-	private Timer timer = new Timer();
-	private double seconds = 0;
-	private PDController driveController;
+public class DriveToWall extends AutoDrive {
+	
+	private double howClose = 0;
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
 
-	
-	public DriveStraight(double seconds) {
+	public DriveToWall(double howClose) {
 		super();
-		this.seconds = seconds;
+		this.howClose = howClose;
 	}
 
 	public void run() {
+		System.out.println("Distance:" + driveTrain.wallSensorInches());
 		switch (currentState) {
 		case IDLE:
 			driveTrain.resetGyro();
 			double setPoint = driveTrain.getAngle();
 			driveController = new PDController(setPoint);
 			driveTrain.arcadeDrive(baseSpeed, setPoint);
-			timer.reset();
-			timer.start();
 			currentState = State.ACTIVE;
 			break;
 		case ACTIVE:
-			if (timer.get() > seconds) {
-				timer.stop();
+			if (howClose > driveTrain.wallSensorInches()) {
 				driveTrain.stop();
 				currentState = State.DONE;
 			} else {
@@ -45,12 +38,4 @@ public class DriveStraight extends AutoDrive {
 			break;
 		}
 	}
-
-
-
-	
-
-	
-	
-
 }

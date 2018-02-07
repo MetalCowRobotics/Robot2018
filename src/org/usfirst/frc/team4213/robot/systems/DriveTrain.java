@@ -2,28 +2,32 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
+	
 
 	private MasterControls controller = MasterControls.getInstance();
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
+	private Encoder rightEncoder = new Encoder (4, 5, false, CounterBase.EncodingType.k4X);
+	private Encoder leftEncoder = new Encoder (2, 3, true, CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
@@ -35,6 +39,13 @@ public class DriveTrain {
 	private final double baseSpeed = 0;
 	private double targetAngle = 0;
 	private double currentSpeed = 0;
+	private MaxBotixRangeFinder wallSensor = new MaxBotixRangeFinder(RobotMap.Drivetrain.RANGE_FINDER);
+
+	public double wallSensorInches() {
+		return wallSensor.getDistanceInches() ;//- 11.4;
+	}
+	
+
 
 	private boolean inverted = false;
 
@@ -60,7 +71,6 @@ public class DriveTrain {
 			drive.tankDrive(leftSpeed, rightSpeed, true);
 		}
 	}
-
 
 	public void invert() {
 		inverted = !inverted;
@@ -99,19 +109,38 @@ public class DriveTrain {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
 		}
 	}
+	
+	public Encoder getRightEncoder() {
+		return rightEncoder;
+	}
 
+	public void printRightEncoder () {
+		System.out.println("rightEncoder:" + rightEncoder.getDistance());
+	}
+	
+	public Encoder getLeftEncoder() {
+		return leftEncoder;
+	}
+	
+	public void printLeftEncoder () {
+		System.out.println("leftEncoder:" + leftEncoder.getDistance());
+	}
+	
+	public double encoderDifference () {
+		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
+	}
+	
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 
 	}
 
 	public void arcadeDrive(double speed, double angle) {
-		//if only used in autonomous may not need the throttle
+		// if only used in autonomous may not need the throttle
 		drive.arcadeDrive(speed * getThrottle(), angle);
 	}
 
 	public void stop() {
-		LEFT_MOTOR.stopMotor();
-		RIGHT_MOTOR.stopMotor();
+		drive.stopMotor();
 
 	}
 
@@ -142,5 +171,7 @@ public class DriveTrain {
 		return 0;
 
 	}
-
+	public double getEncoderTics() {
+		return (rightEncoder.getDistance() + leftEncoder.getDistance())/2;
+	}
 }

@@ -6,8 +6,10 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.autonomous.Mission;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
-import org.usfirst.frc.team4213.robot.systems.DriveStraight;
+import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
+import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
@@ -36,10 +38,11 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	Mission autoMission;
-	DriveStraight driveStraight;
+	DriveToWall driveStraight;
 	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
+	DriveWithEncoder driveWithEncoder;
 
 	// Systems
 	DriveTrain driveTrain;
@@ -47,8 +50,8 @@ public class Robot extends IterativeRobot {
 	Elevator elevator;
 	Climber climber;
 	DifferentialDrive autoDrive;
-	
-	//temp variables
+
+	// temp variables
 	boolean firstTime = true;
 
 	// Get Scale and Switch information
@@ -136,9 +139,10 @@ public class Robot extends IterativeRobot {
 
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
-		firstTime=true;
-		driveStraight = new DriveStraight(3);
+		firstTime = true;
+		driveStraight = new DriveToWall(3);
 		turnDegrees = new TurnDegrees(90);
+		driveWithEncoder = new DriveWithEncoder(72);
 	}
 
 	/**
@@ -146,20 +150,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		//System.out.println("Autonomous Periodic!");
+		// System.out.println("Autonomous Periodic!");
 		// TODO: autoMission.execute();
-//		if(firstTime) {
-//			//driveTrain.driveStraightTime(2);
-//			driveTrain.turnDegrees(90);
-//			firstTime = false;
-//			
+		// if(firstTime) {
+		// //driveTrain.driveStraightTime(2);
+		// driveTrain.turnDegrees(90);
+		// firstTime = false;
+		//
+		// }
+		// driveTrain.autoDrive(0, 0);
+		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
+//		if (!driveWithEncoder.isFinished()) {
+//			driveWithEncoder.run();
+//		} else if (!turnDegrees.isFinished()) {
+//			turnDegrees.run();
+//		} else if (!driveStraight.isFinished()) {
+//			driveStraight.run();
 //		}
-		//driveTrain.autoDrive(0, 0);
-		if (!driveStraight.isFinished()) {
-			driveStraight.run();
-		} else if (!turnDegrees.isFinished()) {
-			turnDegrees.run();
-		}
 	}
 
 	/**
@@ -186,6 +193,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
+		// DriveTrain.printRightEncoder();
+		// DriveTrain.printLeftEncoder;
+		driveWithEncoder = new DriveWithEncoder(10);
 
 	}
 
@@ -194,6 +204,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		if (!driveWithEncoder.isFinished()) {
+			driveWithEncoder.run();
+		}
 
 	}
 
