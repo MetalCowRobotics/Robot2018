@@ -28,6 +28,7 @@ public class RobotMap {
 		public static final int LIMIT_SWITCH_UP = 0; //DIO
 		public static final int LIMIT_SWITCH_DOWN = 1; //DIO
 		public static final int RANGE_FINDER = 0; //Analog Input/Output
+		public static final double AUTO_EJECT_SECONDS = 2.0;
 	}
 
 	public final class Elevator {

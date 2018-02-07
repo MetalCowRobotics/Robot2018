@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4213.autonomous;
 
-import org.usfirst.frc.team4213.robot.systems.DriveToWall;
+import org.usfirst.frc.team4213.robot.systems.AutoDrive;
+import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 
 public class AutoMission1 extends Mission {
 	private enum MissionStates {
@@ -9,15 +10,16 @@ public class AutoMission1 extends Mission {
 
 	private MissionStates curState = MissionStates.waiting;
 
-	private DriveToWall driveStep;
+	private AutoDrive driveStep;
 
 	// The Go Straight For X Feet Mission
 
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			driveStep = new DriveToWall(6);
-			// intake.deploy();
+			// driveStep = new DriveToWall(6);
+			driveStep = new DriveStraightTime(3);
+			intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
 			curState = MissionStates.driving;
 			break;
@@ -37,15 +39,20 @@ public class AutoMission1 extends Mission {
 		case deployed:
 			if (onMySide()) {
 				// intake.autoEjectPowerCube();
+				System.out.println("ejecting");
+				intake.autoEject();
+				// intake.autoIntake();
 				curState = MissionStates.ejecting;
 			} else {
 				curState = MissionStates.done;
 			}
 			break;
 		case ejecting:
-			// if (AutoCubeStates.ejected == intake.autoCubeState()) {
-			curState = MissionStates.ejected;
-			// }
+			System.out.println("checking eject time");
+			intake.execute();
+			if (!intake.isIntakeRunning()) {
+				curState = MissionStates.ejected;
+			}
 			break;
 		case ejected:
 			// could do a secondary mission
