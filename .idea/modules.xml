@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Robot2018.iml" filepath="$PROJECT_DIR$/Robot2018.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simulation/adx_gyro_accelerometer/adx_gyro_accelerometer.iml" filepath="$PROJECT_DIR$/.idea/modules/simulation/adx_gyro_accelerometer/adx_gyro_accelerometer.iml" group="simulation/adx_gyro_accelerometer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/allwpilib.iml" filepath="$PROJECT_DIR$/.idea/modules/allwpilib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gmock/gmock.iml" filepath="$PROJECT_DIR$/.idea/modules/gmock/gmock.iml" group="gmock" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hal/hal.iml" filepath="$PROJECT_DIR$/.idea/modules/hal/hal.iml" group="hal" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simulation/halsim_ds_nt/halsim_ds_nt.iml" filepath="$PROJECT_DIR$/.idea/modules/simulation/halsim_ds_nt/halsim_ds_nt.iml" group="simulation/halsim_ds_nt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simulation/halsim_lowfi/halsim_lowfi.iml" filepath="$PROJECT_DIR$/.idea/modules/simulation/halsim_lowfi/halsim_lowfi.iml" group="simulation/halsim_lowfi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simulation/halsim_print/halsim_print.iml" filepath="$PROJECT_DIR$/.idea/modules/simulation/halsim_print/halsim_print.iml" group="simulation/halsim_print" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/myRobot/myRobot.iml" filepath="$PROJECT_DIR$/.idea/modules/myRobot/myRobot.iml" group="myRobot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/myRobot/myRobot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/myRobot/myRobot_main.iml" group="myRobot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/myRobot/myRobot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/myRobot/myRobot_test.iml" group="myRobot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ni-libraries/ni-libraries.iml" filepath="$PROJECT_DIR$/.idea/modules/ni-libraries/ni-libraries.iml" group="ni-libraries" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simulation/simulation.iml" filepath="$PROJECT_DIR$/.idea/modules/simulation/simulation.iml" group="simulation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibc/wpilibc.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibc/wpilibc.iml" group="wpilibc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibcExamples/wpilibcExamples.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibcExamples/wpilibcExamples.iml" group="wpilibcExamples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibcIntegrationTests/wpilibcIntegrationTests.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibcIntegrationTests/wpilibcIntegrationTests.iml" group="wpilibcIntegrationTests" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj.iml" group="wpilibj" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples.iml" group="wpilibjExamples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples_main.iml" group="wpilibjExamples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjExamples/wpilibjExamples_test.iml" group="wpilibjExamples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests.iml" group="wpilibjIntegrationTests" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests_main.iml" group="wpilibjIntegrationTests" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibjIntegrationTests/wpilibjIntegrationTests_test.iml" group="wpilibjIntegrationTests" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_dev.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_dev.iml" group="wpilibj" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_main.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_main.iml" group="wpilibj" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_test.iml" filepath="$PROJECT_DIR$/.idea/modules/wpilibj/wpilibj_test.iml" group="wpilibj" />
+    </modules>
+  </component>
+</project>

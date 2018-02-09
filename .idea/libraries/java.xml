@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="java">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../allwpilib/myRobot/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../allwpilib/wpilibjExamples/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../allwpilib/wpilibjIntegrationTests/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../allwpilib/wpilibj/src/dev/java" />
+      <root url="file://$PROJECT_DIR$/../allwpilib/wpilibj/src/main/java" />
+      <root url="file://$PROJECT_DIR$/../allwpilib/wpilibj/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

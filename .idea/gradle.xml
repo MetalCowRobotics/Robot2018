@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/../allwpilib" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/../allwpilib" />
+            <option value="$PROJECT_DIR$/../allwpilib/gmock" />
+            <option value="$PROJECT_DIR$/../allwpilib/hal" />
+            <option value="$PROJECT_DIR$/../allwpilib/myRobot" />
+            <option value="$PROJECT_DIR$/../allwpilib/ni-libraries" />
+            <option value="$PROJECT_DIR$/../allwpilib/simulation" />
+            <option value="$PROJECT_DIR$/../allwpilib/simulation/adx_gyro_accelerometer" />
+            <option value="$PROJECT_DIR$/../allwpilib/simulation/halsim_ds_nt" />
+            <option value="$PROJECT_DIR$/../allwpilib/simulation/halsim_lowfi" />
+            <option value="$PROJECT_DIR$/../allwpilib/simulation/halsim_print" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibc" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibcExamples" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibcIntegrationTests" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibj" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibjExamples" />
+            <option value="$PROJECT_DIR$/../allwpilib/wpilibjIntegrationTests" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
