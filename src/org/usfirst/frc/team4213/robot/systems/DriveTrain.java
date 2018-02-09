@@ -108,7 +108,7 @@ public class DriveTrain {
 	}
 
 	public Encoder getRightEncoder() {
-		if (34 == seconds) {
+		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
 			seconds = seconds + 3.5;
 			return rightEncoder;
 		}
