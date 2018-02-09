@@ -253,5 +253,8 @@
         <module name="ConstantName">
                 <property name="format" value="^log(ger)?|[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
         </module>
+        <module name="MethodLength">
+                <property name="max" value="10"/>
+        </module>
     </module>
 </module>
