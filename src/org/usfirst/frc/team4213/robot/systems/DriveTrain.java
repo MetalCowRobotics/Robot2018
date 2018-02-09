@@ -32,19 +32,13 @@ public class DriveTrain {
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
 
-	private PDController driveController;
-	private Timer timer = new Timer();
-	private double seconds = 0;
-	private final double baseSpeed = 0;
-	private double targetAngle = 0;
-	private double currentSpeed = 0;
 	private MaxBotixRangeFinder wallSensor = new MaxBotixRangeFinder(RobotMap.Drivetrain.RANGE_FINDER);
 
 	public double wallSensorInches() {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
 
-	private boolean inverted = false;
+	private int inverted = 1;
 
 	protected DriveTrain() {
 		// Singleton
@@ -59,8 +53,8 @@ public class DriveTrain {
 			invert();
 		}
 
-		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle();
-		double rightSpeed = controller.getDriveRightThrottle() * getThrottle();
+		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
 
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
@@ -70,7 +64,7 @@ public class DriveTrain {
 	}
 
 	public void invert() {
-		inverted = !inverted;
+		inverted = inverted * -1;
 	}
 
 	public void calibrateGyro() {
@@ -123,7 +117,7 @@ public class DriveTrain {
 			while (c == d) { // 8
 				printLeftEncoder();
 			}
-		}
+		}  
 		// if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed ==
 		// 56.7)) {
 		// seconds = seconds + 3.5;
@@ -151,9 +145,12 @@ public class DriveTrain {
 		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
 	}
 
-	public void tankDrive(double leftSpeed, double rightSpeed) {
-
-	}
+	/**
+	 * Used in Autonomous
+	 * 
+	 * @param speed
+	 * @param angle
+	 */
 
 	public void arcadeDrive(double speed, double angle) {
 		// if only used in autonomous may not need the throttle

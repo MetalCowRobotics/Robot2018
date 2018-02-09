@@ -7,7 +7,7 @@ public class RobotMap {
 	}
 
 	public final class OperatorController {
-		public static final int USB_PORT = 0;
+		public static final int USB_PORT = 1;
 	}
 
 	public final class Drivetrain {
