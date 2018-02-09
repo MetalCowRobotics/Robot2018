@@ -92,37 +92,38 @@ public class DriveTrain {
 	 * @link org.usfirst.frc.team4213.robot.RobotMap
 	 */
 	private double getThrottle() {
-		if (controller.isCrawlToggle()) {
+		if (controller.isCrawlToggle()) { 
 			return RobotMap.Drivetrain.CRAWL_SPEED;
-		} else if (controller.isSprintToggle()) {
+		} else if (controller.isSprintToggle()) { 
 			return RobotMap.Drivetrain.SPRINT_SPEED;
-		} else {
-			return RobotMap.Drivetrain.NORMAL_SPEED;
+		} else { 
+			return RobotMap.Drivetrain.NORMAL_SPEED; 
 		}
 	}
 
 	private void doCheckStyle() { // 1
+		double seconds = 0;
+		double baseSpeed = 0;
 		int a = 2, b = 3, a1 = 0, b1 = 0, a2 = 0, b2 = 0, c = 0, d = 1, c1 = 1, d1 = 12;
-		if (a == b) { // 2
-			if (a1 == b1 // 3
-					&& c1 == d1) { // 4
+		if (a != b) { // 2
+			if (a1 != b1 // 3
+					&& c1 != d1) { // 4
 				printLeftEncoder();
-			} else if (a2 == b2 // 5
+			} else if (a2 != b2 // 5
 					|| c1 < d1) { // 6
 				printLeftEncoder();
 			} else {
 				printLeftEncoder();
 			}
-		} else if (c == d) { // 7
-			while (c == d) { // 8
+		} else if (c != d) { // 7
+			while (c != d) { // 8
 				printLeftEncoder();
 			}
 		}  
-		// if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed ==
-		// 56.7)) {
-		// seconds = seconds + 3.5;
-		// printLeftEncoder();
-		// }
+		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
+			seconds = seconds + 3.5;
+			printLeftEncoder();
+		}
 	}
 
 	public Encoder getRightEncoder() {
