@@ -40,16 +40,12 @@
             <property name="max" value="100"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
-        <module name="ExecutableStatementCount">
-                <property name="max" value="20"/>
-                <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
-        </module>
         <module name="MethodLength">
                 <property name="tokens" value="METHOD_DEF"/>
-                <property name="max" value="60"/>
+                <property name="max" value="40"/>
         </module>
         <module name="FileLength">
-                <property name="max" value="1500"/>
+                <property name="max" value="250"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
