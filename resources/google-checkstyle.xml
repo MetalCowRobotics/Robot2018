@@ -240,5 +240,18 @@
                 <property name="ignoreFieldDeclaration" value="true"/>
         </module>
         <module name="MultipleStringLiterals"/>
+        <module name="ConstantName">
+                <property name="format" value="^log(ger)?|[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+        </module>
+        <module name="BooleanExpressionComplexity">
+                <property name="max" value="7"/>
+        </module>  
+        <module name="CyclomaticComplexity">
+                <property name="max" value="15"/>
+        </module>
+        <module name="NestedIfDepth">
+                <property name="max" value="3"/>
+        </module>
+        <module name="SimplifyBooleanExpression"/>
     </module>
 </module>
