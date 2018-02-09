@@ -92,12 +92,12 @@ public class DriveTrain {
 	 * @link org.usfirst.frc.team4213.robot.RobotMap
 	 */
 	private double getThrottle() {
-		if (controller.isCrawlToggle()) {
-			return RobotMap.Drivetrain.CRAWL_SPEED; //
-		} else if (controller.isSprintToggle()) {
-			return RobotMap.Drivetrain.SPRINT_SPEED; //
-		} else {
-			return RobotMap.Drivetrain.NORMAL_SPEED; //
+		if (controller.isCrawlToggle()) { //
+			return RobotMap.Drivetrain.CRAWL_SPEED;
+		} else if (controller.isSprintToggle()) { //
+			return RobotMap.Drivetrain.SPRINT_SPEED;
+		} else { //
+			return RobotMap.Drivetrain.NORMAL_SPEED; 
 		}
 	}
 
