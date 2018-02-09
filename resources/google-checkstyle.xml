@@ -44,9 +44,6 @@
                 <property name="tokens" value="METHOD_DEF"/>
                 <property name="max" value="40"/>
         </module>
-        <module name="FileLength">
-                <property name="max" value="250"/>
-        </module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
