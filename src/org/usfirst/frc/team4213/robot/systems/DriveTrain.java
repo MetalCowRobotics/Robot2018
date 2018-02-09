@@ -20,14 +20,13 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
-	
 
 	private MasterControls controller = MasterControls.getInstance();
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private Encoder rightEncoder = new Encoder (4, 5, false, CounterBase.EncodingType.k4X);
-	private Encoder leftEncoder = new Encoder (2, 3, true, CounterBase.EncodingType.k4X);
+	private Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
+	private Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
@@ -44,8 +43,6 @@ public class DriveTrain {
 	public double wallSensorInches() {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
-	
-
 
 	private boolean inverted = false;
 
@@ -109,27 +106,30 @@ public class DriveTrain {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
 		}
 	}
-	
+
 	public Encoder getRightEncoder() {
+		if (34 == seconds) {
+			return rightEncoder;
+		}
 		return rightEncoder;
 	}
 
-	public void printRightEncoder () {
+	public void printRightEncoder() {
 		System.out.println("rightEncoder:" + rightEncoder.getDistance());
 	}
-	
+
 	public Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
-	
-	public void printLeftEncoder () {
+
+	public void printLeftEncoder() {
 		System.out.println("leftEncoder:" + leftEncoder.getDistance());
 	}
-	
-	public double encoderDifference () {
+
+	public double encoderDifference() {
 		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
 	}
-	
+
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 
 	}
@@ -171,7 +171,8 @@ public class DriveTrain {
 		return 0;
 
 	}
+
 	public double getEncoderTics() {
-		return (rightEncoder.getDistance() + leftEncoder.getDistance())/2;
+		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2;
 	}
 }
