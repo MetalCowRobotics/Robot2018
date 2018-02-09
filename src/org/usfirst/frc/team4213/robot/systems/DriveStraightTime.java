@@ -4,14 +4,12 @@ import org.usfirst.frc.team4213.lib14.PDController;
 
 import edu.wpi.first.wpilibj.Timer;
 
-
 public class DriveStraightTime extends AutoDrive {
 	private Timer timer = new Timer();
 	private double seconds = 0;
 	private double baseSpeed = .8;
 	private final double maxAdjustment = .4;
 
-	
 	public DriveStraightTime(double seconds) {
 		super();
 		this.seconds = seconds;

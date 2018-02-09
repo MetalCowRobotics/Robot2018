@@ -4,13 +4,12 @@ import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 
 public class AutoMission2 extends Mission {
-	
+
 	private enum MissionStates {
 		waiting, driving, arrived, deploying, deployed, ejecting, ejected, done
-		
-		
+
 		// deploys to scale on right side
-		
+
 	}
 
 	private MissionStates curState = MissionStates.waiting;

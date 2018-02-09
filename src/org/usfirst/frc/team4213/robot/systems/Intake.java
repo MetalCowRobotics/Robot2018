@@ -16,8 +16,8 @@ public class Intake {
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	// private static final Elevator elevator = Elevator.getInstance();
-	
-	//TODO static or not static?
+
+	// TODO static or not static?
 	private static final Talon LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
@@ -27,8 +27,9 @@ public class Intake {
 	private enum IntakeState {
 		OFF, IN, OUT
 	}
+
 	private IntakeState currentIntakeState = IntakeState.OFF; // start state is off
-	
+
 	private Timer timer = new Timer();
 	private boolean autoIntake = false;
 	private boolean autoEject = false;
@@ -111,9 +112,9 @@ public class Intake {
 	}
 
 	public void deploy() {
-		//TODO deploy intake
+		// TODO deploy intake
 	}
-	
+
 	private boolean isIntakeUp() {
 		return upSensor.get();
 	}

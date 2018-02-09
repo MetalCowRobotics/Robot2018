@@ -107,7 +107,6 @@ public class Robot extends IterativeRobot {
 		logger.entering(getClass().getName(), "doIt");
 
 		driveTrain.resetGyro();
-		
 
 		// TODO: Choose autonomous mission here?
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
@@ -136,7 +135,7 @@ public class Robot extends IterativeRobot {
 		// break;
 		// }
 		//
-		//autoMission = new AutoMission1();
+		// autoMission = new AutoMission1();
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
@@ -151,7 +150,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		System.out.println("Autonomous Periodic!");
-//		autoMission.execute();
+		// autoMission.execute();
 		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
 		if (!driveWithEncoder.isFinished()) {
 			driveWithEncoder.run();

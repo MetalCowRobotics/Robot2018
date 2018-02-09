@@ -27,8 +27,8 @@ public class MasterControls {
 	public double getDriveRightThrottle() {
 		return driver.getRY();
 	}
-	
-	//Arcade
+
+	// Arcade
 	public boolean isHalfArcadeToggle() {
 		return driver.getAButton();
 	}
@@ -52,11 +52,11 @@ public class MasterControls {
 	public boolean isCubeEject() {
 		return operator.getLB();
 	}
-	
+
 	public boolean isElevatorUp() {
 		return operator.getYButton();
 	}
-	
+
 	public boolean isElevatorDown() {
 		return operator.getXButton();
 	}
