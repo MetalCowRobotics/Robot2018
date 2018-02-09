@@ -107,11 +107,30 @@ public class DriveTrain {
 		}
 	}
 
-	public Encoder getRightEncoder() {
+	private void doCheckStyle() { // 1
+		int a = 2, b = 3, a1 = 0, b1 = 0, a2 = 0, b2=0, c=0, d=1, c1=1, d1 = 12;
+		if (a == b) { // 2
+			if (a1 == b1 // 3
+					&& c1 == d1) { // 4
+				printLeftEncoder();
+			} else if (a2 == b2 // 5
+					|| c1 < d1) { // 6
+				printLeftEncoder();
+			} else {
+				printLeftEncoder();
+			}
+		} else if (c == d) { // 7
+			while (c == d) { // 8
+				printLeftEncoder();
+			}
+		}  
 		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
 			seconds = seconds + 3.5;
-			return rightEncoder;
+			printLeftEncoder();
 		}
+	}
+
+	public Encoder getRightEncoder() {
 		return rightEncoder;
 	}
 
