@@ -31,6 +31,16 @@
             <property name="format" value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
             <property name="message" value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
         </module>
+        <module name="BooleanExpressionComplexity">
+                <property name="max" value="2"/>
+        </module>  
+        <module name="CyclomaticComplexity">
+                <property name="max" value="5"/>
+        </module>
+        <module name="NestedIfDepth">
+                <property name="max" value="1"/>
+        </module>
+        <module name="SimplifyBooleanExpression"/>        
         <module name="AvoidEscapedUnicodeCharacters">
             <property name="allowEscapesForControlCharacters" value="true"/>
             <property name="allowByTailComment" value="true"/>
@@ -243,15 +253,5 @@
         <module name="ConstantName">
                 <property name="format" value="^log(ger)?|[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
         </module>
-        <module name="BooleanExpressionComplexity">
-                <property name="max" value="3"/>
-        </module>  
-        <module name="CyclomaticComplexity">
-                <property name="max" value="5"/>
-        </module>
-        <module name="NestedIfDepth">
-                <property name="max" value="1"/>
-        </module>
-        <module name="SimplifyBooleanExpression"/>
     </module>
 </module>
