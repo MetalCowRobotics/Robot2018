@@ -31,12 +31,12 @@ public abstract class Mission {
 	private Hand getFarSwitch() {
 		return driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
-	
+
 	protected boolean onMySide() {
-		//TODO add logic to get SmartDashboard starting position
+		// TODO add logic to get SmartDashboard starting position
 		return true;
 	}
-	
+
 	public abstract void execute();
 
 }

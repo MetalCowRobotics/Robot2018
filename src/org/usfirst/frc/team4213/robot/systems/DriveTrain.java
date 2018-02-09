@@ -25,8 +25,8 @@ public class DriveTrain {
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
-	private Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
+	private static final Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
@@ -107,10 +107,30 @@ public class DriveTrain {
 		}
 	}
 
-	public Encoder getRightEncoder() {
-		if (34 == seconds) {
-			return rightEncoder;
+	private void doCheckStyle() { // 1
+		int a = 2, b = 3, a1 = 0, b1 = 0, a2 = 0, b2=0, c=0, d=1, c1=1, d1 = 12;
+		if (a == b) { // 2
+			if (a1 == b1 // 3
+					&& c1 == d1) { // 4
+				printLeftEncoder();
+			} else if (a2 == b2 // 5
+					|| c1 < d1) { // 6
+				printLeftEncoder();
+			} else {
+				printLeftEncoder();
+			}
+		} else if (c == d) { // 7
+			while (c == d) { // 8
+				printLeftEncoder();
+			}
+		}  
+		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
+			seconds = seconds + 3.5;
+			printLeftEncoder();
 		}
+	}
+
+	public Encoder getRightEncoder() {
 		return rightEncoder;
 	}
 

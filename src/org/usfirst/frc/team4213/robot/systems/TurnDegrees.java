@@ -3,14 +3,12 @@ package org.usfirst.frc.team4213.robot.systems;
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.lib14.UtilityMethods;
 
-
 public class TurnDegrees extends AutoDrive {
 	private double baseSpeed = 0;
 	private double degrees;
 	private final double maxAdjustment = .5;
 	private final double variance = .25;
 
-	
 	public TurnDegrees(double degrees) {
 		super();
 		this.degrees = degrees;
