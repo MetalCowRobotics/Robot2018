@@ -3,9 +3,13 @@ package org.usfirst.frc.team4213.autonomous;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 
-public class AutoMission1 extends Mission {
+public class AutoMission2 extends Mission {
+
 	private enum MissionStates {
 		waiting, driving, arrived, deploying, deployed, ejecting, ejected, done
+
+		// deploys to scale on right side
+
 	}
 
 	private MissionStates curState = MissionStates.waiting;
@@ -24,8 +28,9 @@ public class AutoMission1 extends Mission {
 			break;
 		case driving:
 			driveStep.run();
-			if (driveStep.isFinished())
+			if (driveStep.isFinished()) {
 				curState = MissionStates.arrived;
+			}
 			break;
 		case arrived:
 			curState = MissionStates.deploying;
@@ -59,6 +64,8 @@ public class AutoMission1 extends Mission {
 			break;
 		case done:
 			// turn stuff off an prepare for teleop
+			break;
+		default:
 			break;
 		}
 	}

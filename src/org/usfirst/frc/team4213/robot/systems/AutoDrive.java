@@ -2,7 +2,7 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
 
-public class AutoDrive {
+public abstract class AutoDrive {
 	protected DriveTrain driveTrain = DriveTrain.getInstance();
 
 	protected enum State {
@@ -25,4 +25,7 @@ public class AutoDrive {
 		return State.DONE == currentState;
 
 	}
+
+	public abstract void run();
+
 }
