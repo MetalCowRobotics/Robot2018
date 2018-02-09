@@ -39,6 +39,7 @@ public class Intake {
 	public void execute() {
 		if (controller.isCubeIntake()) {
 			powerCubeIntake();
+			System.out.println("om nom nomming");
 		} else if (controller.isCubeEject()) {
 			powerCubeEject();
 		} else {
