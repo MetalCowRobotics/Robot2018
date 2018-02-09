@@ -93,11 +93,11 @@ public class DriveTrain {
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {
-			return RobotMap.Drivetrain.CRAWL_SPEED;
+			return RobotMap.Drivetrain.CRAWL_SPEED; //
 		} else if (controller.isSprintToggle()) {
-			return RobotMap.Drivetrain.SPRINT_SPEED;
+			return RobotMap.Drivetrain.SPRINT_SPEED; //
 		} else {
-			return RobotMap.Drivetrain.NORMAL_SPEED;
+			return RobotMap.Drivetrain.NORMAL_SPEED; //
 		}
 	}
 
