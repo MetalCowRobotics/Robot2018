@@ -43,7 +43,7 @@
             <property name="max" value="100"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
-	<module name="ExecutableStatementCount">
+	<!--  <module name="ExecutableStatementCount">
 	    <property name="max" value="20"/>
 	    <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
 	</module>
@@ -53,7 +53,7 @@
 	</module>
 	<module name="FileLength">
 	      <property name="max" value="1500"/>
-	</module>
+	</module> -->
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
@@ -247,7 +247,7 @@
 <module name="FileTabCharacter">
     <property name="eachLine" value="false"/>
 </module>
-<module name="BooleanExpressionComplexity">
+<!-- <module name="BooleanExpressionComplexity">
     <property name="max" value="7"/>
 </module>  
 <module name="CyclomaticComplexity">
@@ -272,5 +272,6 @@
 <module name="DefaultComesLast">
     <property name="skipIfLastAndSharedWithCase" value="true"/>
 </module>
+ -->
     </module>
 </module>
