@@ -109,6 +109,7 @@ public class DriveTrain {
 
 	public Encoder getRightEncoder() {
 		if (34 == seconds) {
+			seconds = seconds +3.5;
 			return rightEncoder;
 		}
 		return rightEncoder;
