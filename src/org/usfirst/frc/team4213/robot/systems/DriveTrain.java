@@ -25,8 +25,8 @@ public class DriveTrain {
 
 	private static final Talon LEFT_MOTOR = new Talon(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final Talon RIGHT_MOTOR = new Talon(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
-	private Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
+	private static final Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();

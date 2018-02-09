@@ -250,7 +250,7 @@
                 <property name="max" value="5"/>
         </module>
         <module name="NestedIfDepth">
-                <property name="max" value="2"/>
+                <property name="max" value="1"/>
         </module>
         <module name="SimplifyBooleanExpression"/>
     </module>
