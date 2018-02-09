@@ -40,7 +40,7 @@ public class DriveTrain {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
 
-	private boolean inverted = false;
+	private int inverted = 1;
 
 	protected DriveTrain() {
 		// Singleton
@@ -55,8 +55,8 @@ public class DriveTrain {
 			invert();
 		}
 
-		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle();
-		double rightSpeed = controller.getDriveRightThrottle() * getThrottle();
+		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
 
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
@@ -66,7 +66,8 @@ public class DriveTrain {
 	}
 
 	public void invert() {
-		inverted = !inverted;
+		inverted = inverted * -1;
+		System.out.println("Is inverted:?:?:?:?:?:?:?:?" + inverted);
 	}
 
 	public void calibrateGyro() {
@@ -103,10 +104,12 @@ public class DriveTrain {
 		}
 	}
 
-	public void tankDrive(double leftSpeed, double rightSpeed) {
-
-	}
-
+	/**
+	 * Used in Autonomous
+	 * 
+	 * @param speed
+	 * @param angle
+	 */
 	public void arcadeDrive(double speed, double angle) {
 		// if only used in autonomous may not need the throttle
 		drive.arcadeDrive(speed * getThrottle(), angle);
