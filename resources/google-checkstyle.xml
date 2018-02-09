@@ -244,10 +244,10 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
-<module name="FileTabCharacter">
+<!--  <module name="FileTabCharacter">
     <property name="eachLine" value="false"/>
 </module>
-<!-- <module name="BooleanExpressionComplexity">
+<module name="BooleanExpressionComplexity">
     <property name="max" value="7"/>
 </module>  
 <module name="CyclomaticComplexity">
