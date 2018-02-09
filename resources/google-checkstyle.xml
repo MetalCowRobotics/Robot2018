@@ -43,6 +43,17 @@
             <property name="max" value="100"/>
             <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
+	<module`name="ExecutableStatementCount">
+	    <property name="max" value="20"/>
+	    <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
+	</module>
+	<module name="MethodLength">
+	   <property name="tokens" value="METHOD_DEF"/>
+	   <property name="max" value="60"/>
+	</module>
+	<module name="FileLength">
+	      <property name="max" value="1500"/>
+	</module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
@@ -233,5 +244,35 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
+<module name="FileTabCharacter">
+    <property name="eachLine" value="false"/>
+</module>
+
+
+<module name="BooleanExpressionComplexity">
+    <property name="max" value="7"/>
+</module>  
+<module name="CyclomaticComplexity">
+    <property name="max" value="15"/>
+</module>
+<module name="NestedIfDepth">
+    <property name="max" value="3"/>
+</module>
+<module name="SimplifyBooleanExpression"/>
+
+<module name="ConstantName">
+    <property name="format"
+              value="^log(ger)?|[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+</module>
+<module name="MagicNumber">
+    <property name="tokens" value="NUM_DOUBLE, NUM_FLOAT"/>
+    <property name="ignoreNumbers" value="-1, 0, 0.5, 1, 2"/>
+    <property name="ignoreFieldDeclaration" value="true"/>
+</module>
+<module name="MultipleStringLiterals"/>
+
+<module name="DefaultComesLast">
+    <property name="skipIfLastAndSharedWithCase" value="true"/>
+</module>
     </module>
 </module>
