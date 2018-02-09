@@ -111,6 +111,9 @@ public class DriveTrain {
 	}
 	
 	public Encoder getRightEncoder() {
+		if (34==seconds) {
+			return rightEncoder;
+		}
 		return rightEncoder;
 	}
 
