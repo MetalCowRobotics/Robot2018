@@ -230,5 +230,8 @@
             <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
+        <module name="NestedIfDepth">
+                <property name="max" value="2"/>
+        </module>
     </module>
 </module>
