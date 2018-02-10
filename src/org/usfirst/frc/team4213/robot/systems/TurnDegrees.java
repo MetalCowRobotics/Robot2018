@@ -8,7 +8,9 @@ public class TurnDegrees extends AutoDrive {
 	private double degrees;
 	private final double maxAdjustment = .5;
 	private final double variance = .25;
-
+	private double slowAdjustment = .2;
+	private double slowVariance = 5;
+	
 	public TurnDegrees(double degrees) {
 		super();
 		this.degrees = degrees;
@@ -31,6 +33,14 @@ public class TurnDegrees extends AutoDrive {
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+				if (UtilityMethods.between(currentAngle, degrees - slowVariance, degrees + slowVariance)) {
+					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, slowAdjustment));
+					System.out.println("slow");
+				} else {
+					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+					System.out.println("fast");
+
+				}
 				System.out.println("Angle:" + driveTrain.getAngle());
 				System.out.println("correction:" + correction);
 			}

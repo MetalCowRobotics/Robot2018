@@ -4,8 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.autonomous.Mission;
+import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
@@ -37,7 +39,7 @@ public class Robot extends IterativeRobot {
 	String autoSelected = defaultAuto;
 
 	Mission autoMission;
-	DriveToWall driveStraight;
+	AutoDrive driveStraight;
 	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
@@ -139,9 +141,9 @@ public class Robot extends IterativeRobot {
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
-		driveStraight = new DriveToWall(3);
+		driveStraight = new DriveStraightTime(5);
 		turnDegrees = new TurnDegrees(90);
-		driveWithEncoder = new DriveWithEncoder(72);
+		driveWithEncoder = new DriveWithEncoder(48);
 	}
 
 	/**
@@ -152,13 +154,13 @@ public class Robot extends IterativeRobot {
 		System.out.println("Autonomous Periodic!");
 		// autoMission.execute();
 		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		} else if (!turnDegrees.isFinished()) {
-			turnDegrees.run();
-		} else if (!driveStraight.isFinished()) {
-			driveStraight.run();
-		}
+//		if (!driveWithEncoder.isFinished()) {
+		//driveWithEncoder.run();
+//		} else if (!turnDegrees.isFinished()) {
+		turnDegrees.run();
+//		} else if (!driveStraight.isFinished()) {
+		//	driveStraight.run();
+//		}
 	}
 
 	/**

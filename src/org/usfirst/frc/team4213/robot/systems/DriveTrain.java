@@ -155,7 +155,7 @@ public class DriveTrain {
 
 	public void arcadeDrive(double speed, double angle) {
 		// if only used in autonomous may not need the throttle
-		drive.arcadeDrive(speed * getThrottle(), angle);
+		drive.arcadeDrive(speed, angle);
 	}
 
 	public void stop() {

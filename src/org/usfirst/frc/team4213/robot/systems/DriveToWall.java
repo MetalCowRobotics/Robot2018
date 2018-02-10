@@ -5,7 +5,9 @@ import org.usfirst.frc.team4213.lib14.PDController;
 public class DriveToWall extends AutoDrive {
 	
 	private double howClose = 0;
-	private double baseSpeed = .8;
+	private double baseSpeed = .6;
+	private double slowdownDistance = 12;
+	private double slowSpeed = 0.4;
 	private final double maxAdjustment = .4;
 
 	public DriveToWall(double howClose) {
@@ -29,6 +31,11 @@ public class DriveToWall extends AutoDrive {
 				currentState = State.DONE;
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
+				if (howClose + slowdownDistance > driveTrain.wallSensorInches()) {
+					driveTrain.arcadeDrive(slowSpeed, limitCorrection(correction, maxAdjustment));
+				} else {
+					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+				}
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
 				System.out.println("Angle:" + driveTrain.getAngle());
 				System.out.println("correction:" + correction);
