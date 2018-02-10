@@ -22,7 +22,7 @@ public class DriveWithEncoder extends AutoDrive {
 			driveTrain.resetGyro();
 			double setPoint = driveTrain.getAngle();
 			driveController = new PDController(setPoint);
-			driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, setPoint);
+			driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.TOP_SPEED, setPoint);
 			currentState = State.ACTIVE;
 			System.out.println("slowdown:" + RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE);
 			System.out.println("targettics:" + targetTics);
@@ -40,7 +40,7 @@ public class DriveWithEncoder extends AutoDrive {
 					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, limitCorrection(correction,RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
 					System.out.println("slow:" );
 				} else {
-					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, limitCorrection(correction, RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
+					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.TOP_SPEED, limitCorrection(correction, RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
 					System.out.println("fast" );
 
 				}
