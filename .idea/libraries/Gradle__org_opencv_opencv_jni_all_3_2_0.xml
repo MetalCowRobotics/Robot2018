@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: org.opencv:opencv-jni:all:3.2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.opencv/opencv-jni/3.2.0/5c6a5b457a6a4071007cf53b8bab479933e01327/opencv-jni-3.2.0-all.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

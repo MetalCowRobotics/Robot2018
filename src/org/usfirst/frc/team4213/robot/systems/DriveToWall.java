@@ -1,14 +1,11 @@
 package org.usfirst.frc.team4213.robot.systems;
 
 import org.usfirst.frc.team4213.lib14.PDController;
+import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class DriveToWall extends AutoDrive {
 	
 	private double howClose = 0;
-	private double baseSpeed = .6;
-	private double slowdownDistance = 12;
-	private double slowSpeed = 0.4;
-	private final double maxAdjustment = .4;
 
 	public DriveToWall(double howClose) {
 		super();
@@ -22,7 +19,7 @@ public class DriveToWall extends AutoDrive {
 			driveTrain.resetGyro();
 			double setPoint = driveTrain.getAngle();
 			driveController = new PDController(setPoint);
-			driveTrain.arcadeDrive(baseSpeed, setPoint);
+			driveTrain.arcadeDrive(RobotMap.DriveToWall.TOP_SPEED, setPoint);
 			currentState = State.ACTIVE;
 			break;
 		case ACTIVE:
@@ -31,12 +28,12 @@ public class DriveToWall extends AutoDrive {
 				currentState = State.DONE;
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
-				if (howClose + slowdownDistance > driveTrain.wallSensorInches()) {
-					driveTrain.arcadeDrive(slowSpeed, limitCorrection(correction, maxAdjustment));
+				if (howClose + RobotMap.DriveToWall.SLOW_DOWN_DISTANCE > driveTrain.wallSensorInches()) {
+					driveTrain.arcadeDrive(RobotMap.DriveToWall.BOTTOM_SPEED, limitCorrection(correction, RobotMap.DriveToWall.MAX_ADJUSTMENT));
 				} else {
-					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+					driveTrain.arcadeDrive(RobotMap.DriveToWall.TOP_SPEED, limitCorrection(correction, RobotMap.DriveToWall.MAX_ADJUSTMENT));
 				}
-				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+				driveTrain.arcadeDrive(RobotMap.DriveToWall.TOP_SPEED, limitCorrection(correction, RobotMap.DriveToWall.MAX_ADJUSTMENT));
 				System.out.println("Angle:" + driveTrain.getAngle());
 				System.out.println("correction:" + correction);
 			}
