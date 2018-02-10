@@ -24,7 +24,7 @@ public class RightSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			// elevator.moveToSetPosition(SetPositions.switchWall);
-			driveStep = new DriveToWall(2);
+			driveStep = new DriveToWall(13);
 			intake.deploy();
 			curState = MissionStates.driving;
 			break;

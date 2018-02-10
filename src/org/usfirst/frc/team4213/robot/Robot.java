@@ -3,7 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.usfirst.frc.team4213.autonomous.AutoMission1;
+import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
@@ -123,7 +123,8 @@ public class Robot extends IterativeRobot {
 		if(rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else if(leftSide == autoSelected) {
-			autoMission = new AutoMission1();
+			autoMission = new LeftSideSwitch();
+
 		} else {
 			autoMission = new PassLine();
 		}
@@ -189,6 +190,9 @@ public class Robot extends IterativeRobot {
 		elevator.execute();
 		intake.execute();
 		climber.execute();
+		System.out.println("Teleop Init!");
+		System.out.println("sensor1:" + driveTrain.wallSensorInches());
+		System.out.println("sensor2:" + intake.cubeSensor.getDistanceInches());
 	}
 
 	/**
