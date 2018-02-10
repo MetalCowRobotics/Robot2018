@@ -36,7 +36,7 @@ public class AutoMission1 extends Mission {
 			// }
 			break;
 		case deployed:
-			if (onMySide()) {
+			if (onMySide(null)) {
 				// intake.autoEjectPowerCube();
 				System.out.println("ejecting");
 				intake.autoEject();
