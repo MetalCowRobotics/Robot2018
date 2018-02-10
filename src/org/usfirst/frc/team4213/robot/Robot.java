@@ -56,8 +56,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println(this.getClass().getName());
 		logger.entering(this.getClass().getName(), "robotInit");
-		logger.log(Level.INFO, "Logging Stuff Example");
+		logger.log(Level.FINE, "Logging Stuff Example");
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
