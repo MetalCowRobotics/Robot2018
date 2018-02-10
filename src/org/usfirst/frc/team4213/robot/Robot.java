@@ -157,9 +157,9 @@ public class Robot extends IterativeRobot {
 //		if (!driveWithEncoder.isFinished()) {
 		//driveWithEncoder.run();
 //		} else if (!turnDegrees.isFinished()) {
-		turnDegrees.run();
+		//turnDegrees.run();
 //		} else if (!driveStraight.isFinished()) {
-		//	driveStraight.run();
+			driveStraight.run();
 //		}
 	}
 
