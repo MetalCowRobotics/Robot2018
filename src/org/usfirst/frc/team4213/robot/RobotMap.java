@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4213.robot;
 
-import edu.wpi.first.wpilibj.Timer;
-
 public class RobotMap {
 
 	public final class DriverController {
