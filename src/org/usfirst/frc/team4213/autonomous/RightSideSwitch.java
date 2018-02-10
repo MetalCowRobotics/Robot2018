@@ -3,7 +3,9 @@ package org.usfirst.frc.team4213.autonomous;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 
-public class AutoMission2 extends Mission {
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
+public class RightSideSwitch extends Mission {
 
 	private enum MissionStates {
 		waiting, driving, arrived, deploying, deployed, ejecting, ejected, done
@@ -21,31 +23,29 @@ public class AutoMission2 extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			driveStep = new DriveToWall(6);
-			intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
+			driveStep = new DriveToWall(2);
+			intake.deploy();
 			curState = MissionStates.driving;
 			break;
 		case driving:
 			driveStep.run();
 			if (driveStep.isFinished()) {
-				curState = MissionStates.arrived;
+				curState = MissionStates.deploying;
 			}
 			break;
-		case arrived:
-			curState = MissionStates.deploying;
-			break;
+		// case arrived:
+		// curState = MissionStates.deploying;
+		// break;
 		case deploying:
 			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
 			curState = MissionStates.deployed;
 			// }
 			break;
 		case deployed:
-			if (onMySide()) {
-				// intake.autoEjectPowerCube();
-				System.out.println("ejecting");
+			if (onMySide(Hand.kRight)) {
 				intake.autoEject();
-				// intake.autoIntake();
+				System.out.println("ejecting");
 				curState = MissionStates.ejecting;
 			} else {
 				curState = MissionStates.done;

@@ -63,8 +63,8 @@ public class AutoMission1 extends Mission {
 				curState = MissionStates.reached;
 			break;
 		case reached:
-			if (onMySide()) {
-				System.out.println("deployed");
+			if (onMySide(null)) {
+				System.out.println("ejecting");
 				intake.autoEject();
 				curState = MissionStates.ejecting;
 			} else {
