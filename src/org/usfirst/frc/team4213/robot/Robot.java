@@ -113,7 +113,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
-		logger.entering(getClass().getName(), "doIt");
 		logger.entering("autonomousInit", "");
 
 		driveTrain.resetGyro();
