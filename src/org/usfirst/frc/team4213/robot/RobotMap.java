@@ -18,7 +18,7 @@ public class RobotMap {
 		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
-		public static final int WHEEL_DIAMETER = 6;
+		public static final int WHEEL_DIAMETER = 4;
 	}
 
 	public final class Intake {

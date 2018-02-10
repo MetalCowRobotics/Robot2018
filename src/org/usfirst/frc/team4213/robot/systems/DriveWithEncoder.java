@@ -4,7 +4,7 @@ import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class DriveWithEncoder extends AutoDrive {
-	private double baseSpeed = .8;
+	private double baseSpeed = .6;
 	private double slowSpeed = .4;
 	private final double maxAdjustment = .4;
 	private int ticsPerRotation = 354;

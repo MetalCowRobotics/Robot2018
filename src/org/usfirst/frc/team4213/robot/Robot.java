@@ -3,7 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.usfirst.frc.team4213.autonomous.AutoMission1;
+import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 		if(rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else {
-			autoMission = new AutoMission1();
+			autoMission = new LeftSideSwitch();
 		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);

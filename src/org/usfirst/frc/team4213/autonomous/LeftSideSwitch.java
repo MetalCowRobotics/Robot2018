@@ -5,7 +5,9 @@ import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
-public class AutoMission1 extends Mission {
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
+public class LeftSideSwitch extends Mission {
 	private enum MissionStates {
 		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
 	}
@@ -22,6 +24,7 @@ public class AutoMission1 extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			driveStep = new DriveWithEncoder(159.5);
+			//driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(2);
 			intake.deploy();
@@ -32,8 +35,8 @@ public class AutoMission1 extends Mission {
 		case driving:
 			driveStep.run();
 			if (driveStep.isFinished())
-				System.out.println("driving");
-			curState = MissionStates.arrived;
+				curState = MissionStates.arrived;
+			System.out.println("driving");
 			break;
 		case arrived:
 			System.out.println("arrived");
@@ -42,8 +45,8 @@ public class AutoMission1 extends Mission {
 		case turning:
 			driveDegrees.run();
 			if (driveDegrees.isFinished())
-				System.out.println("turning");
-			curState = MissionStates.turned;
+				curState = MissionStates.turned;
+			System.out.println("turning");
 			break;
 		case turned:
 			curState = MissionStates.deploying;
@@ -63,7 +66,7 @@ public class AutoMission1 extends Mission {
 				curState = MissionStates.reached;
 			break;
 		case reached:
-			if (onMySide(null)) {
+			if (onMySide(Hand.kLeft)) {
 				System.out.println("ejecting");
 				intake.autoEject();
 				curState = MissionStates.ejecting;
