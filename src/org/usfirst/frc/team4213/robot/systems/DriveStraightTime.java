@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class DriveStraightTime extends AutoDrive {
 	private Timer timer = new Timer();
-	private double seconds = 0;
-	private double baseSpeed = .8;
+	private double seconds = 5;
+	private double baseSpeed = .6;
 	private final double maxAdjustment = .4;
-
+	private double slowSpeed = .3;
+	private double slowdownTime = 2;
+	
 	public DriveStraightTime(double seconds) {
 		super();
 		this.seconds = seconds;
@@ -34,8 +36,15 @@ public class DriveStraightTime extends AutoDrive {
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
 				driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+				if (seconds - slowdownTime < timer.get()) {
+					driveTrain.arcadeDrive(slowSpeed, limitCorrection(correction, maxAdjustment));
+					System.out.println("slow");
+				} else {
+					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+					System.out.println("fast");
 				System.out.println("Angle:" + driveTrain.getAngle());
 				System.out.println("correction:" + correction);
+				}
 			}
 			break;
 		case DONE:
@@ -44,3 +53,4 @@ public class DriveStraightTime extends AutoDrive {
 	}
 
 }
+
