@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.GenericHID;
+
 public class MasterControls {
 	private static final MasterControls instance = new MasterControls();
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
@@ -59,6 +61,13 @@ public class MasterControls {
 
 	public boolean isElevatorDown() {
 		return operator.getXButton();
+	}
+	public void intakeRumbleOn() {
+		operator.rumbleLeft(0.5);
+		System.out.println("rumble on");
+	}
+	public void intakeRumbleOff() {
+		operator.rumbleLeft(0);
 	}
 
 }
