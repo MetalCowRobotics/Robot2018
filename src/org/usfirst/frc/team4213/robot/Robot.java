@@ -70,6 +70,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println("ClassName:" + Robot.class.getName());
+		System.out.println("ClassName2:" + this.getClass().getName());
 		logger.log(Level.INFO, "Logging Stuff Example");
 
 		// Load available Autonomous missions to the driverstation
@@ -112,6 +114,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
 		logger.entering(getClass().getName(), "doIt");
+		logger.entering("autonomousInit", "");
 
 		driveTrain.resetGyro();
 
