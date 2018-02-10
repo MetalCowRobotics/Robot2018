@@ -3,9 +3,14 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.AutoMission1;
 import org.usfirst.frc.team4213.autonomous.Mission;
+import org.usfirst.frc.team4213.autonomous.PassLine;
+import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
@@ -31,13 +36,14 @@ public class Robot extends IterativeRobot {
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
 
 	// Define Autonomous Missions
-	final String defaultAuto = "Default";
-	final String customAuto = "Custom";
+	final String rightSide = "RightSide";
+	final String leftSide = "LeftSide";
+	final String passLine = "PassLine";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	String autoSelected = defaultAuto;
+	String autoSelected = passLine;
 
 	Mission autoMission;
-	DriveToWall driveStraight;
+	AutoDrive driveStraight;
 	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
@@ -67,9 +73,10 @@ public class Robot extends IterativeRobot {
 		logger.log(Level.INFO, "Logging Stuff Example");
 
 		// Load available Autonomous missions to the driverstation
-		autoSelected = defaultAuto;
-		autoChooser.addDefault("Default", defaultAuto);
-		autoChooser.addObject("Custom", customAuto);
+		autoSelected = rightSide;
+		autoChooser.addObject("RightSideSwitch", rightSide);
+		autoChooser.addObject("LeftSideSwitch", leftSide);
+		autoChooser.addDefault("PassLine", passLine);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
@@ -109,8 +116,17 @@ public class Robot extends IterativeRobot {
 		driveTrain.resetGyro();
 
 		// TODO: Choose autonomous mission here?
+		
+		
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
+		if(rightSide == autoSelected) {
+			autoMission = new RightSideSwitch();
+		} else if(leftSide == autoSelected) {
+			autoMission = new AutoMission1();
+		} else {
+			autoMission = new PassLine();
+		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);
 		// switch (autoSelected) {
@@ -139,9 +155,9 @@ public class Robot extends IterativeRobot {
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
-		driveStraight = new DriveToWall(3);
+		driveStraight = new DriveStraightTime(5);
 		turnDegrees = new TurnDegrees(90);
-		driveWithEncoder = new DriveWithEncoder(72);
+		driveWithEncoder = new DriveWithEncoder(48);
 	}
 
 	/**
@@ -149,16 +165,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
-		// autoMission.execute();
-		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		} else if (!turnDegrees.isFinished()) {
-			turnDegrees.run();
-		} else if (!driveStraight.isFinished()) {
-			driveStraight.run();
-		}
+		autoMission.execute();
+		intake.execute();
+		elevator.execute();
+		climber.execute();
+		
 	}
 
 	/**

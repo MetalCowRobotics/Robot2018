@@ -32,9 +32,8 @@ public abstract class Mission {
 		return driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
 
-	protected boolean onMySide() {
-		// TODO add logic to get SmartDashboard starting position
-		return true;
+	protected boolean onMySide(Hand mySide) {
+		return mySide == getNearSwitch();
 	}
 
 	public abstract void execute();

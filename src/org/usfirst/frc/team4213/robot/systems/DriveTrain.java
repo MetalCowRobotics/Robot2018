@@ -28,6 +28,7 @@ public class DriveTrain {
 	private static final Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
 	private static final Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
+	
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
@@ -155,7 +156,7 @@ public class DriveTrain {
 
 	public void arcadeDrive(double speed, double angle) {
 		// if only used in autonomous may not need the throttle
-		drive.arcadeDrive(speed * getThrottle(), angle);
+		drive.arcadeDrive(speed, angle); 
 	}
 
 	public void stop() {
