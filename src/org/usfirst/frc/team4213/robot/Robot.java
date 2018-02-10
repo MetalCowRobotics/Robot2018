@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.autonomous.AutoMission1;
 import org.usfirst.frc.team4213.autonomous.Mission;
+import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
@@ -37,8 +38,9 @@ public class Robot extends IterativeRobot {
 	// Define Autonomous Missions
 	final String rightSide = "RightSide";
 	final String leftSide = "LeftSide";
+	final String passLine = "PassLine";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	String autoSelected = rightSide;
+	String autoSelected = passLine;
 
 	Mission autoMission;
 	AutoDrive driveStraight;
@@ -72,8 +74,9 @@ public class Robot extends IterativeRobot {
 
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
-		autoChooser.addDefault("RightSideSwitch", rightSide);
-		autoChooser.addObject("AutoMission1", leftSide);
+		autoChooser.addObject("RightSideSwitch", rightSide);
+		autoChooser.addObject("LeftSideSwitch", leftSide);
+		autoChooser.addDefault("PassLine", passLine);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
@@ -119,8 +122,10 @@ public class Robot extends IterativeRobot {
 		autoSelected = autoChooser.getSelected();
 		if(rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
-		} else {
+		} else if(leftSide == autoSelected) {
 			autoMission = new AutoMission1();
+		} else {
+			autoMission = new PassLine();
 		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);
@@ -163,6 +168,8 @@ public class Robot extends IterativeRobot {
 		autoMission.execute();
 		intake.execute();
 		elevator.execute();
+		climber.execute();
+		
 	}
 
 	/**
