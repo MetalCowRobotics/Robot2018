@@ -4,20 +4,16 @@ import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class DriveWithEncoder extends AutoDrive {
-	private double baseSpeed = .6;
-	private double slowSpeed = .4;
-	private final double maxAdjustment = .4;
-	private int ticsPerRotation = 354;
-	private double inchesPerRotation = Math.PI * RobotMap.Drivetrain.WHEEL_DIAMETER;
+	
 	private double startTics = driveTrain.getEncoderTics();
 	private double targetInches;
 	private double targetTics;
-	private double slowdownDistance = (12 / inchesPerRotation) * ticsPerRotation;
+	
 
 	public DriveWithEncoder(double targetInches) {
 		super();
 		this.targetInches = targetInches;
-		targetTics = targetInches / inchesPerRotation * ticsPerRotation;
+		targetTics = targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION * RobotMap.DriveWithEncoder.TICS_PER_ROTATION;
 	}
 
 	public void run() {
@@ -26,9 +22,9 @@ public class DriveWithEncoder extends AutoDrive {
 			driveTrain.resetGyro();
 			double setPoint = driveTrain.getAngle();
 			driveController = new PDController(setPoint);
-			driveTrain.arcadeDrive(baseSpeed, setPoint);
+			driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, setPoint);
 			currentState = State.ACTIVE;
-			System.out.println("slowdown:" + slowdownDistance);
+			System.out.println("slowdown:" + RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE);
 			System.out.println("targettics:" + targetTics);
 
 			break;
@@ -40,11 +36,11 @@ public class DriveWithEncoder extends AutoDrive {
 				currentState = State.DONE;
 			} else {
 				double correction = driveController.calculateAdjustment(driveTrain.getAngle());
-				if (targetTics - slowdownDistance < pastTics) {
-					driveTrain.arcadeDrive(slowSpeed, limitCorrection(correction, maxAdjustment));
+				if (targetTics - RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE < pastTics) {
+					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, limitCorrection(correction,RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
 					System.out.println("slow:" );
 				} else {
-					driveTrain.arcadeDrive(baseSpeed, limitCorrection(correction, maxAdjustment));
+					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED, limitCorrection(correction, RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
 					System.out.println("fast" );
 
 				}

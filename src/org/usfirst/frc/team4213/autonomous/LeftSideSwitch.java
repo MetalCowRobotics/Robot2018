@@ -26,7 +26,7 @@ public class LeftSideSwitch extends Mission {
 			driveStep = new DriveWithEncoder(159.5);
 			//driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(90);
-			driveToWall = new DriveToWall(2);
+			driveToWall = new DriveToWall(13);
 			intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
 			System.out.println("waiting");

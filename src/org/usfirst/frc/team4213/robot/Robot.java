@@ -182,6 +182,9 @@ public class Robot extends IterativeRobot {
 		elevator.execute();
 		intake.execute();
 		climber.execute();
+		System.out.println("Teleop Init!");
+		System.out.println("sensor1:" + driveTrain.wallSensorInches());
+		System.out.println("sensor2:" + intake.cubeSensor.getDistanceInches());
 	}
 
 	/**
