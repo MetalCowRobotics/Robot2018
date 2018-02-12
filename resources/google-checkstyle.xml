@@ -47,10 +47,10 @@
              <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/> 
          </module>
          <module name="MethodLength"> 
-             <property name="max" value="10"/> 
+             <property name="max" value="15"/>
          </module>
          <module name="ParameterNumber">
-             <property name="max" value="10"/>
+             <property name="max" value="5"/>
          </module>
          <!--  format violations  -->
 	     <module name="OneStatementPerLine"/>
