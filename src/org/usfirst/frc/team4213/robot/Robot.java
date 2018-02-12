@@ -1,12 +1,16 @@
 package org.usfirst.frc.team4213.robot;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
