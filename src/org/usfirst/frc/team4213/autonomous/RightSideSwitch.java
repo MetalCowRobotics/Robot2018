@@ -53,7 +53,7 @@ public class RightSideSwitch extends Mission {
 			break;
 		case ejecting:
 			System.out.println("checking eject time");
-			intake.execute();
+			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}
