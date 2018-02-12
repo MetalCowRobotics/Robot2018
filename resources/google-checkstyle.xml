@@ -149,7 +149,7 @@
          <!--  misc violations  -->
          <module name="TodoComment">
              <property name="format" value="(TODO)|(FIXME)"/>
-			 <property name="severity" value="info"/>
+			 <property name="severity" value="ignore"/>
          </module>
 		 <!--  unclassified -->
 	     <module name="OuterTypeFilename"/> 
