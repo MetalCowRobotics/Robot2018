@@ -31,19 +31,19 @@ public class RightSideSwitch extends Mission {
 		case driving:
 			driveStep.run();
 			if (driveStep.isFinished()) {
-				curState = MissionStates.deploying;
+				curState = MissionStates.arrived;
 			}
 			break;
-		// case arrived:
-		// curState = MissionStates.deploying;
-		// break;
+		case arrived:
+			curState = MissionStates.deploying;
+			break;
 		case deploying:
 			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
 			curState = MissionStates.deployed;
 			// }
 			break;
 		case deployed:
-			if (onMySide(Hand.kRight)) {
+			if (onMySwitchSide(Hand.kRight)) {
 				intake.autoEject();
 				System.out.println("ejecting");
 				curState = MissionStates.ejecting;
