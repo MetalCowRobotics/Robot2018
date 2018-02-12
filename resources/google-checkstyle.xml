@@ -47,10 +47,10 @@
              <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/> 
          </module>
          <module name="MethodLength"> 
-             <property name="max" value="10"/> 
+             <property name="max" value="15"/>
          </module>
          <module name="ParameterNumber">
-             <property name="max" value="10"/>
+             <property name="max" value="5"/>
          </module>
          <!--  format violations  -->
 	     <module name="OneStatementPerLine"/>
@@ -60,7 +60,8 @@
          <module name="CustomImportOrder"> 
              <property name="sortImportsInGroupAlphabetically" value="true"/> 
              <property name="separateLineBetweenGroups" value="true"/> 
-             <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/> 
+             <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
+             <property name="severity" value="info"/>
          </module>
          <module name="NeedBraces"/> 
          <module name="LeftCurly"/> 
