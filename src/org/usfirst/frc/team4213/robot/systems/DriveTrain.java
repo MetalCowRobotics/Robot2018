@@ -1,19 +1,13 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Logger;
-
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import java.util.logging.Logger;
 
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
@@ -96,31 +90,6 @@ public class DriveTrain {
 			return RobotMap.Drivetrain.SPRINT_SPEED;
 		} else {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
-		}
-	}
-
-	private void doCheckStyle() { // 1
-		double seconds = 0;
-		double baseSpeed = 0;
-		int a = 2, b = 3, a1 = 0, b1 = 0, a2 = 0, b2 = 0, c = 0, d = 1, c1 = 1, d1 = 12;
-		if (a != b) { // 2
-			if (a1 != b1 // 3
-					&& c1 != d1) { // 4
-				printLeftEncoder();
-			} else if (a2 != b2 // 5
-					|| c1 < d1) { // 6
-				printLeftEncoder();
-			} else {
-				printLeftEncoder();
-			}
-		} else if (c != d) { // 7
-			while (c != d) { // 8
-				printLeftEncoder();
-			}
-		}
-		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
-			seconds = seconds + 3.5;
-			printLeftEncoder();
 		}
 	}
 
