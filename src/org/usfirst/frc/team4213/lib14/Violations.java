@@ -12,13 +12,13 @@ public class Violations {
         } else if (c != d) { // 7
             a += 1;
         }
-        if (34 == seconds && 67 > a || (baseSpeed == rightEncoder && baseSpeed == 56.7)) {
+        if (b > a || (baseSpeed == rightEncoder )) {
             doNothing();
         }
     }
 
     private void doIFs(int a1, int b1, int a2, int b2, int c1) {
-        int d1 = 8;
+        int d1 = 1;
         if (a1 != b1 // 3
                 && c1 != d1) { // 4
             doNothing();
