@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
@@ -15,14 +15,14 @@ public class DriveTrain {
 
 	private MasterControls controller = MasterControls.getInstance();
 
-	private static final SpeedController LEFT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
-	private static final SpeedController RIGHT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private static final Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
-	private static final Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
+	private static final edu.wpi.first.wpilibj.SpeedController LEFT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
+	private static final edu.wpi.first.wpilibj.SpeedController RIGHT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
+	private static final Encoder rightEncoder = new Encoder(4, 5, false, edu.wpi.first.wpilibj.CounterBase.EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(2, 3, true, edu.wpi.first.wpilibj.CounterBase.EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
-	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
-	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
+	private static final edu.wpi.first.wpilibj.ADXRS450_Gyro GYRO = new edu.wpi.first.wpilibj.ADXRS450_Gyro();
+	private static edu.wpi.first.wpilibj.BuiltInAccelerometer accelerometer = new edu.wpi.first.wpilibj.BuiltInAccelerometer();
 
 	private MaxBotixRangeFinder wallSensor = new MaxBotixRangeFinder(RobotMap.Drivetrain.RANGE_FINDER);
 
@@ -60,17 +60,17 @@ public class DriveTrain {
 	}
 
 	public void calibrateGyro() {
-		DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
-		DriverStation.reportWarning("Calibrating gyro... ", false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("Calibrating gyro... ", false);
 		GYRO.calibrate();
-		DriverStation.reportWarning("... Done! ", false);
-		DriverStation.reportWarning("Gryo Reading: " + GYRO.getAngle(), false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("... Done! ", false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("Gryo Reading: " + GYRO.getAngle(), false);
 	}
 
 	public void resetGyro() {
-		DriverStation.reportWarning("Gyro Before Reset: " + GYRO.getAngle(), false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("Gyro Before Reset: " + GYRO.getAngle(), false);
 		GYRO.reset();
-		DriverStation.reportWarning("Gryo After Reset: " + GYRO.getAngle(), false);
+		edu.wpi.first.wpilibj.DriverStation.reportWarning("Gryo After Reset: " + GYRO.getAngle(), false);
 	}
 
 	public double getAngle() {
