@@ -12,7 +12,7 @@ public class Violations {
         } else if (c != d) { // 7
             a += 1;
         }
-        if (b > a || (baseSpeed == rightEncoder )) {
+        if (b > a || (baseSpeed == rightEncoder)) {
             doNothing();
         }
     }
