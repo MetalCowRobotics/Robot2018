@@ -22,8 +22,9 @@ public class PassLine extends Mission {
 			break;
 		case driving:
 			driveStep.run();
-			if (driveStep.isFinished())
+			if (driveStep.isFinished()) {
 				curState = MissionStates.arrived;
+			}
 			System.out.println("driving");
 			break;
 		case arrived:
