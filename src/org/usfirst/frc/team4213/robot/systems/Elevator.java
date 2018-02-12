@@ -27,7 +27,7 @@ public class Elevator {
 	}
 
 	public void execute() {
-		// ToDo:Elevator control code goes here
+		// TODO:Elevator control code goes here
 		if (controller.isElevatorDown()) {
 			moveDown();
 		} else if (controller.isElevatorUp()) {
