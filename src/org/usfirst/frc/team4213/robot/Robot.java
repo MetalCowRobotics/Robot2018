@@ -3,7 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.usfirst.frc.team4213.autonomous.AutoMission1;
+import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
@@ -118,14 +118,13 @@ public class Robot extends IterativeRobot {
 		driveTrain.resetGyro();
 
 		// TODO: Choose autonomous mission here?
-		
-		
+
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
-		if(rightSide == autoSelected) {
+		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
-		} else if(leftSide == autoSelected) {
-			autoMission = new AutoMission1();
+		} else if (leftSide == autoSelected) {
+			autoMission = new LeftSideSwitch();
 		} else {
 			autoMission = new PassLine();
 		}
@@ -171,7 +170,7 @@ public class Robot extends IterativeRobot {
 		intake.execute();
 		elevator.execute();
 		climber.execute();
-		
+
 	}
 
 	/**
