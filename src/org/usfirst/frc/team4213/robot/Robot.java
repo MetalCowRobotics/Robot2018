@@ -1,40 +1,28 @@
 package org.usfirst.frc.team4213.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import org.usfirst.frc.team4213.autonomous.LeftOrRightSwitch;
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
-<<<<<<< HEAD
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
-=======
-
->>>>>>> refs/remotes/origin/master
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
-import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
-<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-=======
-import java.util.logging.Level;
-import java.util.logging.Logger;
->>>>>>> refs/remotes/origin/master
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,6 +39,7 @@ public class Robot extends IterativeRobot {
 	final String rightSide = "RightSide";
 	final String leftSide = "LeftSide";
 	final String passLine = "PassLine";
+	final String eitherSide = "eitherSide";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = passLine;
 
@@ -82,21 +71,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-<<<<<<< HEAD
-		System.out.println("ClassName:" + Robot.class.getName());
-		System.out.println("ClassName2:" + this.getClass().getName());
-		logger.log(Level.INFO, "Logging Stuff Example");
-
-=======
 		System.out.println(this.getClass().getName());
 		logger.entering(this.getClass().getName(), "robotInit");
 		logger.log(Level.FINE, "Logging Stuff Example");
->>>>>>> refs/remotes/origin/master
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
 		autoChooser.addObject("LeftSideSwitch", leftSide);
 		autoChooser.addDefault("PassLine", passLine);
+		autoChooser.addObject("eitherSide", eitherSide);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
@@ -132,17 +115,13 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
 		logger.entering("autonomousInit", "");
-
-		driveTrain.resetGyro();
-
-		// TODO: Choose autonomous mission here?
-
-		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else if (leftSide == autoSelected) {
 			autoMission = new LeftSideSwitch();
+		} else if (eitherSide == autoSelected) {
+			autoMission = new LeftOrRightSwitch();
 		} else {
 			autoMission = new PassLine();
 		}
@@ -184,20 +163,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-<<<<<<< HEAD
-		autoMission.execute();
-		intake.execute();
-		elevator.execute();
-		climber.execute();
 
-=======
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
 		climber.execute();
 		autoMission.execute();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
->>>>>>> refs/remotes/origin/master
 	}
 
 	/**
