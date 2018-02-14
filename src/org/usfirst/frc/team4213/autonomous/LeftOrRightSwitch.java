@@ -30,9 +30,9 @@ public class LeftOrRightSwitch extends Mission {
 				curState = MissionStates.left;
 			}
 		case left: // like a firstTime
-			driveStep = new DriveWithEncoder(159.5);
+			driveStep = new DriveWithEncoder(12);
 			// driveStep = new DriveWithEncoder(12);
-			driveDegrees = new TurnDegrees(90);
+			driveDegrees = new TurnDegrees(-90);
 			driveToWall = new DriveToWall(13);
 			intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);

@@ -32,7 +32,7 @@ public abstract class Mission {
 		return driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
 
-	protected boolean onMySide(Hand mySide) {
+	protected boolean onMySwitchSide(Hand mySide) {
 		return mySide == getNearSwitch();
 	}
 
