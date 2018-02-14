@@ -69,11 +69,11 @@ public class Robot extends IterativeRobot {
 		driverStation = DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
 		// Initialize Systems
-		driveTrain = DriveTrain.getInstance();
+		//driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-		driveTrain.calibrateGyro();
+		//driveTrain.calibrateGyro();
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 		logger.exiting(this.getClass().getName(), "robotInit");
 	}
@@ -146,7 +146,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-
+		logger.entering(getClass().getName(), "testI");
+		elevator.moveElevatortopostion();
+		logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -154,7 +156,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-
+		logger.entering(this.getClass().getName(), "testP");
+		elevator.execute();
+		logger.exiting(this.getClass().getName(), "testP");
 	}
 
 }

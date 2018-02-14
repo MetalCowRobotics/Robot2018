@@ -23,7 +23,7 @@ public class RightSideSwitch extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			// elevator.moveToSetPosition(SetPositions.switchWall);
+			elevator.moveElevatortopostion();
 			driveStep = new DriveToWall(13);
 			intake.deploy();
 			curState = MissionStates.driving;
