@@ -46,13 +46,18 @@ public class DriveTrain {
 	}
 
 	public void drive() {
+		double leftSpeed;
+		double rightSpeed;
 		if (controller.invertDrive()) {
 			invert();
 		}
-
-		double leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-		double rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-
+		if (inverted == 1) {
+			leftSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
+			rightSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+		} else {
+			leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+			rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
+		}
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
 		} else { // Stay in regular Tank drive mode
