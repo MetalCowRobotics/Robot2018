@@ -57,7 +57,6 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
 		return driverStation.getGameSpecificMessage();
@@ -123,13 +122,12 @@ public class Robot extends IterativeRobot {
 		driveTrain.resetGyro();
 
 		// TODO: Choose autonomous mission here?
-		
-		
+
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
-		if(rightSide == autoSelected) {
+		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
-		} else if(leftSide == autoSelected) {
+		} else if (leftSide == autoSelected) {
 			autoMission = new LeftSideSwitch();
 		} else if (eitherSide == autoSelected) {
 			autoMission = new LeftOrRightSwitch();
