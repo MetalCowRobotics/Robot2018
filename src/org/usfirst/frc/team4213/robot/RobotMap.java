@@ -22,7 +22,7 @@ public class RobotMap {
 	}
 	
 	public final class DriveToWall {
-		public static final double TOP_SPEED = .6;
+		public static final double TOP_SPEED = .7;
 		public static final int SLOW_DOWN_DISTANCE = 18;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
@@ -39,7 +39,7 @@ public class RobotMap {
 	 public final class TurnDegrees {
 		 public static final double TOP_SPEED = 0;
 		 public static final double MAX_ADJUSTMENT = .5;
-		 public static final double VARIANCE = .25;
+		 public static final double VARIANCE = 3; //.25
 		 public static final double SLOW_ADJUSTMENT = .2;
 		 public static final double SLOW_VARIANCE = 5;
 	 }
