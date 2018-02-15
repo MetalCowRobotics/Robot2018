@@ -61,10 +61,21 @@ public class DriveTrain {
 		}
 	}
 
-	public void invert() {
-		inverted = inverted * -1;
+	/**
+	 * Used in Autonomous
+	 * 
+	 * @param speed
+	 * @param angle
+	 */
+	public void arcadeDrive(double speed, double angle) {
+		// if only used in autonomous may not need the throttle
+		drive.arcadeDrive(speed, angle);
 	}
-
+	
+	public void stop() {
+		drive.stopMotor();
+	}
+	
 	public void calibrateGyro() {
 		DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
 		DriverStation.reportWarning("Calibrating gyro... ", false);
@@ -98,33 +109,12 @@ public class DriveTrain {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
 		}
 	}
-
-	private void doCheckStyle() { // 1
-		double seconds = 0;
-		double baseSpeed = 0;
-		int a = 2, b = 3, a1 = 0, b1 = 0, a2 = 0, b2 = 0, c = 0, d = 1, c1 = 1, d1 = 12;
-		if (a != b) { // 2
-			if (a1 != b1 // 3
-					&& c1 != d1) { // 4
-				printLeftEncoder();
-			} else if (a2 != b2 // 5
-					|| c1 < d1) { // 6
-				printLeftEncoder();
-			} else {
-				printLeftEncoder();
-			}
-		} else if (c != d) { // 7
-			while (c != d) { // 8
-				printLeftEncoder();
-			}
-		}
-		if (34 == seconds && 67 > seconds || (null == rightEncoder && baseSpeed == 56.7)) {
-			seconds = seconds + 3.5;
-			printLeftEncoder();
-		}
+	
+	private void invert() {
+		inverted = inverted * -1;
 	}
-
-	public Encoder getRightEncoder() {
+	
+	private Encoder getRightEncoder() {
 		return rightEncoder;
 	}
 
@@ -132,7 +122,7 @@ public class DriveTrain {
 		System.out.println("rightEncoder:" + rightEncoder.getDistance());
 	}
 
-	public Encoder getLeftEncoder() {
+	private Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
 
@@ -144,50 +134,21 @@ public class DriveTrain {
 		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
 	}
 
-	/**
-	 * Used in Autonomous
-	 * 
-	 * @param speed
-	 * @param angle
-	 */
-
-	public void arcadeDrive(double speed, double angle) {
-		// if only used in autonomous may not need the throttle
-		drive.arcadeDrive(speed, angle);
-	}
-
-	public void stop() {
-		drive.stopMotor();
-
-	}
-
-	public void setToOpenLoop() {
-
-	}
-
-	public void setToClosedLoop() {
-
-	}
-
-	public double getLeftDistance() {
-		return 0;
-
-	}
-
-	public double getLeftSpeed() {
-		return 0;
-
-	}
-
-	public double getRightDistance() {
-		return 0;
-
-	}
-
-	public double getRightSpeed() {
-		return 0;
-
-	}
+//	public double getLeftDistance() {
+//		return 0;
+//	}
+//
+//	public double getLeftSpeed() {
+//		return 0;
+//	}
+//
+//	public double getRightDistance() {
+//		return 0;
+//	}
+//
+//	public double getRightSpeed() {
+//		return 0;
+//	}
 
 	public double getEncoderTics() {
 		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2;

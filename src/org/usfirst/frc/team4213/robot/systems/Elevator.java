@@ -21,8 +21,8 @@ public class Elevator {
 
 	// private static final Talon ELEVATOR_MOTOR = new
 	// Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
-	private static final SpeedController ELEVATOR_MOTOR = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL);
-	private static final Encoder elevatorEncoder = new Encoder(2, 3, false, CounterBase.EncodingType.k4X);
+	private static final SpeedController ELEVATOR_MOTOR =null;//= new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL);
+	private static final Encoder elevatorEncoder =null;//= new Encoder(2, 3, false, CounterBase.EncodingType.k4X);
 
 	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
@@ -89,7 +89,7 @@ public class Elevator {
 	}
 
 	public void stop() {
-		ELEVATOR_MOTOR.stopMotor();
+		//ELEVATOR_MOTOR.stopMotor();
 		motorState = MotorState.OFF;
 	}
 
