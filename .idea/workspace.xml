@@ -66,18 +66,59 @@
       <file leaf-file-name="DriveTrain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/systems/DriveTrain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-503">
-              <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+            <state relative-caret-position="-214">
+              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+              <folding>
+                <marker date="1518403725465" expanded="true" signature="4672:4684" ph="{...}" />
+                <marker date="1518403725465" expanded="true" signature="4706:4732" ph="{...}" />
+                <marker date="1518403725465" expanded="true" signature="4763:4768" ph="{}" />
+                <marker date="1518403725465" expanded="true" signature="4801:4806" ph="{}" />
+                <marker date="1518403725465" expanded="true" signature="4841:4858" ph="{...}" />
+                <marker date="1518403725465" expanded="true" signature="4890:4907" ph="{...}" />
+                <marker date="1518403725465" expanded="true" signature="4943:4960" ph="{...}" />
+                <marker date="1518403725465" expanded="true" signature="4993:5010" ph="{...}" />
+                <marker date="1518403725465" expanded="false" signature="5043:5048" ph=" { " />
+                <marker date="1518403725465" expanded="false" signature="5116:5119" ph=" }" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="java.util.logging.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/java.util.logging.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="19" lean-forward="false" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="java.util.logging.properties" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/java.util.logging.properties">
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+            <state relative-caret-position="221">
+              <caret line="116" column="30" lean-forward="false" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RightSideSwitch.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/RightSideSwitch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="55" column="14" lean-forward="false" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LeftSideSwitch.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/LeftSideSwitch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="78" column="14" lean-forward="false" selection-start-line="78" selection-start-column="14" selection-end-line="78" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -9744,10 +9785,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/java.util.logging.properties" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/RightSideSwitch.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/LeftSideSwitch.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/Robot.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -9780,6 +9824,26 @@
               <item name="Robot2018" type="b2602c69:ProjectViewProjectNode" />
               <item name="Robot2018" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Robot2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Robot2018" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="team4213" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Robot2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Robot2018" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="team4213" type="462c0819:PsiDirectoryNode" />
+              <item name="autonomous" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Robot2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Robot2018" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="team4213" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Robot2018" type="b2602c69:ProjectViewProjectNode" />
@@ -9923,7 +9987,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -9964,14 +10028,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/Robot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/lib14/Xbox360Controller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -10032,16 +10088,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/systems/DriveTrain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-503">
-          <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-214">
+          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding>
+            <marker date="1518403725465" expanded="true" signature="4672:4684" ph="{...}" />
+            <marker date="1518403725465" expanded="true" signature="4706:4732" ph="{...}" />
+            <marker date="1518403725465" expanded="true" signature="4763:4768" ph="{}" />
+            <marker date="1518403725465" expanded="true" signature="4801:4806" ph="{}" />
+            <marker date="1518403725465" expanded="true" signature="4841:4858" ph="{...}" />
+            <marker date="1518403725465" expanded="true" signature="4890:4907" ph="{...}" />
+            <marker date="1518403725465" expanded="true" signature="4943:4960" ph="{...}" />
+            <marker date="1518403725465" expanded="true" signature="4993:5010" ph="{...}" />
+            <marker date="1518403725465" expanded="false" signature="5043:5048" ph=" { " />
+            <marker date="1518403725465" expanded="false" signature="5116:5119" ph=" }" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/java.util.logging.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <caret line="4" column="19" lean-forward="false" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/RightSideSwitch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="55" column="14" lean-forward="false" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/autonomous/LeftSideSwitch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="78" column="14" lean-forward="false" selection-start-line="78" selection-start-column="14" selection-end-line="78" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team4213/robot/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="116" column="30" lean-forward="false" selection-start-line="116" selection-start-column="30" selection-end-line="116" selection-end-column="30" />
           <folding />
         </state>
       </provider>
