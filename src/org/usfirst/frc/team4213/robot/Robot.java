@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("className:"+Robot.class.getName());
 		System.out.println("className using this:" + this.getClass().getName());
-		logger.setLevel(Level.FINE);
+		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
 		logger.log(Level.SEVERE, "Logging Severe Example");
 		logger.log(Level.WARNING, "Logging Warning Example");
