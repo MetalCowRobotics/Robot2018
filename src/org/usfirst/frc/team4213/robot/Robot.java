@@ -57,6 +57,11 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
+	// Get Scale and Switch information
+	public String getGameSpecificMessage() {
+		return driverStation.getGameSpecificMessage();
+	}
+
 	// temp variables
 	boolean firstTime = true;
 
@@ -66,8 +71,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		System.out.println("className:"+Robot.class.getName());
-		System.out.println("className using this:" + this.getClass().getName());
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
 		logger.log(Level.SEVERE, "Logging Severe Example");
@@ -115,6 +118,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
 		logger.entering("autonomousInit", "");
+
+		driveTrain.resetGyro();
+
+		// TODO: Choose autonomous mission here?
+
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
@@ -127,29 +136,6 @@ public class Robot extends IterativeRobot {
 		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);
-		// switch (autoSelected) {
-		// case "ONE":
-		// // Put custom auto code here
-		// autoMission = new AutoMission1();
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("customAuto");
-		// }
-		//
-		// break;
-		// case "TWO":
-		// default:
-		// // Put default auto code here
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("defaultAuto");
-		// }
-		// break;
-		// }
-		//
-		// autoMission = new AutoMission1();
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
@@ -163,7 +149,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
