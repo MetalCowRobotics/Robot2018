@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
-
+	private static final Level loggingLevel = Level.WARNING;
 	// Define Autonomous Missions
 	final String rightSide = "RightSide";
 	final String leftSide = "LeftSide";
@@ -60,20 +60,20 @@ public class Robot extends IterativeRobot {
 	// temp variables
 	boolean firstTime = true;
 
-	// Get Scale and Switch information
-	public String getGameSpecificMessage() {
-		return driverStation.getGameSpecificMessage();
-	}
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		System.out.println(this.getClass().getName());
+		System.out.println("className:"+Robot.class.getName());
+		System.out.println("className using this:" + this.getClass().getName());
+		logger.setLevel(Level.FINE);
 		logger.entering(this.getClass().getName(), "robotInit");
-		logger.log(Level.FINE, "Logging Stuff Example");
+		logger.log(Level.SEVERE, "Logging Severe Example");
+		logger.log(Level.WARNING, "Logging Warning Example");
+		logger.log(Level.INFO, "Logging Info Example");
+		logger.log(Level.FINE, "Logging Fine Example");
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
@@ -196,10 +196,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		// DriveTrain.printRightEncoder();
-		// DriveTrain.printLeftEncoder;
-		driveWithEncoder = new DriveWithEncoder(10);
-
+		logger.entering(getClass().getName(), "testI");
+		elevator.moveElevatortopostion();
+		logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -210,7 +209,6 @@ public class Robot extends IterativeRobot {
 		if (!driveWithEncoder.isFinished()) {
 			driveWithEncoder.run();
 		}
-
 	}
 
 }

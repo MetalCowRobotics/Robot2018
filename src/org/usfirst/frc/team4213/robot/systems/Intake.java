@@ -24,6 +24,7 @@ public class Intake {
 	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
+	private static final DigitalInput cubeSwitch = new DigitalInput(RobotMap.Intake.BOX_SENSOR);
 
 	private enum IntakeState {
 		OFF, IN, OUT
@@ -112,9 +113,10 @@ public class Intake {
 		return IntakeState.OFF != currentIntakeState;
 	}
 
-	private boolean isCubeSensorSwitchActive() {
+	public boolean isCubeSensorSwitchActive() {
 		System.out.println("cubeSensor=" + cubeSensor.getDistanceInches());
-		return cubeSensor.getDistanceInches() < 12;
+		return !cubeSwitch.get();
+		//return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
 	}
 
