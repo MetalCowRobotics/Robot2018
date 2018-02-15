@@ -1,19 +1,18 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Logger;
-
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import java.util.logging.Logger;
 
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
@@ -23,8 +22,8 @@ public class DriveTrain {
 
 	private static final SpeedController LEFT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private static final Encoder rightEncoder = new Encoder(4, 5, false, CounterBase.EncodingType.k4X);
-	private static final Encoder leftEncoder = new Encoder(2, 3, true, CounterBase.EncodingType.k4X);
+	private static final Encoder rightEncoder = new Encoder(4, 5, false, EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(2, 3, true, EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
@@ -109,12 +108,14 @@ public class DriveTrain {
 			return RobotMap.Drivetrain.NORMAL_SPEED;
 		}
 	}
+
 	
 	private void invert() {
 		inverted = inverted * -1;
 	}
 	
 	private Encoder getRightEncoder() {
+
 		return rightEncoder;
 	}
 

@@ -62,11 +62,12 @@ public class LeftSideSwitch extends Mission {
 			break;
 		case reaching:
 			driveToWall.run();
-			if (driveToWall.isFinished())
+			if (driveToWall.isFinished()) {
 				curState = MissionStates.reached;
+			}
 			break;
 		case reached:
-			if (onMySide(Hand.kLeft)) {
+			if (onMySwitchSide(Hand.kLeft)) {
 				System.out.println("ejecting");
 				intake.autoEject();
 				curState = MissionStates.ejecting;
@@ -76,7 +77,7 @@ public class LeftSideSwitch extends Mission {
 			break;
 		case ejecting:
 			System.out.println("checking eject time");
-			intake.execute();
+			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}

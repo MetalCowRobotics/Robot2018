@@ -37,7 +37,6 @@ public class Elevator {
 	}
 
 	public void execute() {
-		// ToDo:Elevator control code goes here
 		if (AutoPosition) {
 			System.out.println("elevator encode:" + elevatorEncoder.getDistance());
 			System.out.println("elevator target:" + encoderTarget);
@@ -76,11 +75,11 @@ public class Elevator {
 	}
 
 	private boolean movingUp() {
-		return MotorState.UP == motorState ? true : false;
+		return MotorState.UP == motorState;
 	}
 
 	private boolean movingDown() {
-		return MotorState.DOWN == motorState ? true : false;
+		return MotorState.DOWN == motorState;
 	}
 
 	private void setElevatorSpeed(double speed) {
