@@ -7,7 +7,7 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class DepositeAtLeftSideOfScale extends Mission{
+public class LeftSideOfScale extends Mission{
 	private enum MissionStates {
 		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
 	}
@@ -23,7 +23,7 @@ public class DepositeAtLeftSideOfScale extends Mission{
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			driveStep = new DriveWithEncoder(370.57);
+			driveStep = new DriveWithEncoder(319);
 			//driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
