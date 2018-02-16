@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
-
+	private static final Level loggingLevel = Level.WARNING;
 	// Define Autonomous Missions
 	final String rightSide = "RightSide";
 	final String leftSide = "LeftSide";
@@ -59,13 +59,13 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-	// temp variables
-	boolean firstTime = true;
-
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
 		return driverStation.getGameSpecificMessage();
 	}
+
+	// temp variables
+	boolean firstTime = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -73,9 +73,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		System.out.println(this.getClass().getName());
+		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
-		logger.log(Level.FINE, "Logging Stuff Example");
+		logger.log(Level.SEVERE, "Logging Severe Example");
+		logger.log(Level.WARNING, "Logging Warning Example");
+		logger.log(Level.INFO, "Logging Info Example");
+		logger.log(Level.FINE, "Logging Fine Example");
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
@@ -118,6 +121,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
 		logger.entering("autonomousInit", "");
+
+		driveTrain.resetGyro();
+
+		// TODO: Choose autonomous mission here?
+
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
@@ -132,29 +141,6 @@ public class Robot extends IterativeRobot {
 		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);
-		// switch (autoSelected) {
-		// case "ONE":
-		// // Put custom auto code here
-		// autoMission = new AutoMission1();
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("customAuto");
-		// }
-		//
-		// break;
-		// case "TWO":
-		// default:
-		// // Put default auto code here
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("defaultAuto");
-		// }
-		// break;
-		// }
-		//
-		// autoMission = new AutoMission1();
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
@@ -168,7 +154,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
@@ -201,10 +186,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		// DriveTrain.printRightEncoder();
-		// DriveTrain.printLeftEncoder;
-		driveWithEncoder = new DriveWithEncoder(10);
-
+		logger.entering(getClass().getName(), "testI");
+		elevator.moveElevatortopostion();
+		logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -215,7 +199,6 @@ public class Robot extends IterativeRobot {
 		if (!driveWithEncoder.isFinished()) {
 			driveWithEncoder.run();
 		}
-
 	}
 
 }

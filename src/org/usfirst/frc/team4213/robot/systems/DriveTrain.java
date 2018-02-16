@@ -65,10 +65,21 @@ public class DriveTrain {
 		}
 	}
 
-	public void invert() {
-		inverted = inverted * -1;
+	/**
+	 * Used in Autonomous
+	 * 
+	 * @param speed
+	 * @param angle
+	 */
+	public void arcadeDrive(double speed, double angle) {
+		// if only used in autonomous may not need the throttle
+		drive.arcadeDrive(speed, angle);
 	}
-
+	
+	public void stop() {
+		drive.stopMotor();
+	}
+	
 	public void calibrateGyro() {
 		DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
 		DriverStation.reportWarning("Calibrating gyro... ", false);
@@ -103,7 +114,13 @@ public class DriveTrain {
 		}
 	}
 
-	public Encoder getRightEncoder() {
+	
+	private void invert() {
+		inverted = inverted * -1;
+	}
+	
+	private Encoder getRightEncoder() {
+
 		return rightEncoder;
 	}
 
@@ -111,7 +128,7 @@ public class DriveTrain {
 		System.out.println("rightEncoder:" + rightEncoder.getDistance());
 	}
 
-	public Encoder getLeftEncoder() {
+	private Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
 
@@ -123,50 +140,21 @@ public class DriveTrain {
 		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
 	}
 
-	/**
-	 * Used in Autonomous
-	 * 
-	 * @param speed
-	 * @param angle
-	 */
-
-	public void arcadeDrive(double speed, double angle) {
-		// if only used in autonomous may not need the throttle
-		drive.arcadeDrive(speed, angle);
-	}
-
-	public void stop() {
-		drive.stopMotor();
-
-	}
-
-	public void setToOpenLoop() {
-
-	}
-
-	public void setToClosedLoop() {
-
-	}
-
-	public double getLeftDistance() {
-		return 0;
-
-	}
-
-	public double getLeftSpeed() {
-		return 0;
-
-	}
-
-	public double getRightDistance() {
-		return 0;
-
-	}
-
-	public double getRightSpeed() {
-		return 0;
-
-	}
+//	public double getLeftDistance() {
+//		return 0;
+//	}
+//
+//	public double getLeftSpeed() {
+//		return 0;
+//	}
+//
+//	public double getRightDistance() {
+//		return 0;
+//	}
+//
+//	public double getRightSpeed() {
+//		return 0;
+//	}
 
 	public double getEncoderTics() {
 		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2;
