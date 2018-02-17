@@ -7,7 +7,7 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class LeftSideOfScale extends Mission{
+public class LeftSideOfScale extends Mission {
 	private enum MissionStates {
 		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
 	}
@@ -52,12 +52,12 @@ public class LeftSideOfScale extends Mission{
 			System.out.println("driving");
 			break;
 		case arrived:
-			if (!onMyScaleSide(Hand.kLeft)) {
-				System.out.println("done");
-				curState = MissionStates.done;
-			} else {
-				System.out.println("arrived");
+			System.out.println("arrived");
+			if (onMyScaleSide(Hand.kLeft)) {
 				curState = MissionStates.turning;
+			} else {
+				System.out.println("going to done");
+				curState = MissionStates.done;
 			}
 			break;
 		case turning:
