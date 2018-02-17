@@ -7,9 +7,9 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class LeftSideOfScale extends Mission{
+public class LeftSideOfScale extends Mission {
 	private enum MissionStates {
-		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
+		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done,
 	}
 
 	private MissionStates curState = MissionStates.waiting;
@@ -23,12 +23,25 @@ public class LeftSideOfScale extends Mission{
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			driveStep = new DriveWithEncoder(319);
-			//driveStep = new DriveWithEncoder(12);
-			driveDegrees = new TurnDegrees(90);
-			driveToWall = new DriveToWall(13);
-			intake.deploy();
-			// elevator.moveToSetPosition(SetPositions.switchWall);
+			if (onMyScaleSide(Hand.kLeft)) {
+				driveStep = new DriveWithEncoder(319);
+				driveDegrees = new TurnDegrees(90);
+				driveToWall = new DriveToWall(13);
+				intake.deploy();
+			}
+//			else if (onMySwitchSide(Hand.kLeft)){
+//				driveDegrees = new TurnDegrees(90);
+//				driveToWall = new DriveToWall(13);
+//				intake.deploy();
+//			}
+			else {
+				driveStep = new DriveWithEncoder(159.5);
+			}
+			// driveStep = new DriveWithEncoder(12);
+//			driveDegrees = new TurnDegrees(90);
+//			driveToWall = new DriveToWall(13);
+//			intake.deploy();
+			// elevator.moveToSetPosition(SetPositions.scaleWall);
 			System.out.println("waiting");
 			curState = MissionStates.driving;
 			break;
@@ -39,8 +52,13 @@ public class LeftSideOfScale extends Mission{
 			System.out.println("driving");
 			break;
 		case arrived:
-			System.out.println("arrived");
-			curState = MissionStates.turning;
+			if (!onMyScaleSide(Hand.kLeft)) {
+				System.out.println("done");
+				curState = MissionStates.done;
+			} else {
+				System.out.println("arrived");
+				curState = MissionStates.turning;
+			}
 			break;
 		case turning:
 			driveDegrees.run();
@@ -52,7 +70,7 @@ public class LeftSideOfScale extends Mission{
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
-			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
+			// if (SetPositions.scaleWall == elevator.getCurrentSetPostion()) {
 			System.out.println("deploying");
 			curState = MissionStates.deployed;
 			// }
@@ -67,7 +85,7 @@ public class LeftSideOfScale extends Mission{
 			}
 			break;
 		case reached:
-			if (onMySwitchSide(Hand.kLeft)) {
+			if (onMyScaleSide(Hand.kLeft)) {
 				System.out.println("ejecting");
 				intake.autoEject();
 				curState = MissionStates.ejecting;
@@ -77,7 +95,7 @@ public class LeftSideOfScale extends Mission{
 			break;
 		case ejecting:
 			System.out.println("checking eject time");
-			//intake.execute();
+			// intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}

@@ -24,7 +24,7 @@ public class LeftSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			driveStep = new DriveWithEncoder(159.5);
-			//driveStep = new DriveWithEncoder(12);
+			// driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
 			intake.deploy();
@@ -77,7 +77,7 @@ public class LeftSideSwitch extends Mission {
 			break;
 		case ejecting:
 			System.out.println("checking eject time");
-			//intake.execute();
+			// intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}

@@ -38,6 +38,10 @@ public abstract class Mission {
 		return mySide == getNearSwitch();
 	}
 
+	protected boolean onMyScaleSide(Hand mySide) {
+		return mySide == getScale();
+	}
+
 	public abstract void execute();
 
 }

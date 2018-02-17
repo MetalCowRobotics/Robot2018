@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("LeftSideSwitch", leftSide);
 		autoChooser.addDefault("PassLine", passLine);
 		autoChooser.addObject("eitherSide", eitherSide);
-		autoChooser.addObject("leftScale", leftSideOfScale );
+		autoChooser.addObject("leftScale", leftSideOfScale);
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
@@ -134,9 +134,9 @@ public class Robot extends IterativeRobot {
 			autoMission = new LeftSideSwitch();
 		} else if (eitherSide == autoSelected) {
 			autoMission = new RightPositionEitherSwitch();
-		}		else if (leftSideOfScale == autoSelected) {
+		} else if (leftSideOfScale == autoSelected) {
 			autoMission = new LeftSideOfScale();
-		}		else {
+		} else {
 			autoMission = new PassLine();
 		}
 		System.out.println("Auto selected: " + autoSelected);
