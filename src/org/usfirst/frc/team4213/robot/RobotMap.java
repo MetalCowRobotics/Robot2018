@@ -14,8 +14,10 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 1;
 		public static final double NORMAL_SPEED = 0.7;
 		public static final double CRAWL_SPEED = 0.5;
-		public static final int LEFT_MOTOR_CHANNEL = 2;// CAN 
-		public static final int RIGHT_MOTOR_CHANNEL = 7;// CAN 
+		public static final int LEFT_MOTOR_CHANNEL1 = 2;// CAN 
+		public static final int LEFT_MOTOR_CHANNEL2 = 3;// CAN 
+		public static final int RIGHT_MOTOR_CHANNEL1 = 7;// CAN 
+		public static final int RIGHT_MOTOR_CHANNEL2 = 8;// CAN 
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
 		public static final int WHEEL_DIAMETER = 4;
@@ -67,8 +69,14 @@ public class RobotMap {
 	public final class Elevator {
 		public static final double UP_SPEED = 0.2;
 		public static final double DOWN_SPEED = -0.2;
-		public static final int ELEVATOR_CHANNEL = 2;// CAN
+		public static final int ELEVATOR_CHANNEL1 = 4;// CAN
+		public static final int ELEVATOR_CHANNEL2 = 5;// CAN
 		public static final int LIMIT_SWITCH_TOP = 3; // DIO
 		public static final int LIMIT_SWITCH_BOTTOM = 4; // DIO
+	}
+	
+	public final class Climber {
+		public static final int CLIMBER_MOTOR_CHANNEL1 = 1;
+		public static final int CLIMBER_MOTOR_CHANNEL2 = 9;
 	}
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
@@ -19,12 +20,18 @@ public class DriveTrain {
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
 
 	private MasterControls controller = MasterControls.getInstance();
+	
 
-	private static final SpeedController LEFT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
-	private static final SpeedController RIGHT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
+	private static final SpeedController LEFT_MOTOR1 = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1);
+	private static final SpeedController LEFT_MOTOR2 = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2);
+	private static final SpeedController RIGHT_MOTOR1 = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1);
+	private static final SpeedController RIGHT_MOTOR2 = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2);
+	private static SpeedControllerGroup RightSpeedControllerGroup = new SpeedControllerGroup (RIGHT_MOTOR1, RIGHT_MOTOR2);
+	private static SpeedControllerGroup LeftSpeedControllerGroup = new SpeedControllerGroup (LEFT_MOTOR1, LEFT_MOTOR2);
+			
 	private static final Encoder rightEncoder = new Encoder(4, 5, false, EncodingType.k4X);
 	private static final Encoder leftEncoder = new Encoder(2, 3, true, EncodingType.k4X);
-	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
+	private static final DifferentialDrive drive = new DifferentialDrive(LeftSpeedControllerGroup, RightSpeedControllerGroup);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();

@@ -11,17 +11,21 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 public class Elevator {
 	private static final Elevator instance = new Elevator();
 	private static final Intake intake = Intake.getInstance();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
+	
 
 	// private static final Talon ELEVATOR_MOTOR = new
 	// Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
-	private static final SpeedController ELEVATOR_MOTOR =null;//= new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL);
+	private static final SpeedController ELEVATOR_MOTOR1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
+	private static final SpeedController ELEVATOR_MOTOR2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
+	private static SpeedControllerGroup ElevatorSpeedControllerGroup = new SpeedControllerGroup (ELEVATOR_MOTOR1, ELEVATOR_MOTOR2);
+
 	private static final Encoder elevatorEncoder =null;//= new Encoder(2, 3, false, CounterBase.EncodingType.k4X);
 
 	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
@@ -84,11 +88,11 @@ public class Elevator {
 
 	private void setElevatorSpeed(double speed) {
 		motorState = (speed < 0) ? MotorState.DOWN : MotorState.UP;
-		ELEVATOR_MOTOR.set(speed);
+		ElevatorSpeedControllerGroup.set(speed);
 	}
 
 	public void stop() {
-		//ELEVATOR_MOTOR.stopMotor();
+		ElevatorSpeedControllerGroup.stopMotor();
 		motorState = MotorState.OFF;
 	}
 

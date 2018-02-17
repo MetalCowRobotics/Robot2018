@@ -2,13 +2,23 @@ package org.usfirst.frc.team4213.robot.systems;
 
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.lib14.MCR_SRX;
+import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public class Climber {
 	private static final Climber instance = new Climber();
 	private static final Logger logger = Logger.getLogger(Climber.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
+
+	private static final SpeedController CLIMBER_MOTOR1 = new MCR_SRX(RobotMap.Climber.CLIMBER_MOTOR_CHANNEL1);
+	private static final SpeedController CLIMBER_MOTOR2 = new MCR_SRX(RobotMap.Climber.CLIMBER_MOTOR_CHANNEL2);
+	private static SpeedControllerGroup ClimberSpeedControllerGroup = new SpeedControllerGroup (CLIMBER_MOTOR1, CLIMBER_MOTOR2);
+
 
 	// TODO: Motors
 
@@ -23,7 +33,7 @@ public class Climber {
 	}
 
 	public void execute() {
-
+		ClimberSpeedControllerGroup.set(controller.getClimbThrottle());
 	}
 
 }
