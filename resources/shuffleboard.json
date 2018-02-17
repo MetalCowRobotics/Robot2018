@@ -7,6 +7,7 @@
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -114,6 +115,7 @@
       "autoPopulatePrefix": "LiveWindow/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -355,64 +357,29 @@
           },
           "0,4": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[1]/Value",
-              "_title": "Ungrouped/DigitalInput[1]/Value",
-              "colorWhenTrue": "#7CFC00FF",
-              "colorWhenFalse": "#8B0000FF"
-            }
-          },
-          "1,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Speed",
-              "_title": "Ungrouped/Encoder[1]/Speed"
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]",
+              "_title": "Ungrouped/Encoder[1]"
             }
           },
           "2,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Distance",
-              "_title": "Ungrouped/Encoder[1]/Distance"
-            }
-          },
-          "3,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]/Distance per Tick",
-              "_title": "Ungrouped/Encoder[1]/Distance per Tick"
-            }
-          },
-          "4,4": {
             "size": [
               2,
               1
             ],
             "content": {
               "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[2]",
-              "_title": "Ungrouped/Talon[2]",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[4]",
+              "_title": "Ungrouped/Talon[4]",
               "controllable": false,
               "orientation": "HORIZONTAL"
             }
           },
-          "6,4": {
+          "4,4": {
             "size": [
               2,
               1
@@ -428,20 +395,7 @@
               "numTickMarks": 5.0
             }
           },
-          "0,5": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Speed Controller",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[4]",
-              "_title": "Ungrouped/Talon[4]",
-              "controllable": false,
-              "orientation": "HORIZONTAL"
-            }
-          },
-          "2,5": {
+          "6,4": {
             "size": [
               2,
               1
@@ -454,37 +408,55 @@
               "orientation": "HORIZONTAL"
             }
           },
-          "4,5": {
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Voltage View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/AnalogInput[0]",
+              "_title": "Ungrouped/AnalogInput[0]",
+              "min": 0.0,
+              "max": 5.0,
+              "center": 0.0,
+              "orientation": "HORIZONTAL",
+              "numTickMarks": 5.0
+            }
+          },
+          "2,5": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Speed",
-              "_title": "Ungrouped/Encoder[0]/Speed"
+              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]/Left Motor Speed",
+              "_title": "Ungrouped/DifferentialDrive[1]/Left Motor Speed"
+            }
+          },
+          "3,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]",
+              "_title": "Ungrouped/Encoder[0]"
             }
           },
           "5,5": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Distance",
-              "_title": "Ungrouped/Encoder[0]/Distance"
-            }
-          },
-          "6,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]/Distance per Tick",
-              "_title": "Ungrouped/Encoder[0]/Distance per Tick"
+              "_type": "Speed Controller",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[2]",
+              "_title": "Ungrouped/Talon[2]",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
             }
           },
           "7,5": {
@@ -494,8 +466,8 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]/Left Motor Speed",
-              "_title": "Ungrouped/DifferentialDrive[1]/Left Motor Speed"
+              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]/Right Motor Speed",
+              "_title": "Ungrouped/DifferentialDrive[1]/Right Motor Speed"
             }
           }
         }
