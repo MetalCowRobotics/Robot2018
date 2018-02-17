@@ -29,18 +29,18 @@ public class LeftSideOfScale extends Mission {
 				driveToWall = new DriveToWall(13);
 				intake.deploy();
 			}
-//			else if (onMySwitchSide(Hand.kLeft)){
-//				driveDegrees = new TurnDegrees(90);
-//				driveToWall = new DriveToWall(13);
-//				intake.deploy();
-//			}
+			// else if (onMySwitchSide(Hand.kLeft)){
+			// driveDegrees = new TurnDegrees(90);
+			// driveToWall = new DriveToWall(13);
+			// intake.deploy();
+			// }
 			else {
 				driveStep = new DriveWithEncoder(159.5);
 			}
 			// driveStep = new DriveWithEncoder(12);
-//			driveDegrees = new TurnDegrees(90);
-//			driveToWall = new DriveToWall(13);
-//			intake.deploy();
+			// driveDegrees = new TurnDegrees(90);
+			// driveToWall = new DriveToWall(13);
+			// intake.deploy();
 			// elevator.moveToSetPosition(SetPositions.scaleWall);
 			System.out.println("waiting");
 			curState = MissionStates.driving;
