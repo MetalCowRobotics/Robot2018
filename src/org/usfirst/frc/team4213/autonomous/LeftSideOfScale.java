@@ -7,9 +7,9 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class LeftSideOfScale extends Mission {
+public class LeftSideOfScale extends Mission{
 	private enum MissionStates {
-		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done,
+		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
