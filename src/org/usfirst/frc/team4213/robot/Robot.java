@@ -181,9 +181,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		logger.entering(getClass().getName(), "testI");
-		elevator.moveElevatortopostion();
-		logger.exiting(this.getClass().getName(), "robotinit");
+		//logger.entering(getClass().getName(), "testI");
+		//elevator.moveElevatortopostion();
+		//logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -191,9 +191,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		}
+		//if (!driveWithEncoder.isFinished()) {
+		//	driveWithEncoder.run();
+		//}
 	}
 
 }
