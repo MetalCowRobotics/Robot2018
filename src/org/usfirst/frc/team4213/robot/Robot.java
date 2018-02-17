@@ -3,10 +3,16 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.RightPositionEitherSwitch;
+import org.usfirst.frc.team4213.autonomous.LeftSideOfScale;
+import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
 import org.usfirst.frc.team4213.autonomous.Mission;
+import org.usfirst.frc.team4213.autonomous.PassLine;
+import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
-import org.usfirst.frc.team4213.robot.systems.DriveToWall;
+import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
@@ -29,15 +35,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
-
+	private static final Level loggingLevel = Level.WARNING;
 	// Define Autonomous Missions
-	final String defaultAuto = "Default";
-	final String customAuto = "Custom";
+	final String rightSide = "RightSide";
+	final String leftSide = "LeftSide";
+	final String passLine = "PassLine";
+	final String eitherSide = "eitherSide";
+	final String leftSideOfScale = "leftSideOfScale";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	String autoSelected = defaultAuto;
+	String autoSelected = passLine;
 
 	Mission autoMission;
-	DriveToWall driveStraight;
+	AutoDrive driveStraight;
 	TurnDegrees turnDegrees;
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
@@ -50,13 +59,13 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-	// temp variables
-	boolean firstTime = true;
-
 	// Get Scale and Switch information
 	public String getGameSpecificMessage() {
 		return driverStation.getGameSpecificMessage();
 	}
+
+	// temp variables
+	boolean firstTime = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -64,12 +73,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		logger.log(Level.INFO, "Logging Stuff Example");
-
+		logger.setLevel(loggingLevel);
+		logger.entering(this.getClass().getName(), "robotInit");
+		logger.log(Level.SEVERE, "Logging Severe Example");
+		logger.log(Level.WARNING, "Logging Warning Example");
+		logger.log(Level.INFO, "Logging Info Example");
+		logger.log(Level.FINE, "Logging Fine Example");
 		// Load available Autonomous missions to the driverstation
-		autoSelected = defaultAuto;
-		autoChooser.addDefault("Default", defaultAuto);
-		autoChooser.addObject("Custom", customAuto);
+		autoSelected = rightSide;
+		autoChooser.addObject("RightSideSwitch", rightSide);
+		autoChooser.addObject("LeftSideSwitch", leftSide);
+		autoChooser.addDefault("PassLine", passLine);
+		autoChooser.addObject("eitherSide", eitherSide);
+		autoChooser.addObject("leftScale", leftSideOfScale );
 		SmartDashboard.putData("Auto choices", autoChooser);
 
 		// Initialize Robot
@@ -104,44 +120,33 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		System.out.println("Autonomous Init!");
-		logger.entering(getClass().getName(), "doIt");
+		logger.entering("autonomousInit", "");
 
 		driveTrain.resetGyro();
 
 		// TODO: Choose autonomous mission here?
+
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
+		if (rightSide == autoSelected) {
+			autoMission = new RightSideSwitch();
+		} else if (leftSide == autoSelected) {
+			autoMission = new LeftSideSwitch();
+		} else if (eitherSide == autoSelected) {
+			autoMission = new RightPositionEitherSwitch();
+		}		else if (leftSideOfScale == autoSelected) {
+			autoMission = new LeftSideOfScale();
+		}		else {
+			autoMission = new PassLine();
+		}
 		System.out.println("Auto selected: " + autoSelected);
 		System.out.println("Auto selected: " + autoSelected);
-		// switch (autoSelected) {
-		// case "ONE":
-		// // Put custom auto code here
-		// autoMission = new AutoMission1();
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("customAuto");
-		// }
-		//
-		// break;
-		// case "TWO":
-		// default:
-		// // Put default auto code here
-		//
-		// if (firstTime) {
-		// firstTime = false;
-		// System.out.println("defaultAuto");
-		// }
-		// break;
-		// }
-		//
-		// autoMission = new AutoMission1();
 		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
 		firstTime = true;
-		driveStraight = new DriveToWall(3);
+		driveStraight = new DriveStraightTime(5);
 		turnDegrees = new TurnDegrees(90);
-		driveWithEncoder = new DriveWithEncoder(72);
+		driveWithEncoder = new DriveWithEncoder(48);
 	}
 
 	/**
@@ -149,16 +154,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println("Autonomous Periodic!");
-		// autoMission.execute();
-		System.out.println("Distance: " + DriveTrain.getInstance().wallSensorInches());
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		} else if (!turnDegrees.isFinished()) {
-			turnDegrees.run();
-		} else if (!driveStraight.isFinished()) {
-			driveStraight.run();
-		}
+		logger.entering(this.getClass().getName(), "autonomousPeriodic");
+		intake.execute();
+		elevator.execute();
+		climber.execute();
+		autoMission.execute();
+		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
 	}
 
 	/**
@@ -185,10 +186,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		// DriveTrain.printRightEncoder();
-		// DriveTrain.printLeftEncoder;
-		driveWithEncoder = new DriveWithEncoder(10);
-
+		logger.entering(getClass().getName(), "testI");
+		elevator.moveElevatortopostion();
+		logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -199,7 +199,6 @@ public class Robot extends IterativeRobot {
 		if (!driveWithEncoder.isFinished()) {
 			driveWithEncoder.run();
 		}
-
 	}
 
 }

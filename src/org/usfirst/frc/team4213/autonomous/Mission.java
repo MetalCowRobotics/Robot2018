@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4213.autonomous;
 
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -11,6 +12,7 @@ public abstract class Mission {
 	DriverStation driverStation = DriverStation.getInstance();
 	DriveTrain driveTrain = DriveTrain.getInstance();
 	Intake intake = Intake.getInstance();
+	Elevator elevator = Elevator.getInstance();
 
 	// state machine steps
 
@@ -32,9 +34,8 @@ public abstract class Mission {
 		return driverStation.getGameSpecificMessage().toUpperCase().charAt(2) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
 
-	protected boolean onMySide() {
-		// TODO add logic to get SmartDashboard starting position
-		return true;
+	protected boolean onMySwitchSide(Hand mySide) {
+		return mySide == getNearSwitch();
 	}
 
 	public abstract void execute();

@@ -7,6 +7,7 @@
       "autoPopulatePrefix": "SmartDashboard/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -114,6 +115,7 @@
       "autoPopulatePrefix": "LiveWindow/",
       "widgetPane": {
         "gridSize": 128.0,
+        "showGrid": true,
         "hgap": 16.0,
         "vgap": 16.0,
         "tiles": {
@@ -351,6 +353,121 @@
                   "colorWhenFalse": "#8B0000FF"
                 }
               ]
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[1]",
+              "_title": "Ungrouped/Encoder[1]"
+            }
+          },
+          "2,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[4]",
+              "_title": "Ungrouped/Talon[4]",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "4,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Voltage View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/AnalogInput[1]",
+              "_title": "Ungrouped/AnalogInput[1]",
+              "min": 0.0,
+              "max": 5.0,
+              "center": 0.0,
+              "orientation": "HORIZONTAL",
+              "numTickMarks": 5.0
+            }
+          },
+          "6,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[3]",
+              "_title": "Ungrouped/Talon[3]",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "0,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Voltage View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/AnalogInput[0]",
+              "_title": "Ungrouped/AnalogInput[0]",
+              "min": 0.0,
+              "max": 5.0,
+              "center": 0.0,
+              "orientation": "HORIZONTAL",
+              "numTickMarks": 5.0
+            }
+          },
+          "2,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]/Left Motor Speed",
+              "_title": "Ungrouped/DifferentialDrive[1]/Left Motor Speed"
+            }
+          },
+          "3,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]",
+              "_title": "Ungrouped/Encoder[0]"
+            }
+          },
+          "5,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Speed Controller",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Talon[2]",
+              "_title": "Ungrouped/Talon[2]",
+              "controllable": false,
+              "orientation": "HORIZONTAL"
+            }
+          },
+          "7,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/DifferentialDrive[1]/Right Motor Speed",
+              "_title": "Ungrouped/DifferentialDrive[1]/Right Motor Speed"
             }
           }
         }

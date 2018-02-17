@@ -3,9 +3,15 @@ package org.usfirst.frc.team4213.autonomous;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 
-public class AutoMission1 extends Mission {
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+
+public class RightSideSwitch extends Mission {
+
 	private enum MissionStates {
 		waiting, driving, arrived, deploying, deployed, ejecting, ejected, done
+
+		// deploys to scale on right side
+
 	}
 
 	private MissionStates curState = MissionStates.waiting;
@@ -17,15 +23,16 @@ public class AutoMission1 extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			driveStep = new DriveToWall(6);
+			elevator.moveElevatortopostion();
+			driveStep = new DriveToWall(13);
 			intake.deploy();
-			// elevator.moveToSetPosition(SetPositions.switchWall);
 			curState = MissionStates.driving;
 			break;
 		case driving:
 			driveStep.run();
-			if (driveStep.isFinished())
+			if (driveStep.isFinished()) {
 				curState = MissionStates.arrived;
+			}
 			break;
 		case arrived:
 			curState = MissionStates.deploying;
@@ -36,11 +43,9 @@ public class AutoMission1 extends Mission {
 			// }
 			break;
 		case deployed:
-			if (onMySide()) {
-				// intake.autoEjectPowerCube();
-				System.out.println("ejecting");
+			if (onMySwitchSide(Hand.kRight)) {
 				intake.autoEject();
-				// intake.autoIntake();
+				System.out.println("ejecting");
 				curState = MissionStates.ejecting;
 			} else {
 				curState = MissionStates.done;
@@ -48,7 +53,7 @@ public class AutoMission1 extends Mission {
 			break;
 		case ejecting:
 			System.out.println("checking eject time");
-			intake.execute();
+			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}
@@ -59,6 +64,8 @@ public class AutoMission1 extends Mission {
 			break;
 		case done:
 			// turn stuff off an prepare for teleop
+			break;
+		default:
 			break;
 		}
 	}

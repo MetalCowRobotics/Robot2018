@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="myRobot_main" target="1.8" />
+      <module name="myRobot_test" target="1.8" />
+      <module name="wpilibj_dev" target="1.8" />
+      <module name="wpilibj_main" target="1.8" />
+      <module name="wpilibj_test" target="1.8" />
+      <module name="wpilibjExamples_main" target="1.8" />
+      <module name="wpilibjExamples_test" target="1.8" />
+      <module name="wpilibjIntegrationTests_main" target="1.8" />
+      <module name="wpilibjIntegrationTests_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
