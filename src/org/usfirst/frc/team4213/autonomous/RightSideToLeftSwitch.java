@@ -7,55 +7,36 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class RightPositionEitherSwitch extends Mission {
+public class RightSideToLeftSwitch extends Mission {
 	private enum MissionStates {
-		waiting, left, right, ldriving1, ldriving2, larrived1, larrived2, lturning1, lturning2, lturned1, lturned2, lreaching, lreached, ldeploying, ldeployed, lejecting, lejected, done
+		waiting, left, ldriving1, ldriving2, larrived1, larrived2, lturning1, lturning2, lturned1, lturned2, lreaching, lreached, ldeploying, ldeployed, lejecting, lejected, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
-	
-	
-	private AutoDrive driveStep;
+
 	private AutoDrive driveStep1;
-	private AutoDrive driveStep2;
+	private AutoDrive driveStep;
 	private AutoDrive driveDegrees1;
+	private AutoDrive driveStep2;
 	private AutoDrive driveDegrees2;
 	private AutoDrive driveToWall;
-	private Mission rightSideSwitch;
 
 	// The Go Straight For X Feet Mission
 
 	public void execute() {
 		switch (curState) {
 		case waiting:
-			if (onMySwitchSide(Hand.kRight)) {
-				rightSideSwitch = new RightSideSwitch();
-				curState = MissionStates.right;
-			} else if (onMySwitchSide(Hand.kLeft)) {
-				driveStep1 = new DriveWithEncoder(60);
-				// driveStep = new DriveWithEncoder(12);
-				driveDegrees1 = new TurnDegrees(-90);
-				driveStep2 = new DriveWithEncoder(84);
-				driveDegrees2 = new TurnDegrees(90);
-				driveToWall = new DriveToWall(13);
-				intake.deploy();
-				// elevator.moveToSetPosition(SetPositions.switchWall);
-				System.out.println("waiting");
-				curState = MissionStates.ldriving1;
-			}
-		break;
-		//case left: // like a firstTime
-//			driveStep1 = new DriveWithEncoder(60);
-//			// driveStep = new DriveWithEncoder(12);
-//			driveDegrees1 = new TurnDegrees(-90);
-//			driveStep2 = new DriveWithEncoder(84);
-//			driveDegrees2 = new TurnDegrees(90);
-//			driveToWall = new DriveToWall(13);
-//			intake.deploy();
-//			// elevator.moveToSetPosition(SetPositions.switchWall);
-//			System.out.println("waiting");
-//			curState = MissionStates.ldriving1;
-		//	break;
+			driveStep1 = new DriveWithEncoder(60);
+			driveStep = new DriveWithEncoder(12);
+			driveDegrees1 = new TurnDegrees(-90);
+			driveStep2 = new DriveWithEncoder(84);
+			driveDegrees2 = new TurnDegrees(90);
+			driveToWall = new DriveToWall(13);
+			intake.deploy();
+			System.out.println("waiting");
+			curState = MissionStates.ldriving1;
+
+			break;
 		case ldriving1:
 			driveStep1.run();
 			if (driveStep1.isFinished())
@@ -88,9 +69,9 @@ public class RightPositionEitherSwitch extends Mission {
 		case lturning2:
 			driveDegrees2.run();
 			if (driveDegrees2.isFinished())
-				curState = MissionStates.lturned2;	
+				curState = MissionStates.lturned2;
 			break;
-		case lturned2: 
+		case lturned2:
 			curState = MissionStates.ldeploying;
 			break;
 		case ldeploying:
@@ -123,10 +104,6 @@ public class RightPositionEitherSwitch extends Mission {
 			// could do a secondary mission
 			curState = MissionStates.done;
 			break;
-		case right: // like a firstTime
-			rightSideSwitch.execute();
-			break;
-		
 		case done:
 			// turn stuff off an prepare for teleop
 			break;
