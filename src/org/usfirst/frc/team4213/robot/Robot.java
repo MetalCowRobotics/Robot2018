@@ -194,6 +194,7 @@ public class Robot extends IterativeRobot {
 		//if (!driveWithEncoder.isFinished()) {
 		//	driveWithEncoder.run();
 		//}
+		driveTrain.drive();
 	}
 
 }

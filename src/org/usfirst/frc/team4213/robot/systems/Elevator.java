@@ -19,14 +19,14 @@ public class Elevator {
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	
-
+//e2
 	// private static final Talon ELEVATOR_MOTOR = new
 	// Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
-	private static final SpeedController ELEVATOR_MOTOR1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
-	private static final SpeedController ELEVATOR_MOTOR2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
+	private static final MCR_SRX ELEVATOR_MOTOR1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
+	private static final MCR_SRX ELEVATOR_MOTOR2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
 	private static SpeedControllerGroup ElevatorSpeedControllerGroup = new SpeedControllerGroup (ELEVATOR_MOTOR1, ELEVATOR_MOTOR2);
 
-	private static final Encoder elevatorEncoder =null;//= new Encoder(2, 3, false, CounterBase.EncodingType.k4X);
+	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1, RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
 
 	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
@@ -41,11 +41,12 @@ public class Elevator {
 	}
 
 	public void execute() {
+		System.out.println("elevator encoder tics:" + getEncoderTics());
 		if (AutoPosition) {
-			System.out.println("elevator encode:" + elevatorEncoder.getDistance());
+			System.out.println("elevator encode:" + getEncoderTics());
 			System.out.println("elevator target:" + encoderTarget);
-			System.out.println("elevator boolean:" + (elevatorEncoder.getDistance() > encoderTarget));
-			if (elevatorEncoder.getDistance() < encoderTarget) {
+			System.out.println("elevator boolean:" + (getEncoderTics() > encoderTarget));
+			if (getEncoderTics() < encoderTarget) {
 				stop();
 				AutoPosition = false;
 			}
@@ -64,14 +65,14 @@ public class Elevator {
 	}
 
 	public void moveUp() {
-		if (!movingUp() && ElevatorState.TOP != elevatorState) {
+		if (!movingUp()) {
 			setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		}
 		// elevatorState = topLimit.get() ? ElevatorState.TOP : ElevatorState.MIDDLE;
 	}
 
 	public void moveDown() {
-		if (!movingDown() && ElevatorState.BOTTOM != elevatorState) {
+		if (!movingDown()) {
 			setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
 		}
 		// elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM :
@@ -98,11 +99,16 @@ public class Elevator {
 
 	public void moveElevatortopostion() {
 		AutoPosition = true;
-		encoderTarget = elevatorEncoder.getDistance() - 200;
+		encoderTarget = getEncoderTics() - 200;
 		moveUp();
 		System.out.println("elevator target tics" + encoderTarget);
 	}
 
+	private double getEncoderTics() {
+		//return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
+		return elevatorEncoder.getDistance();
+	}
+	
 	private enum MotorState {
 		OFF, UP, DOWN
 	}

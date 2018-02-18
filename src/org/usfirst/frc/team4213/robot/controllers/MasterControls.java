@@ -72,4 +72,4 @@ public class MasterControls {
 	public double getClimbThrottle() {
 		return operator.getLY();
 	}
-	}
+}
