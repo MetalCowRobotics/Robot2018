@@ -80,10 +80,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
-		logger.log(Level.SEVERE, "Logging Severe Example");
-		logger.log(Level.WARNING, "Logging Warning Example");
-		logger.log(Level.INFO, "Logging Info Example");
-		logger.log(Level.FINE, "Logging Fine Example");
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
@@ -171,7 +167,6 @@ public class Robot extends IterativeRobot {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
-		climber.execute();
 		autoMission.execute();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
 	}
@@ -200,9 +195,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
-		logger.entering(getClass().getName(), "testI");
-		elevator.moveElevatortopostion();
-		logger.exiting(this.getClass().getName(), "robotinit");
+		//logger.entering(getClass().getName(), "testI");
+		//elevator.moveElevatortopostion();
+		//logger.exiting(this.getClass().getName(), "robotinit");
 	}
 
 	/**
@@ -210,9 +205,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		}
+		//if (!driveWithEncoder.isFinished()) {
+		//	driveWithEncoder.run();
+		//}
+		driveTrain.drive();
 	}
 
 }

@@ -85,7 +85,7 @@ public class Intake {
 
 	private void powerCubeIntake() {
 		// TODO use invert motor
-		LEFT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);//.setSpeed(RobotMap.Intake.INTAKE_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.INTAKE_SPEED);//.setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);//setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		currentIntakeState = IntakeState.IN;
 		if (isCubeSensorSwitchActive()) {
@@ -94,7 +94,7 @@ public class Intake {
 	}
 
 	private void powerCubeEject() {
-		LEFT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}

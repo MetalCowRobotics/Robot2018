@@ -69,5 +69,7 @@ public class MasterControls {
 	public void intakeRumbleOff() {
 		operator.rumbleLeft(0);
 	}
-
+	public double getClimbThrottle() {
+		return operator.getLY();
+	}
 }
