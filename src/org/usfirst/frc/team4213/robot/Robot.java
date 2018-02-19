@@ -1,31 +1,17 @@
 package org.usfirst.frc.team4213.robot;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.usfirst.frc.team4213.autonomous.MiddlePosition;
-import org.usfirst.frc.team4213.autonomous.LeftPosition;
-import org.usfirst.frc.team4213.autonomous.LeftSideScale;
-import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
-import org.usfirst.frc.team4213.autonomous.Mission;
-import org.usfirst.frc.team4213.autonomous.PassLine;
-import org.usfirst.frc.team4213.autonomous.RightPosition;
-import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
-import org.usfirst.frc.team4213.robot.systems.AutoDrive;
-//import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
-import org.usfirst.frc.team4213.robot.systems.Climber;
-import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
-import org.usfirst.frc.team4213.robot.systems.DriveTrain;
-import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
-import org.usfirst.frc.team4213.robot.systems.Elevator;
-import org.usfirst.frc.team4213.robot.systems.Intake;
-import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team4213.autonomous.*;
+import org.usfirst.frc.team4213.robot.systems.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+//import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -64,14 +50,6 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-	// Get Scale and Switch information
-	public String getGameSpecificMessage() {
-		return driverStation.getGameSpecificMessage();
-	}
-
-	// temp variables
-	boolean firstTime = true;
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -80,6 +58,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
+		//HamburgerDashboard.getInstance().pushAutonomousMissions();
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
 		autoChooser.addObject("RightSideSwitch", rightSide);
@@ -124,13 +103,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		System.out.println("Autonomous Init!");
 		logger.entering("autonomousInit", "");
-
-		driveTrain.resetGyro();
-
-		// TODO: Choose autonomous mission here?
-
+		//autoSelected = HamburgerDashboard.getInstance().getSelectedMision();
 		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
@@ -148,15 +122,8 @@ public class Robot extends IterativeRobot {
 		} else if (leftPosition == autoSelected) {
 			autoMission = new LeftPosition();
 		}
-		
 		System.out.println("Auto selected: " + autoSelected);
-		System.out.println("Auto selected: " + autoSelected);
-		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
-		firstTime = true;
-		driveStraight = new DriveStraightTime(5);
-		turnDegrees = new TurnDegrees(90);
-		driveWithEncoder = new DriveWithEncoder(48);
 	}
 
 	/**
