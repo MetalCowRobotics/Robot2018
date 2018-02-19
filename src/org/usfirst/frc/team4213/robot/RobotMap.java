@@ -66,9 +66,14 @@ public class RobotMap {
 		public static final int RAISE_MOTOR_CHANNEL = 7; //CAN
 		public static final int LIMIT_SWITCH_UP = 6; // DIO
 		public static final int LIMIT_SWITCH_DOWN = 7; // DIO
+		public static final int TOP_DEPLOY_LIMIT_SWITCH = 8; //DIO
+		public static final int BOTTOM_DEPLOY_LIMIT_SWITCH = 9;
 		public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
 		public static final int BOX_SENSOR = 8; //DIO
+		public static final int INTAKE_DEPLOY_MOTOR_CHANNEL = 5; //PWM?
+		public static final double DEPLOY_SPEED = 0.3;
+		
 	}
 
 	public final class Elevator {

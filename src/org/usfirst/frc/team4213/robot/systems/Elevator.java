@@ -50,9 +50,9 @@ public class Elevator {
 				stop();
 				AutoPosition = false;
 			}
-		} else if (controller.isElevatorDown()) {
+		} else if ((boolean) controller.getElevatorDown()) {
 			moveDown();
-		} else if (controller.isElevatorUp()) {
+		} else if ((boolean) controller.getElevatorUp()) {
 			moveUp();
 		} else {
 			stop();
@@ -104,9 +104,9 @@ public class Elevator {
 		System.out.println("elevator target tics" + encoderTarget);
 	}
 
-	private double getEncoderTics() {
-		//return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
-		return elevatorEncoder.getDistance();
+	private int getEncoderTics() {
+		return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
+		//return (int) elevatorEncoder.getDistance();
 	}
 	
 	private enum MotorState {

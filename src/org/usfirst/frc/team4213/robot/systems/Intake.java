@@ -21,6 +21,8 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
+	private static final SpeedController INTAKE_DEPLOY_MOTOR = new Talon(RobotMap.Intake.INTAKE_DEPLOY_MOTOR_CHANNEL);
+
 	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
@@ -58,6 +60,8 @@ public class Intake {
 				autoIntake = false;
 			}
 		} else {
+			deploy(); 
+			
 			if (controller.isCubeIntake()) {
 				powerCubeIntake();
 			} else if (controller.isCubeEject()) {
@@ -85,8 +89,8 @@ public class Intake {
 
 	private void powerCubeIntake() {
 		// TODO use invert motor
-		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.INTAKE_SPEED);//.setSpeed(RobotMap.Intake.INTAKE_SPEED);
-		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);//setSpeed(RobotMap.Intake.INTAKE_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.INTAKE_SPEED);// .setSpeed(RobotMap.Intake.INTAKE_SPEED);
+		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);// setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		currentIntakeState = IntakeState.IN;
 		if (isCubeSensorSwitchActive()) {
 			controller.intakeRumbleOn();
@@ -94,8 +98,8 @@ public class Intake {
 	}
 
 	private void powerCubeEject() {
-		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
-		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.EJECT_SPEED);// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);// .setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
 
@@ -116,12 +120,19 @@ public class Intake {
 	public boolean isCubeSensorSwitchActive() {
 		System.out.println("cubeSensor=" + cubeSensor.getDistanceInches());
 		return !cubeSwitch.get();
-		//return cubeSensor.getDistanceInches() < 12;
+		// return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
 	}
 
+
 	public void deploy() {
-		// TODO deploy intake
+		if (isIntakeUp()) {
+			INTAKE_DEPLOY_MOTOR.set(RobotMap.Intake.DEPLOY_SPEED);// .setSpeed(RobotMap.Intake.DEPLOY_SPEED);
+			System.out.println("Intake is deploying...");
+		} else if (isIntakeDown()) {
+			INTAKE_DEPLOY_MOTOR.stopMotor();
+			System.out.println("Intake has deployed.")
+		}
 	}
 
 	private boolean isIntakeUp() {
