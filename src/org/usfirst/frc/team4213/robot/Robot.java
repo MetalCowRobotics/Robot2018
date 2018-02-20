@@ -1,15 +1,30 @@
 package org.usfirst.frc.team4213.robot;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.usfirst.frc.team4213.autonomous.LeftPosition;
+import org.usfirst.frc.team4213.autonomous.LeftSideScale;
+import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
+import org.usfirst.frc.team4213.autonomous.MiddlePosition;
+import org.usfirst.frc.team4213.autonomous.Mission;
+import org.usfirst.frc.team4213.autonomous.PassLine;
+import org.usfirst.frc.team4213.autonomous.RightPosition;
+import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+import org.usfirst.frc.team4213.robot.systems.AutoDrive;
+import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
+import org.usfirst.frc.team4213.robot.systems.Intake;
+import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team4213.autonomous.*;
-import org.usfirst.frc.team4213.robot.systems.*;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 
@@ -157,14 +172,19 @@ public class Robot extends IterativeRobot {
 		climber.execute();
 	}
 
+	
+	
+	
+	DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
+	
+	
+	
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testInit() {
-		//logger.entering(getClass().getName(), "testI");
-		//elevator.moveElevatortopostion();
-		//logger.exiting(this.getClass().getName(), "robotinit");
+	public void testInit() {	
 	}
 
 	/**
@@ -172,10 +192,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		//if (!driveWithEncoder.isFinished()) {
-		//	driveWithEncoder.run();
-		//}
-		driveTrain.drive();
 	}
 
 }
