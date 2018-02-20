@@ -59,9 +59,9 @@ public class Intake {
 				powerCubeIdle();
 				autoIntake = false;
 			}
-		} else {
-			deploy(); 
-			
+		} else
+		// deploy()
+		{
 			if (controller.isCubeIntake()) {
 				powerCubeIntake();
 			} else if (controller.isCubeEject()) {
@@ -124,23 +124,55 @@ public class Intake {
 		// return cubeSensorSwitch.get();
 	}
 
-
 	public void deploy() {
-		if (isIntakeUp()) {
-			INTAKE_DEPLOY_MOTOR.set(RobotMap.Intake.DEPLOY_SPEED);// .setSpeed(RobotMap.Intake.DEPLOY_SPEED);
-			System.out.println("Intake is deploying...");
-		} else if (isIntakeDown()) {
-			INTAKE_DEPLOY_MOTOR.stopMotor();
-			System.out.println("Intake has deployed.")
-		}
-	}
+		// TODO Auto-generated method stub
 
-	private boolean isIntakeUp() {
-		return upSensor.get();
 	}
+	// public void deploy() {
+	// if (controller.getIntakeDeployThrottle()) {
+	// moveDown();
+	// } else if (controller.getIntakeDeployThrottle()) {
+	// moveUp();
+	// } else {
+	// stop();
+	// }
+	//
+	// public void stop() {
+	// deploy.stopMotor();
+	// }
+	//
+	// public void moveUp() {
+	// if (!movingUp()) {
+	// setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
+	// }
+	// // elevatorState = topLimit.get() ? ElevatorState.TOP : ElevatorState.MIDDLE;
+	// }
+	// 1
+	// public void moveDown() {
+	// if (!movingDown()) {
+	// setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
+	// }
+	// elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM :
+	// ElevatorState.MIDDLE;
 
-	private boolean isIntakeDown() {
-		return downSensor.get();
-	}
+	// leftSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
+	// rightSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
+
+	// if (isIntakeUp()) {
+	// INTAKE_DEPLOY_MOTOR.set(RobotMap.Intake.DEPLOY_SPEED);//
+	// .setSpeed(RobotMap.Intake.DEPLOY_SPEED);
+	// System.out.println("Intake is deploying...");
+	// } else if (isIntakeDown()) {
+	// INTAKE_DEPLOY_MOTOR.stopMotor();
+	// System.out.println("Intake has deployed.");
+	// }
+
+//	private boolean isIntakeUp() {
+//		return upSensor.get();
+//	}
+//
+//	private boolean isIntakeDown() {
+//		return downSensor.get();
+//	}
 
 }

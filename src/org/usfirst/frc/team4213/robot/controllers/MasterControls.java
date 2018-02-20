@@ -11,8 +11,7 @@ public class MasterControls {
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
-	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
-			RobotMap.OperatorController.USB_PORT);
+	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -71,5 +70,8 @@ public class MasterControls {
 	}
 	public double getClimbThrottle() {
 		return operator.getLY();
+	}
+	public double getIntakeDeployThrottle() {
+		return operator.getRY();
 	}
 }

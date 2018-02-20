@@ -28,8 +28,8 @@ public class Elevator {
 
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1, RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
 
-	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
-	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
 	MotorState motorState = MotorState.OFF; // start state is off
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
@@ -50,10 +50,10 @@ public class Elevator {
 				stop();
 				AutoPosition = false;
 			}
-		} else if ((boolean) controller.getElevatorDown()) {
-			moveDown();
-		} else if ((boolean) controller.getElevatorUp()) {
-			moveUp();
+	} else if (controller.isElevatorDown()) {
+		moveDown();
+	} else if ( controller.isElevatorUp()) {
+		moveUp();
 		} else {
 			stop();
 		}
@@ -75,7 +75,7 @@ public class Elevator {
 		if (!movingDown()) {
 			setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
 		}
-		// elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM :
+		//elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM;
 		// ElevatorState.MIDDLE;
 	}
 
