@@ -82,6 +82,9 @@ public class RobotMap {
 		public static final int LIMIT_SWITCH_BOTTOM = 9; // DIO
 		public static final int ELEVATOR_ENCODER_1 = 4; //DIO
 		public static final int ELEVATOR_ENCODER_2 = 5; //DIO
+		public static final double EXCHANGE_HEIGHT= 1.75;
+		public static final double SWITCHWALL_HEIGHT= 18;
+		public static final double SCALE_MID_HEIGHT= 48;
 	}
 	
 	public final class Climber {

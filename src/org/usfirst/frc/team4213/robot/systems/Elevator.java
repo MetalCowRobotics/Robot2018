@@ -1,17 +1,14 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Logger;
-
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import java.util.logging.Logger;
 public class Elevator {
 	private static final Elevator instance = new Elevator();
 	private static final Intake intake = Intake.getInstance();
@@ -98,8 +95,12 @@ public class Elevator {
 	}
 
 	public void moveElevatortopostion() {
+		moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+	}
+
+	public void moveElevatorToPosition(double height) {
 		AutoPosition = true;
-		encoderTarget = getEncoderTics() - 200;
+		encoderTarget = getEncoderTics() - height;
 		moveUp();
 		System.out.println("elevator target tics" + encoderTarget);
 	}
