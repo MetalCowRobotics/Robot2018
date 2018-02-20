@@ -47,7 +47,7 @@ public class Intake {
 
 	public void execute() {
 				
-		System.out.println("     Intake Up: "+isIntakeUp()+"     Down: "+isIntakeDown());
+		System.out.println("   Intake Up: "+isIntakeUp()+"  Down: "+isIntakeDown()+"  BoxDetected:"+this.isCubeSensorSwitchActive());
 		
 		if (autoEject) {
 			if (timer.get() > RobotMap.Intake.AUTO_EJECT_SECONDS) {
