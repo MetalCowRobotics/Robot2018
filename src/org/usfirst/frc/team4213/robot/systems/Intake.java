@@ -1,15 +1,15 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Logger;
-
-import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
-import org.usfirst.frc.team4213.robot.RobotMap;
-import org.usfirst.frc.team4213.robot.controllers.MasterControls;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
+import org.usfirst.frc.team4213.robot.RobotMap;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+import org.usfirst.frc.team4213.lib14.MCR_SRX;
+
+import java.util.logging.Logger;
 
 public class Intake {
 	private static final Intake instance = new Intake();
@@ -21,6 +21,8 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
+	private static final MCR_SRX RaiseIntakeMotor = new MCR_SRX(RobotMap.Intake.RAISE_MOTOR_CHANNEL);
+
 	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
@@ -67,7 +69,14 @@ public class Intake {
 			}
 		}
 
-		/// Do stuff with the range finder and whatever
+		//intake raise and lower
+		if(controller.isCrawlToggle()) {
+			deploy();
+		} else if (controller.isSprintToggle()) {
+			RaiseIntakeMotor.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
+		} else {
+			RaiseIntakeMotor.stopMotor();
+		}
 
 	}
 
@@ -121,15 +130,15 @@ public class Intake {
 	}
 
 	public void deploy() {
-		// TODO deploy intake
+		RaiseIntakeMotor.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
 
 	private boolean isIntakeUp() {
-		return upSensor.get();
+		return RaiseIntakeMotor.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	private boolean isIntakeDown() {
-		return downSensor.get();
+		return RaiseIntakeMotor.getSensorCollection().isRevLimitSwitchClosed();
 	}
 
 }

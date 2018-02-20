@@ -64,6 +64,8 @@ public class RobotMap {
 		public static final int LEFT_MOTOR_CHANNEL = 0;// PWM
 		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
 		public static final int RAISE_MOTOR_CHANNEL = 7; //CAN
+		public static final double RAISE_INTAKE_SPEED = -.4;
+		public static final double LOWER_INTAKE_SPEED = .4;
 		public static final int LIMIT_SWITCH_UP = 6; // DIO
 		public static final int LIMIT_SWITCH_DOWN = 7; // DIO
 		public static final int RANGE_FINDER = 0; // Analog Input/Output
