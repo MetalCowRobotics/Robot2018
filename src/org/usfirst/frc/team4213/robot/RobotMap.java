@@ -25,6 +25,7 @@ public class RobotMap {
 		public static final int LEFT_ENCODER_2 = 3; //DIO
 		public static final int RIGHT_ENCODER_1 = 0; //DIO
 		public static final int RIGHT_ENCODER_2 = 1; //DIO
+		public static final boolean DevinDrive = true; 
 	}
 
 	public final class DriveToWall {
@@ -59,8 +60,8 @@ public class RobotMap {
 	 }
 
 	public final class Intake {
-		public static final double INTAKE_SPEED = 0.7;
-		public static final double EJECT_SPEED = -0.7;
+		public static final double INTAKE_SPEED = -0.7;
+		public static final double EJECT_SPEED = 0.7;
 		public static final int LEFT_MOTOR_CHANNEL = 0;// PWM
 		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
 		//public static final int RAISE_MOTOR_CHANNEL = 7; //CAN
