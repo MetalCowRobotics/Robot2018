@@ -55,21 +55,20 @@ public class MasterControls {
 		return operator.getLB();
 	}
 
-<<<<<<< HEAD
-	public boolean isElevatorUp() {
+	//public boolean isElevatorUp() {
+	//	return operator.getLT();
+	//}
+
+	//public boolean isElevatorDown() {
+		//return operator.getRT();
+
+	public double raiseElevator() {
 		return operator.getLT();
 	}
 
-	public boolean isElevatorDown() {
+	public double lowerElevator() {
 		return operator.getRT();
-=======
-	public boolean raiseElevator() {
-		return operator.getYButton();
-	}
 
-	public boolean lowerElevator() {
-		return operator.getXButton();
->>>>>>> master
 	}
 	public boolean raiseIntake() {
 		return operator.getBButton();
