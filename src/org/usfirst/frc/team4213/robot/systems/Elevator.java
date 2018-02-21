@@ -47,11 +47,11 @@ public class Elevator {
 				AutoPosition = false;
 			}
 		} else {
-			double elevatorSpeed = controller.lowerElevator() - controller.raiseElevator();
+			double elevatorSpeed =  controller.lowerElevator() - controller.raiseElevator();
 			if (isElevatorAtTop())
 				elevatorSpeed = controller.lowerElevator();
 			if (isElevatorAtBottom())
-				elevatorSpeed = controller.raiseElevator();
+				elevatorSpeed = -controller.raiseElevator();
 			ELEVATOR_MOTOR.set(elevatorSpeed);
 			
 			
