@@ -63,12 +63,10 @@ public class RobotMap {
 		public static final double EJECT_SPEED = -0.7;
 		public static final int LEFT_MOTOR_CHANNEL = 0;// PWM
 		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
-		public static final int RAISE_MOTOR_CHANNEL = 7; //CAN
-		public static final int LIMIT_SWITCH_UP = 6; // DIO
-		public static final int LIMIT_SWITCH_DOWN = 7; // DIO
+		public static final int ANGLE_MOTOR_CHANNEL = 7; //CAN
 		public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
-		public static final int BOX_SENSOR = 8; //DIO
+		public static final int BOX_SENSOR = 9; //DIO
 	}
 
 	public final class Elevator {
@@ -76,8 +74,8 @@ public class RobotMap {
 		public static final double DOWN_SPEED = -0.8;// motor is reversed
 		public static final int ELEVATOR_CHANNEL1 = 5;// CAN
 		public static final int ELEVATOR_CHANNEL2 = 6;// CAN
-		public static final int LIMIT_SWITCH_TOP = 8; // DIO
-		public static final int LIMIT_SWITCH_BOTTOM = 9; // DIO
+		public static final int LIMIT_SWITCH_TOP = 6; // DIO -- VERIFIED via Multimeter
+		public static final int LIMIT_SWITCH_BOTTOM = 7; // DIO -- Two Stages are wired in series... as one switch.
 		public static final int ELEVATOR_ENCODER_1 = 4; //DIO
 		public static final int ELEVATOR_ENCODER_2 = 5; //DIO
 	}
