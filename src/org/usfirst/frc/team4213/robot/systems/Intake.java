@@ -31,7 +31,7 @@ public class Intake {
 
 	private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
 
-	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
+	//private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
 	private static final DigitalInput cubeSwitch = new DigitalInput(RobotMap.Intake.BOX_SENSOR);
 
 	private enum IntakeState {
@@ -132,7 +132,7 @@ public class Intake {
 	}
 
 	public boolean isCubeSensorSwitchActive() {
-		System.out.println("cubeSensor=" + cubeSensor.getDistanceInches());
+		//System.out.println("cubeSensor=" + cubeSensor.getDistanceInches());
 		return !cubeSwitch.get();
 		//return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
