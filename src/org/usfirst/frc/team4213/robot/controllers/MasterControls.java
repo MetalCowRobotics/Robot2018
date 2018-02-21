@@ -87,4 +87,10 @@ public class MasterControls {
 	public double getClimbThrottle() {
 		return operator.getLY();
 	}
+	public boolean isTitltUp() {
+		return operator.getAButton();
+	}
+	public boolean isTiltDown() {
+		return operator.getBButton();
+	}
 }

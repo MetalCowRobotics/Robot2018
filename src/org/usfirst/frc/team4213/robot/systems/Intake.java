@@ -28,7 +28,6 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
-
 	//private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	//private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 
@@ -144,7 +143,7 @@ public class Intake {
 	public void deploy() {
 		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
-
+	
 	private boolean isIntakeUp() {
 		return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
 	}
