@@ -1,17 +1,14 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Logger;
-
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import java.util.logging.Logger;
 public class Elevator {
 	private static final Elevator instance = new Elevator();
 	private static final Intake intake = Intake.getInstance();
@@ -19,17 +16,12 @@ public class Elevator {
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	
-//e2
-	// private static final Talon ELEVATOR_MOTOR = new
-	// Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
-	private static final MCR_SRX ELEVATOR_MOTOR1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
-	private static final MCR_SRX ELEVATOR_MOTOR2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
-	private static SpeedControllerGroup ElevatorSpeedControllerGroup = new SpeedControllerGroup (ELEVATOR_MOTOR1, ELEVATOR_MOTOR2);
+	private static SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup (new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
 
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1, RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
 
-	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
-	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
 	MotorState motorState = MotorState.OFF; // start state is off
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
@@ -41,18 +33,22 @@ public class Elevator {
 	}
 
 	public void execute() {
-		System.out.println("elevator encoder tics:" + getEncoderTics());
+		//System.out.println("elevator encoder tics:" + getEncoderTics());
+		
+		System.out.print("   Elevator Up: "+this.isElevatorAtTop()+"  Elevator Down: "+this.isElevatorAtBottom());
+		
+		
 		if (AutoPosition) {
-			System.out.println("elevator encode:" + getEncoderTics());
-			System.out.println("elevator target:" + encoderTarget);
-			System.out.println("elevator boolean:" + (getEncoderTics() > encoderTarget));
+			//System.out.println("elevator encode:" + getEncoderTics());
+			//System.out.println("elevator target:" + encoderTarget);
+			//System.out.println("elevator boolean:" + (getEncoderTics() > encoderTarget));
 			if (getEncoderTics() < encoderTarget) {
 				stop();
 				AutoPosition = false;
 			}
-		} else if (controller.isElevatorDown()) {
+		} else if (controller.lowerElevator()) {
 			moveDown();
-		} else if (controller.isElevatorUp()) {
+		} else if (controller.raiseElevator()) {
 			moveUp();
 		} else {
 			stop();
@@ -89,17 +85,21 @@ public class Elevator {
 
 	private void setElevatorSpeed(double speed) {
 		motorState = (speed < 0) ? MotorState.DOWN : MotorState.UP;
-		ElevatorSpeedControllerGroup.set(speed);
+		ELEVATOR_MOTOR.set(speed);
 	}
 
 	public void stop() {
-		ElevatorSpeedControllerGroup.stopMotor();
+		ELEVATOR_MOTOR.stopMotor();
 		motorState = MotorState.OFF;
 	}
 
 	public void moveElevatortopostion() {
+		moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+	}
+
+	public void moveElevatorToPosition(double height) {
 		AutoPosition = true;
-		encoderTarget = getEncoderTics() - 200;
+		encoderTarget = getEncoderTics() - height;
 		moveUp();
 		System.out.println("elevator target tics" + encoderTarget);
 	}
@@ -107,6 +107,13 @@ public class Elevator {
 	private double getEncoderTics() {
 		//return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
 		return elevatorEncoder.getDistance();
+	}
+
+	private boolean isElevatorAtTop() {
+		return !topLimit.get(); //For some reason this is inverted in the hardware, correcting here in software
+	}
+	private boolean isElevatorAtBottom() {
+		return !bottomLimit.get(); //for some reason this is inverted in hardware, correcting here in software
 	}
 	
 	private enum MotorState {
