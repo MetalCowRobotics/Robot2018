@@ -67,7 +67,7 @@ public class RobotMap {
 		public static final double RAISE_INTAKE_SPEED = -.4;
 		public static final double LOWER_INTAKE_SPEED = .4;
 		public static final int ANGLE_MOTOR_CHANNEL = 7; //CAN
-		public static final int RANGE_FINDER = 0; // Analog Input/Output
+		//public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
 		public static final int BOX_SENSOR = 9; //DIO
 	}
