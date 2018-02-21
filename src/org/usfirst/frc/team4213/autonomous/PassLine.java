@@ -18,7 +18,7 @@ public class PassLine extends Mission {
 		case waiting: // like a firstTime
 			intake.deploy();
 			elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
-			driveStep = new DriveWithEncoder(159.5);
+			driveStep = new DriveWithEncoder(36);//DriveWithEncoder(159.5);
 			curState = MissionStates.driving;
 			break;
 		case driving:
