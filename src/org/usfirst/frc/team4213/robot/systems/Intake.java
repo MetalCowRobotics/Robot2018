@@ -28,18 +28,11 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
-<<<<<<< HEAD
-	private SpeedController RAISE_MOTOR_CHANNEL = new Talon
-	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
-	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
-=======
-
 	//private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	//private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 
 	private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
 
->>>>>>> refs/remotes/origin/master
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
 	private static final DigitalInput cubeSwitch = new DigitalInput(RobotMap.Intake.BOX_SENSOR);
 
@@ -150,15 +143,7 @@ public class Intake {
 	public void deploy() {
 		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
-
-<<<<<<< HEAD
-	private boolean isTitltUp() {
-		return upSensor.get();
-	}
-
-	private boolean isTitltDown() {
-		return downSensor.get();
-=======
+	
 	private boolean isIntakeUp() {
 		return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
 	}
@@ -166,7 +151,6 @@ public class Intake {
 	private boolean isIntakeDown() {
 		return INTAKE_ANGLE_MOTOR.getSensorCollection().isRevLimitSwitchClosed();
 
->>>>>>> refs/remotes/origin/master
 	}
 
 }
