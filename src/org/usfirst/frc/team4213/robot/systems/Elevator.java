@@ -48,7 +48,26 @@ public class Elevator {
 			}
 		} else {
 			double elevatorSpeed = controller.lowerElevator() - controller.raiseElevator();
+			if (isElevatorAtTop())
+				elevatorSpeed = controller.lowerElevator();
+			if (isElevatorAtBottom())
+				elevatorSpeed = controller.raiseElevator();
 			ELEVATOR_MOTOR.set(elevatorSpeed);
+			
+			
+//			if (elevatorSpeed > 0) {
+//				if (!isElevatorAtTop())
+//					ELEVATOR_MOTOR.set(elevatorSpeed);
+//				else
+//					stop();
+//			} else if (elevatorSpeed < 0){
+//				if (!isElevatorAtBottom())
+//					ELEVATOR_MOTOR.set(elevatorSpeed);
+//				else
+//					stop();
+//			} else
+//				stop();
+
 		}
 
 	}
