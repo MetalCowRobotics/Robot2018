@@ -21,6 +21,7 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
+	private SpeedController RAISE_MOTOR_CHANNEL = new Talon
 	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
 	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
@@ -124,11 +125,11 @@ public class Intake {
 		// TODO deploy intake
 	}
 
-	private boolean isIntakeUp() {
+	private boolean isTitltUp() {
 		return upSensor.get();
 	}
 
-	private boolean isIntakeDown() {
+	private boolean isTitltDown() {
 		return downSensor.get();
 	}
 
