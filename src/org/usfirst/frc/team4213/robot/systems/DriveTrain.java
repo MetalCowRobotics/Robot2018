@@ -70,8 +70,8 @@ public class DriveTrain {
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
 		} else { // Stay in regular Tank drive mode
 			if (RobotMap.Drivetrain.DevinDrive) {
-				double speed = controller.forwardSpeed()-controller.reverseSpeed();
-				arcadeDrive(speed,controller.direction());
+				double speed = (controller.forwardSpeed()-controller.reverseSpeed()) *inverted *getThrottle();
+				arcadeDrive(speed,controller.direction()*inverted);
 			} else {
 				drive.tankDrive(leftSpeed, rightSpeed, true);				
 			}
