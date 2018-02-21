@@ -20,7 +20,7 @@ public class RobotMap {
 		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN 
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
-		public static final int WHEEL_DIAMETER = 4;
+		public static final int WHEEL_DIAMETER = 6;
 		public static final int LEFT_ENCODER_1 = 2; //DIO
 		public static final int LEFT_ENCODER_2 = 3; //DIO
 		public static final int RIGHT_ENCODER_1 = 0; //DIO
@@ -38,7 +38,7 @@ public class RobotMap {
 		public static final double TOP_SPEED = .9;
 		public static final double BOTTOM_SPEED = .5;
 		public static final double MAX_ADJUSTMENT = .4;
-		public static final int TICS_PER_ROTATION = 354;
+		public static final int TICS_PER_ROTATION = 354;  //need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Drivetrain.WHEEL_DIAMETER;
 		public static final double SLOW_DOWN_DISTANCE = (12 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
 	}
@@ -63,6 +63,9 @@ public class RobotMap {
 		public static final double EJECT_SPEED = -0.7;
 		public static final int LEFT_MOTOR_CHANNEL = 0;// PWM
 		public static final int RIGHT_MOTOR_CHANNEL = 1;// PWM
+		//public static final int RAISE_MOTOR_CHANNEL = 7; //CAN
+		public static final double RAISE_INTAKE_SPEED = -.4;
+		public static final double LOWER_INTAKE_SPEED = .4;
 		public static final int ANGLE_MOTOR_CHANNEL = 7; //CAN
 		public static final int RANGE_FINDER = 0; // Analog Input/Output
 		public static final double AUTO_EJECT_SECONDS = 2.0;
@@ -78,6 +81,9 @@ public class RobotMap {
 		public static final int LIMIT_SWITCH_BOTTOM = 7; // DIO -- Two Stages are wired in series... as one switch.
 		public static final int ELEVATOR_ENCODER_1 = 4; //DIO
 		public static final int ELEVATOR_ENCODER_2 = 5; //DIO
+		public static final double EXCHANGE_HEIGHT= 1.75;
+		public static final double SWITCHWALL_HEIGHT= 18;
+		public static final double SCALE_MID_HEIGHT= 48;
 	}
 	
 	public final class Climber {

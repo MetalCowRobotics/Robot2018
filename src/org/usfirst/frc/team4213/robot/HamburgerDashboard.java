@@ -39,11 +39,11 @@ public class HamburgerDashboard {
     public void pushAutonomousMissions() {
         // Load available Autonomous missions to the driverstation
         autoSelected = rightSide;
-        autoChooser.addObject("RightSideSwitch", rightSide);
-        autoChooser.addObject("LeftSideSwitch", leftSide);
-        autoChooser.addDefault("PassLine", passLine);
-        autoChooser.addObject("eitherSide", eitherSide);
-        autoChooser.addObject("leftScale", leftSideOfScale );
+        autoChooser.addObject("Right Side Switch", rightSide);
+        autoChooser.addObject("Left Side Switch", leftSide);
+        autoChooser.addDefault("Pass Line", passLine);
+        autoChooser.addObject("Switch Either Side", eitherSide);
+        autoChooser.addObject("Left Scale", leftSideOfScale );
         autoChooser.addObject("RightPosition", rightPosition);
         autoChooser.addObject("LeftPosition", leftPosition);
         autoChooser.addObject("MiddlePosition", middlePosition);
