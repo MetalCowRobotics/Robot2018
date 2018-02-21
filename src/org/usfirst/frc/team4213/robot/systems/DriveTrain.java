@@ -1,18 +1,19 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import java.util.logging.Logger;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveTrain {
 	private static final DriveTrain instance = new DriveTrain();
@@ -20,11 +21,12 @@ public class DriveTrain {
 
 	private MasterControls controller = MasterControls.getInstance();
 
-	private static final SpeedController LEFT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL);
-	private static final SpeedController RIGHT_MOTOR = new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL);
-	private static final Encoder rightEncoder = new Encoder(4, 5, false, EncodingType.k4X);
-	private static final Encoder leftEncoder = new Encoder(2, 3, true, EncodingType.k4X);
-	private static final DifferentialDrive drive = new DifferentialDrive(LEFT_MOTOR, RIGHT_MOTOR);
+	private static SpeedControllerGroup RightMotor = new SpeedControllerGroup (new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2));
+	private static SpeedControllerGroup LeftMotor = new SpeedControllerGroup (new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2));
+			
+	private static final Encoder rightEncoder = new Encoder(RobotMap.Drivetrain.RIGHT_ENCODER_1, RobotMap.Drivetrain.RIGHT_ENCODER_2, false, EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(RobotMap.Drivetrain.LEFT_ENCODER_1, RobotMap.Drivetrain.LEFT_ENCODER_2, true, EncodingType.k4X);
+	private static final DifferentialDrive drive = new DifferentialDrive(LeftMotor, RightMotor);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
@@ -38,6 +40,8 @@ public class DriveTrain {
 	private int inverted = -1;
 
 	protected DriveTrain() {
+		//logger.setLevel(Level.FINE);
+		
 		// Singleton
 	}
 
@@ -46,6 +50,10 @@ public class DriveTrain {
 	}
 
 	public void drive() {
+		printRightEncoder();
+		printLeftEncoder();
+//		System.out.println("right encoder: " + getRightEncoder());
+//		System.out.println("left encoder: " + getLeftEncoder()) ;
 		double leftSpeed;
 		double rightSpeed;
 		if (controller.invertDrive()) {
@@ -114,30 +122,39 @@ public class DriveTrain {
 		}
 	}
 
-	
 	private void invert() {
 		inverted = inverted * -1;
 	}
-	
-	private Encoder getRightEncoder() {
-
-		return rightEncoder;
+	///l2 r1
+	private double getLeftEncoderTics() {
+		//return LEFT_MOTOR2.getSensorCollection().getQuadraturePosition();
+		return leftEncoder.getDistance();
 	}
+	
+	private double getRightEncoderTics() {
+		//return RIGHT_MOTOR1.getSensorCollection().getQuadraturePosition();
+		return rightEncoder.getDistance();
+	}
+	
+//	private Encoder getRightEncoder() {
+//
+//		return rightEncoder;
+//	}
 
 	public void printRightEncoder() {
-		System.out.println("rightEncoder:" + rightEncoder.getDistance());
+		//System.out.println("rightEncoder:" + getRightEncoderTics());
 	}
 
-	private Encoder getLeftEncoder() {
-		return leftEncoder;
-	}
+//	private Encoder getLeftEncoder() {
+//		return leftEncoder;
+//	}
 
 	public void printLeftEncoder() {
-		System.out.println("leftEncoder:" + leftEncoder.getDistance());
+		//System.out.println("leftEncoder:" + getLeftEncoderTics());
 	}
 
 	public double encoderDifference() {
-		return (rightEncoder.getDistance() + -leftEncoder.getDistance());
+		return (getRightEncoderTics() - getLeftEncoderTics());
 	}
 
 //	public double getLeftDistance() {
@@ -157,6 +174,6 @@ public class DriveTrain {
 //	}
 
 	public double getEncoderTics() {
-		return (rightEncoder.getDistance() + leftEncoder.getDistance()) / 2;
+		return (getRightEncoderTics() + getLeftEncoderTics()) / 2;
 	}
 }

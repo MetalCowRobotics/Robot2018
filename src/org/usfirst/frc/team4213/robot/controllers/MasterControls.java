@@ -55,12 +55,28 @@ public class MasterControls {
 		return operator.getLB();
 	}
 
+<<<<<<< HEAD
 	public boolean isElevatorUp() {
 		return operator.getLT();
 	}
 
 	public boolean isElevatorDown() {
 		return operator.getRT();
+=======
+	public boolean raiseElevator() {
+		return operator.getYButton();
+	}
+
+	public boolean lowerElevator() {
+		return operator.getXButton();
+>>>>>>> master
+	}
+	public boolean raiseIntake() {
+		return operator.getBButton();
+	}
+
+	public boolean lowerIntake() {
+		return operator.getAButton();
 	}
 	public void intakeRumbleOn() {
 		operator.rumbleLeft(0.5);
@@ -69,5 +85,7 @@ public class MasterControls {
 	public void intakeRumbleOff() {
 		operator.rumbleLeft(0);
 	}
-
+	public double getClimbThrottle() {
+		return operator.getLY();
+	}
 }

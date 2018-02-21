@@ -1,15 +1,22 @@
 package org.usfirst.frc.team4213.robot.systems;
 
+
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
+import org.usfirst.frc.team4213.robot.RobotMap;
+import org.usfirst.frc.team4213.robot.controllers.MasterControls;
+import org.usfirst.frc.team4213.lib14.MCR_SRX;
+
+import java.util.logging.Logger;
 
 public class Intake {
 	private static final Intake instance = new Intake();
@@ -21,8 +28,12 @@ public class Intake {
 	// TODO static or not static?
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
-	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
-	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
+
+	//private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
+	//private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
+
+	private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
+
 	private MaxBotixRangeFinder cubeSensor = new MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
 	private static final DigitalInput cubeSwitch = new DigitalInput(RobotMap.Intake.BOX_SENSOR);
 
@@ -46,6 +57,9 @@ public class Intake {
 	}
 
 	public void execute() {
+				
+		System.out.println("   Intake Up: "+isIntakeUp()+"  Down: "+isIntakeDown()+"  BoxDetected:"+this.isCubeSensorSwitchActive());
+		
 		if (autoEject) {
 			if (timer.get() > RobotMap.Intake.AUTO_EJECT_SECONDS) {
 				timer.stop();
@@ -67,7 +81,14 @@ public class Intake {
 			}
 		}
 
-		/// Do stuff with the range finder and whatever
+		//intake raise and lower
+		if(controller.isCrawlToggle()) {
+			deploy();
+		} else if (controller.isSprintToggle()) {
+			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
+		} else {
+			INTAKE_ANGLE_MOTOR.stopMotor();
+		}
 
 	}
 
@@ -85,7 +106,7 @@ public class Intake {
 
 	private void powerCubeIntake() {
 		// TODO use invert motor
-		LEFT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);//.setSpeed(RobotMap.Intake.INTAKE_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.INTAKE_SPEED);//.setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.INTAKE_SPEED);//setSpeed(RobotMap.Intake.INTAKE_SPEED);
 		currentIntakeState = IntakeState.IN;
 		if (isCubeSensorSwitchActive()) {
@@ -94,7 +115,7 @@ public class Intake {
 	}
 
 	private void powerCubeEject() {
-		LEFT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
+		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);//.setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
@@ -121,15 +142,16 @@ public class Intake {
 	}
 
 	public void deploy() {
-		// TODO deploy intake
+		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
 
 	private boolean isIntakeUp() {
-		return upSensor.get();
+		return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	private boolean isIntakeDown() {
-		return downSensor.get();
+		return INTAKE_ANGLE_MOTOR.getSensorCollection().isRevLimitSwitchClosed();
+
 	}
 
 }
