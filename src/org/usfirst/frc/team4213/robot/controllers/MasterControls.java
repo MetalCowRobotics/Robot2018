@@ -90,4 +90,10 @@ public class MasterControls {
 	public boolean climbEnabled() {
 		return operator.getStartButton();
 	}
+	public boolean isTitltUp() {
+		return operator.getAButton();
+	}
+	public boolean isTiltDown() {
+		return operator.getBButton();
+	}
 }
