@@ -56,11 +56,11 @@ public class MasterControls {
 	}
 
 	public boolean isElevatorUp() {
-		return operator.getYButton();
+		return operator.getLT();
 	}
 
 	public boolean isElevatorDown() {
-		return operator.getXButton();
+		return operator.getRT();
 	}
 	public void intakeRumbleOn() {
 		operator.rumbleLeft(0.5);
