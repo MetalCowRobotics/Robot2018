@@ -46,12 +46,9 @@ public class Elevator {
 				stop();
 				AutoPosition = false;
 			}
-		} else if (controller.lowerElevator()) {
-			moveDown();
-		} else if (controller.raiseElevator()) {
-			moveUp();
 		} else {
-			stop();
+			double elevatorSpeed = controller.lowerElevator() - controller.raiseElevator();
+			ELEVATOR_MOTOR.set(elevatorSpeed);
 		}
 
 	}
