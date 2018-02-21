@@ -12,7 +12,7 @@ public class DriveWithEncoder extends AutoDrive {
 	public DriveWithEncoder(double targetInches) {
 		super();
 		this.targetInches = targetInches;
-		targetTics = targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION
+		targetTics = (targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION)
 				* RobotMap.DriveWithEncoder.TICS_PER_ROTATION;
 		System.out.println("target encoder drive:" + targetTics);
 	}
