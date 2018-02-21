@@ -29,8 +29,8 @@ public class Intake {
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
-	private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
-	private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
+	//private DigitalInput upSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_UP);
+	//private DigitalInput downSensor = new DigitalInput(RobotMap.Intake.LIMIT_SWITCH_DOWN);
 
 	private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
 
@@ -87,7 +87,7 @@ public class Intake {
 		} else if (controller.isSprintToggle()) {
 			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 		} else {
-			RaiseIntakeMotor.stopMotor();
+			INTAKE_ANGLE_MOTOR.stopMotor();
 		}
 
 	}
@@ -142,7 +142,7 @@ public class Intake {
 	}
 
 	public void deploy() {
-		RaiseIntakeMotor.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
+		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
 
 	private boolean isIntakeUp() {
