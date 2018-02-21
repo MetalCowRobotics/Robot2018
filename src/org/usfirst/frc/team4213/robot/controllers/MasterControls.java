@@ -92,9 +92,21 @@ public class MasterControls {
 		return operator.getStartButton();
 	}
 	public boolean isTitltUp() {
-		return operator.getAButton();
-	}
-	public boolean isTiltDown() {
 		return operator.getBButton();
 	}
+	public boolean isTiltDown() {
+		return operator.getAButton();
+	}
+	public double forwardSpeed() {
+		return driver.getRT();
+	}
+
+	public double reverseSpeed() {
+		return driver.getLT();
+	}
+	
+	public double direction() {
+		return driver.getLX();
+	}
+	
 }

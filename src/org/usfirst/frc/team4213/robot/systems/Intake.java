@@ -79,9 +79,9 @@ public class Intake {
 		}
 
 		//intake raise and lower
-		if(controller.isCrawlToggle()) {
+		if(controller.isTiltDown()) {
 			deploy();
-		} else if (controller.isSprintToggle()) {
+		} else if (controller.isTitltUp()) {
 			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 		} else {
 			INTAKE_ANGLE_MOTOR.stopMotor();
@@ -133,7 +133,7 @@ public class Intake {
 
 	public boolean isCubeSensorSwitchActive() {
 		//System.out.println("cubeSensor=" + cubeSensor.getDistanceInches());
-		return !cubeSwitch.get();
+		return cubeSwitch.get();
 		//return cubeSensor.getDistanceInches() < 12;
 		// return cubeSensorSwitch.get();
 	}

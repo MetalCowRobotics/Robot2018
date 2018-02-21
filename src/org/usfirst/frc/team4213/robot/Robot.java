@@ -19,6 +19,7 @@ import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -91,7 +92,7 @@ public class Robot extends IterativeRobot {
 		// pdp = new PowerDistributionPanel();
 		driverStation = DriverStation.getInstance();
 
-		// CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
 		driveTrain = DriveTrain.getInstance();
