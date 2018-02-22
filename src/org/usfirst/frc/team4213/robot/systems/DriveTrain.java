@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
+import org.usfirst.frc.team4213.lib14.UtilityMethods;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -71,7 +72,7 @@ public class DriveTrain {
 		} else { // Stay in regular Tank drive mode
 			if (RobotMap.Drivetrain.DevinDrive) {
 				double speed = (controller.forwardSpeed()-controller.reverseSpeed()) *inverted *getThrottle();
-				arcadeDrive(speed,controller.direction()*inverted);
+				arcadeDrive(speed, UtilityMethods.copySign(controller.direction()*inverted,(Math.pow(controller.direction(), 2))));
 			} else {
 				drive.tankDrive(leftSpeed, rightSpeed, true);				
 			}
