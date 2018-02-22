@@ -132,7 +132,7 @@ public class Intake {
 
 	public boolean isCubeSensorSwitchActive() {
 		return cubeSwitch.get();
-		// return cubeSensor.getDistanceInches() < 12;
+		// return cubeSensor.getDistanceInches(mail) < 12;
 		// return cubeSensorSwitch.get();
 	}
 
