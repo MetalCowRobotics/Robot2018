@@ -24,7 +24,7 @@ public class LeftSideSwitch extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			intake.deploy();
+			intake.autoDeploy();
 			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 			driveStep = new DriveWithEncoder(159.5);
 			driveDegrees = new TurnDegrees(90);

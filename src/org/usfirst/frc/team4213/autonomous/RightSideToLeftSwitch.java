@@ -32,7 +32,7 @@ public class RightSideToLeftSwitch extends Mission {
 			driveStep2 = new DriveWithEncoder(84);
 			driveDegrees2 = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
-			intake.deploy();
+			intake.autoDeploy();
 			System.out.println("waiting");
 			curState = MissionStates.ldriving1;
 

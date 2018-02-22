@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.autonomous.LeftPosition;
 import org.usfirst.frc.team4213.autonomous.LeftSideScale;
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
-import org.usfirst.frc.team4213.autonomous.MiddlePosition;
+import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
@@ -119,7 +119,7 @@ public class Robot extends IterativeRobot {
 		} else if (leftSide == autoSelected) {
 			autoMission = new LeftSideSwitch();
 		} else if (eitherSide == autoSelected) {
-			autoMission = new MiddlePosition();
+			autoMission = new RightPosToSwitchEitherSide();
 		}		else if (leftSideOfScale == autoSelected) {
 			autoMission = new LeftSideScale();
 		}		else if (passLine == autoSelected){

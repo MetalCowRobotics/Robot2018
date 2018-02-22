@@ -33,9 +33,11 @@ public class Intake {
 
 	private IntakeState currentIntakeState = IntakeState.OFF; // start state is off
 
-	private Timer timer = new Timer();
+	private Timer ejectTimer = new Timer();
 	private boolean autoIntake = false;
 	private boolean autoEject = false;
+	private Timer deployTimer = new Timer();
+	private boolean autoDeploy = false;
 
 	private Intake() {
 		// Singleton Pattern
@@ -52,8 +54,8 @@ public class Intake {
 				+ this.isCubeSensorSwitchActive());
 
 		if (autoEject) {
-			if (timer.get() > RobotMap.Intake.AUTO_EJECT_SECONDS) {
-				timer.stop();
+			if (ejectTimer.get() > RobotMap.Intake.AUTO_EJECT_SECONDS) {
+				ejectTimer.stop();
 				powerCubeIdle();
 				autoEject = false;
 			}
@@ -72,13 +74,21 @@ public class Intake {
 			}
 		}
 
-		// intake raise and lower
+		// intake angle raise and lower
 		if (controller.isTiltDown()) {
 			deploy();
 		} else if (controller.isTitltUp()) {
 			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 		} else {
-			stopIntakeDeploy();
+			if (autoDeploy) {
+				if (deployTimer.get() > 1) {
+					stopIntakeDeploy();
+					deployTimer.stop();
+					autoDeploy = false;
+				}
+			} else {
+				stopIntakeDeploy();
+			}
 		}
 
 	}
@@ -90,8 +100,8 @@ public class Intake {
 	public void autoEject() {
 		autoEject = true;
 		powerCubeEject();
-		timer.reset();
-		timer.start();
+		ejectTimer.reset();
+		ejectTimer.start();
 	}
 
 	public void autoIntake() {
@@ -136,15 +146,21 @@ public class Intake {
 		// return cubeSensorSwitch.get();
 	}
 
-	public void deploy() {
+	public void autoDeploy() {
+		deployTimer.reset();
+		deployTimer.start();
+		deploy();
+	}
+	
+	private void deploy() {
 		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
 
-	private boolean isIntakeUp() {
+	public boolean isIntakeUp() {
 		return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
-	private boolean isIntakeDown() {
+	public boolean isIntakeDown() {
 		return INTAKE_ANGLE_MOTOR.getSensorCollection().isRevLimitSwitchClosed();
 
 	}

@@ -27,7 +27,7 @@ public class FarRightSwitch extends Mission {
 			//driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(-90);
 			driveToWall = new DriveToWall(13);
-			intake.deploy();
+			intake.autoDeploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
 			System.out.println("waiting");
 			curState = MissionStates.driving;
