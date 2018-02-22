@@ -11,6 +11,8 @@ import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMission;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard.StartPosition;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
@@ -20,7 +22,6 @@ import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -74,24 +75,14 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
-		//HamburgerDashboard.getInstance().pushAutonomousMissions();
-		// Load available Autonomous missions to the driverstation
-		autoSelected = rightSide;
-		autoChooser.addObject("RightSideSwitch", rightSide);
-		autoChooser.addObject("LeftSideSwitch", leftSide);
-		autoChooser.addDefault("PassLine", passLine);
-		autoChooser.addObject("eitherSide", eitherSide);
-		autoChooser.addObject("leftScale", leftSideOfScale );
-		autoChooser.addObject("RightPosition", rightPosition);
-		autoChooser.addObject("LeftPosition", leftPosition);
-		autoChooser.addObject("MiddlePosition", middlePosition);
-
-		SmartDashboard.putData("Auto choices", autoChooser);
-
+		//setup the smartdashboard
+		HamburgerDashboard.getInstance().initializeDashboard();
+		HamburgerDashboard.getInstance().pushAutonomousMissions();
+		HamburgerDashboard.getInstance().pushStartPositions();
+		HamburgerDashboard.getInstance().pushDevinDrive();
+		
 		// Initialize Robot
-		// pdp = new PowerDistributionPanel();
-		driverStation = DriverStation.getInstance();
-
+		//driverStation = DriverStation.getInstance();
 		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
@@ -99,11 +90,9 @@ public class Robot extends IterativeRobot {
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-
+		//calibrate Gyro
 		driveTrain.calibrateGyro();
-
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-
 	}
 
 	/**
@@ -120,8 +109,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		logger.entering("autonomousInit", "");
-		//autoSelected = HamburgerDashboard.getInstance().getSelectedMision();
-		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+		AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
+		StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
+		
+		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
@@ -176,7 +167,7 @@ public class Robot extends IterativeRobot {
 	
 	
 	
-	DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
+	//DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
 	
 	
 	

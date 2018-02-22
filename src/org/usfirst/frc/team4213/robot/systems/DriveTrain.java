@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -21,11 +22,16 @@ public class DriveTrain {
 
 	private MasterControls controller = MasterControls.getInstance();
 
-	private static SpeedControllerGroup RightMotor = new SpeedControllerGroup (new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2));
-	private static SpeedControllerGroup LeftMotor = new SpeedControllerGroup (new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2));
-			
-	private static final Encoder rightEncoder = new Encoder(RobotMap.Drivetrain.RIGHT_ENCODER_1, RobotMap.Drivetrain.RIGHT_ENCODER_2, false, EncodingType.k4X);
-	private static final Encoder leftEncoder = new Encoder(RobotMap.Drivetrain.LEFT_ENCODER_1, RobotMap.Drivetrain.LEFT_ENCODER_2, true, EncodingType.k4X);
+	private static SpeedControllerGroup RightMotor = new SpeedControllerGroup(
+			new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1),
+			new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2));
+	private static SpeedControllerGroup LeftMotor = new SpeedControllerGroup(
+			new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2));
+
+	private static final Encoder rightEncoder = new Encoder(RobotMap.Drivetrain.RIGHT_ENCODER_1,
+			RobotMap.Drivetrain.RIGHT_ENCODER_2, false, EncodingType.k4X);
+	private static final Encoder leftEncoder = new Encoder(RobotMap.Drivetrain.LEFT_ENCODER_1,
+			RobotMap.Drivetrain.LEFT_ENCODER_2, true, EncodingType.k4X);
 	private static final DifferentialDrive drive = new DifferentialDrive(LeftMotor, RightMotor);
 
 	private static final ADXRS450_Gyro GYRO = new ADXRS450_Gyro();
@@ -40,8 +46,8 @@ public class DriveTrain {
 	private int inverted = -1;
 
 	protected DriveTrain() {
-		//logger.setLevel(Level.FINE);
-		
+		// logger.setLevel(Level.FINE);
+
 		// Singleton
 	}
 
@@ -52,8 +58,6 @@ public class DriveTrain {
 	public void drive() {
 		printRightEncoder();
 		printLeftEncoder();
-//		System.out.println("right encoder: " + getRightEncoder());
-//		System.out.println("left encoder: " + getLeftEncoder()) ;
 		double leftSpeed;
 		double rightSpeed;
 		if (controller.invertDrive()) {
@@ -69,11 +73,12 @@ public class DriveTrain {
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
 		} else { // Stay in regular Tank drive mode
-			if (RobotMap.Drivetrain.DevinDrive) {
-				double speed = controller.forwardSpeed()-controller.reverseSpeed();
-				arcadeDrive(speed,controller.direction());
+			// if (RobotMap.Drivetrain.DevinDrive) {
+			if (HamburgerDashboard.getInstance().getDevinMode()) {
+				double speed = controller.forwardSpeed() - controller.reverseSpeed();
+				arcadeDrive(speed, controller.direction());
 			} else {
-				drive.tankDrive(leftSpeed, rightSpeed, true);				
+				drive.tankDrive(leftSpeed, rightSpeed, true);
 			}
 
 		}
@@ -89,11 +94,19 @@ public class DriveTrain {
 		// if only used in autonomous may not need the throttle
 		drive.arcadeDrive(speed, angle);
 	}
-	
+
+	public void tankDrive() {
+
+	}
+
+	public void devinDrive() {
+
+	}
+
 	public void stop() {
 		drive.stopMotor();
 	}
-	
+
 	public void calibrateGyro() {
 		DriverStation.reportWarning("Gyro Reading:" + +GYRO.getAngle(), false);
 		DriverStation.reportWarning("Calibrating gyro... ", false);
@@ -131,53 +144,54 @@ public class DriveTrain {
 	private void invert() {
 		inverted = inverted * -1;
 	}
-	///l2 r1
+
+	/// l2 r1
 	private double getLeftEncoderTics() {
-		//return LEFT_MOTOR2.getSensorCollection().getQuadraturePosition();
+		// return LEFT_MOTOR2.getSensorCollection().getQuadraturePosition();
 		return leftEncoder.getDistance();
 	}
-	
+
 	private double getRightEncoderTics() {
-		//return RIGHT_MOTOR1.getSensorCollection().getQuadraturePosition();
+		// return RIGHT_MOTOR1.getSensorCollection().getQuadraturePosition();
 		return rightEncoder.getDistance();
 	}
-	
-//	private Encoder getRightEncoder() {
-//
-//		return rightEncoder;
-//	}
+
+	// private Encoder getRightEncoder() {
+	//
+	// return rightEncoder;
+	// }
 
 	public void printRightEncoder() {
-		//System.out.println("rightEncoder:" + getRightEncoderTics());
+		// System.out.println("rightEncoder:" + getRightEncoderTics());
 	}
 
-//	private Encoder getLeftEncoder() {
-//		return leftEncoder;
-//	}
+	// private Encoder getLeftEncoder() {
+	// return leftEncoder;
+	// }
 
 	public void printLeftEncoder() {
-		//System.out.println("leftEncoder:" + getLeftEncoderTics());
+		// System.out.println("leftEncoder:" + getLeftEncoderTics());
 	}
 
 	public double encoderDifference() {
 		return (getRightEncoderTics() - getLeftEncoderTics());
 	}
 
-//	public double getLeftDistance() {
-//		return 0;
-//	}
-//
-//	public double getLeftSpeed() {
-//		return 0;
-//	}
-//
-//	public double getRightDistance() {
-//		return 0;
-//	}
-//
-//	public double getRightSpeed() {
-//		return 0;
-//	}
+	// public double getLeftDistance() {
+	// return 0;
+	// }
+	//
+	// public double getLeftSpeed() {
+	// return 0;
+	// }
+	//
+	// public double getRightDistance() {
+	// return 0;
+	// }
+	//
+	// public double getRightSpeed() {
+	// return 0;
+	// }
 
 	public double getEncoderTics() {
 		return (getRightEncoderTics() + getLeftEncoderTics()) / 2;
