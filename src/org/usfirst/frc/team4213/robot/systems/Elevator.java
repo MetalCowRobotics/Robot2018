@@ -109,10 +109,6 @@ public class Elevator {
 		motorState = MotorState.OFF;
 	}
 
-	public void moveElevatortopostion() {
-		moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
-	}
-
 	public void moveElevatorToPosition(double height) {
 		AutoPosition = true;
 		encoderTarget = getEncoderTics() - height;
