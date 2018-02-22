@@ -2,6 +2,7 @@ package org.usfirst.frc.team4213.autonomous;
 
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
+import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -23,10 +24,15 @@ public class RightSideSwitch extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			elevator.moveElevatortopostion();
+			intake.autoDeploy();
 			driveStep = new DriveToWall(13);
-			intake.deploy();
-			curState = MissionStates.driving;
+			curState = MissionStates.deploying;
+			break;
+		case deploying:
+			if (intake.isIntakeDown()) {
+				elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+				curState = MissionStates.driving;				
+			}
 			break;
 		case driving:
 			driveStep.run();
@@ -35,12 +41,7 @@ public class RightSideSwitch extends Mission {
 			}
 			break;
 		case arrived:
-			curState = MissionStates.deploying;
-			break;
-		case deploying:
-			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
 			curState = MissionStates.deployed;
-			// }
 			break;
 		case deployed:
 			if (onMySwitchSide(Hand.kRight)) {

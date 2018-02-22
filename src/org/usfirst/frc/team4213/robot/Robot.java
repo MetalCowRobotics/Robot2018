@@ -3,29 +3,32 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.usfirst.frc.team4213.autonomous.MiddlePosition;
 import org.usfirst.frc.team4213.autonomous.LeftPosition;
 import org.usfirst.frc.team4213.autonomous.LeftSideScale;
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
+import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMission;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard.StartPosition;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
-//import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Climber;
-import org.usfirst.frc.team4213.robot.systems.DriveStraightTime;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+//import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -64,14 +67,6 @@ public class Robot extends IterativeRobot {
 	Climber climber;
 	DifferentialDrive autoDrive;
 
-	// Get Scale and Switch information
-	public String getGameSpecificMessage() {
-		return driverStation.getGameSpecificMessage();
-	}
-
-	// temp variables
-	boolean firstTime = true;
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -80,39 +75,24 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
-		logger.log(Level.SEVERE, "Logging Severe Example");
-		logger.log(Level.WARNING, "Logging Warning Example");
-		logger.log(Level.INFO, "Logging Info Example");
-		logger.log(Level.FINE, "Logging Fine Example");
-		// Load available Autonomous missions to the driverstation
-		autoSelected = rightSide;
-		autoChooser.addObject("RightSideSwitch", rightSide);
-		autoChooser.addObject("LeftSideSwitch", leftSide);
-		autoChooser.addDefault("PassLine", passLine);
-		autoChooser.addObject("eitherSide", eitherSide);
-		autoChooser.addObject("leftScale", leftSideOfScale );
-		autoChooser.addObject("RightPosition", rightPosition);
-		autoChooser.addObject("LeftPosition", leftPosition);
-		autoChooser.addObject("MiddlePosition", middlePosition);
-
-		SmartDashboard.putData("Auto choices", autoChooser);
-
+		//setup the smartdashboard
+		HamburgerDashboard.getInstance().initializeDashboard();
+		HamburgerDashboard.getInstance().pushAutonomousMissions();
+		HamburgerDashboard.getInstance().pushStartPositions();
+		HamburgerDashboard.getInstance().pushDevinDrive();
+		
 		// Initialize Robot
-		// pdp = new PowerDistributionPanel();
-		driverStation = DriverStation.getInstance();
-
-		// CameraServer.getInstance().startAutomaticCapture();
+		//driverStation = DriverStation.getInstance();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
 		driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-
+		//calibrate Gyro
 		driveTrain.calibrateGyro();
-
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
-
 	}
 
 	/**
@@ -128,21 +108,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		System.out.println("Autonomous Init!");
 		logger.entering("autonomousInit", "");
-
-		driveTrain.resetGyro();
-
-		// TODO: Choose autonomous mission here?
-
-		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+		AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
+		StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
+		
+		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else if (leftSide == autoSelected) {
 			autoMission = new LeftSideSwitch();
 		} else if (eitherSide == autoSelected) {
-			autoMission = new MiddlePosition();
+			autoMission = new RightPosToSwitchEitherSide();
 		}		else if (leftSideOfScale == autoSelected) {
 			autoMission = new LeftSideScale();
 		}		else if (passLine == autoSelected){
@@ -152,15 +129,8 @@ public class Robot extends IterativeRobot {
 		} else if (leftPosition == autoSelected) {
 			autoMission = new LeftPosition();
 		}
-		
 		System.out.println("Auto selected: " + autoSelected);
-		System.out.println("Auto selected: " + autoSelected);
-		System.out.println("Autonomous Init - Exit!");
 		logger.exiting(getClass().getName(), "doIt");
-		firstTime = true;
-		driveStraight = new DriveStraightTime(5);
-		turnDegrees = new TurnDegrees(90);
-		driveWithEncoder = new DriveWithEncoder(48);
 	}
 
 	/**
@@ -171,7 +141,6 @@ public class Robot extends IterativeRobot {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
-		climber.execute();
 		autoMission.execute();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
 	}
@@ -195,14 +164,19 @@ public class Robot extends IterativeRobot {
 		climber.execute();
 	}
 
+	
+	
+	
+	//DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
+	
+	
+	
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testInit() {
-		logger.entering(getClass().getName(), "testI");
-		elevator.moveElevatortopostion();
-		logger.exiting(this.getClass().getName(), "robotinit");
+	public void testInit() {	
 	}
 
 	/**
@@ -210,9 +184,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		if (!driveWithEncoder.isFinished()) {
-			driveWithEncoder.run();
-		}
 	}
 
 }

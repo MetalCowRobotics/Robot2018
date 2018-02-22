@@ -4,15 +4,12 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.GenericHID;
-
 public class MasterControls {
 	private static final MasterControls instance = new MasterControls();
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
-	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(
-			RobotMap.OperatorController.USB_PORT);
+	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
@@ -55,19 +52,61 @@ public class MasterControls {
 		return operator.getLB();
 	}
 
-	public boolean isElevatorUp() {
-		return operator.getYButton();
+	// public boolean isElevatorUp() {
+	// return operator.getLT();
+	// }
+
+	// public boolean isElevatorDown() {
+	// return operator.getRT();
+
+	public double raiseElevator() {
+		return operator.getRT();
 	}
 
-	public boolean isElevatorDown() {
-		return operator.getXButton();
+	public double lowerElevator() {
+		return operator.getLT();
+
 	}
+
+	public boolean raiseIntake() {
+		return operator.getBButton();
+	}
+
+	public boolean lowerIntake() {
+		return operator.getAButton();
+	}
+
 	public void intakeRumbleOn() {
 		operator.rumbleLeft(0.5);
 		System.out.println("rumble on");
 	}
+
 	public void intakeRumbleOff() {
 		operator.rumbleLeft(0);
 	}
 
+	public double getClimbThrottle() {
+		return operator.getLY();
+	}
+	public boolean climbEnabled() {
+		return operator.getStartButton();
+	}
+	public boolean isTitltUp() {
+		return operator.getBButton();
+	}
+	public boolean isTiltDown() {
+		return operator.getAButton();
+	}
+	public double forwardSpeed() {
+		return driver.getRT();
+	}
+
+	public double reverseSpeed() {
+		return driver.getLT();
+	}
+	
+	public double direction() {
+		return driver.getLX();
+	}
+	
 }

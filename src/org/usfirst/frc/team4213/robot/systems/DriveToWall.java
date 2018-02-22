@@ -8,7 +8,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class DriveToWall extends AutoDrive {
 	private static final Logger logger = Logger.getLogger(DriveToWall.class.getName());
-	private static final Level loggingLevel = Level.WARNING;
+	private static final Level loggingLevel = RobotMap.LogLevels.driveToWallClass;
 
 	private double howClose = 0;
 

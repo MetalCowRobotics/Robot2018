@@ -4,6 +4,7 @@ import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
+import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -23,37 +24,31 @@ public class LeftSideSwitch extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
+			intake.autoDeploy();
+			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 			driveStep = new DriveWithEncoder(159.5);
-			//driveStep = new DriveWithEncoder(12);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
-			intake.deploy();
-			// elevator.moveToSetPosition(SetPositions.switchWall);
-			System.out.println("waiting");
 			curState = MissionStates.driving;
 			break;
 		case driving:
 			driveStep.run();
 			if (driveStep.isFinished())
 				curState = MissionStates.arrived;
-			System.out.println("driving");
 			break;
 		case arrived:
-			System.out.println("arrived");
 			curState = MissionStates.turning;
 			break;
 		case turning:
 			driveDegrees.run();
 			if (driveDegrees.isFinished())
 				curState = MissionStates.turned;
-			System.out.println("turning");
 			break;
 		case turned:
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
 			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
-			System.out.println("deploying");
 			curState = MissionStates.deployed;
 			// }
 			break;
@@ -68,7 +63,6 @@ public class LeftSideSwitch extends Mission {
 			break;
 		case reached:
 			if (onMySwitchSide(Hand.kLeft)) {
-				System.out.println("ejecting");
 				intake.autoEject();
 				curState = MissionStates.ejecting;
 			} else {
@@ -76,8 +70,6 @@ public class LeftSideSwitch extends Mission {
 			}
 			break;
 		case ejecting:
-			System.out.println("checking eject time");
-			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}
