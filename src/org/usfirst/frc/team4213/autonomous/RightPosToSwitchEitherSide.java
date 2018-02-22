@@ -1,19 +1,14 @@
 package org.usfirst.frc.team4213.autonomous;
 
-import org.usfirst.frc.team4213.robot.systems.AutoDrive;
-import org.usfirst.frc.team4213.robot.systems.DriveToWall;
-import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
-import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
-
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class MiddlePosition extends Mission {
+public class RightPosToSwitchEitherSide extends Mission {
 	private enum MissionStates {
 		waiting, left, right, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
-	
+
 	private Mission rightSideSwitch;
 	private Mission rightSideToLeftSwitch;
 
@@ -30,14 +25,12 @@ public class MiddlePosition extends Mission {
 				curState = MissionStates.left;
 			}
 			break;
-				
-		case left: // like a firstTime
+		case left:
 			rightSideToLeftSwitch.execute();
 			break;
-		case right: // like a firstTime
+		case right:
 			rightSideSwitch.execute();
 			break;
-		
 		case done:
 			// turn stuff off an prepare for teleop
 			break;

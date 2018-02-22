@@ -24,10 +24,15 @@ public class RightSideSwitch extends Mission {
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
-			intake.deploy();
-			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+			intake.autoDeploy();
 			driveStep = new DriveToWall(13);
-			curState = MissionStates.driving;
+			curState = MissionStates.deploying;
+			break;
+		case deploying:
+			if (intake.isIntakeDown()) {
+				elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+				curState = MissionStates.driving;				
+			}
 			break;
 		case driving:
 			driveStep.run();
@@ -36,12 +41,7 @@ public class RightSideSwitch extends Mission {
 			}
 			break;
 		case arrived:
-			curState = MissionStates.deploying;
-			break;
-		case deploying:
-			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
 			curState = MissionStates.deployed;
-			// }
 			break;
 		case deployed:
 			if (onMySwitchSide(Hand.kRight)) {
