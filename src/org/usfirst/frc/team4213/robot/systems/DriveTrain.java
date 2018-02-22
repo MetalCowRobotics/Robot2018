@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
 import org.usfirst.frc.team4213.robot.HamburgerDashboard;
+import org.usfirst.frc.team4213.lib14.UtilityMethods;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
