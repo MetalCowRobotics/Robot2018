@@ -30,6 +30,7 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
+		ELEVATOR_MOTOR.setInverted(true);
 	}
 
 	public void execute() {
@@ -47,12 +48,13 @@ public class Elevator {
 				AutoPosition = false;
 			}
 		} else {
-			double elevatorSpeed =  controller.lowerElevator() - controller.raiseElevator();
-			if (isElevatorAtTop())
-				elevatorSpeed = controller.lowerElevator();
-			if (isElevatorAtBottom())
-				elevatorSpeed = -controller.raiseElevator();
-			ELEVATOR_MOTOR.set(elevatorSpeed);
+			double elevatorSpeed =  controller.getElevatorThrottle();
+			if (isElevatorAtTop() && elevatorSpeed > 0)
+				stop();
+			else if (isElevatorAtBottom() && elevatorSpeed < 0)
+				stop();
+			else 
+				ELEVATOR_MOTOR.set(elevatorSpeed);
 			
 			
 //			if (elevatorSpeed > 0) {
@@ -103,7 +105,6 @@ public class Elevator {
 		motorState = (speed < 0) ? MotorState.DOWN : MotorState.UP;
 		ELEVATOR_MOTOR.set(speed);
 	}
-
 	public void stop() {
 		ELEVATOR_MOTOR.stopMotor();
 		motorState = MotorState.OFF;

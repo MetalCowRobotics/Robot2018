@@ -24,10 +24,11 @@ public class DriveTrain {
 	private MasterControls controller = MasterControls.getInstance();
 
 	private static SpeedControllerGroup RightMotor = new SpeedControllerGroup(
-			new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1),
-			new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2));
+			new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL1));
+		//	new MCR_SRX(RobotMap.Drivetrain.RIGHT_MOTOR_CHANNEL2));
 	private static SpeedControllerGroup LeftMotor = new SpeedControllerGroup(
-			new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1), new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2));
+			new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL1));
+			//new MCR_SRX(RobotMap.Drivetrain.LEFT_MOTOR_CHANNEL2));
 
 	private static final Encoder rightEncoder = new Encoder(RobotMap.Drivetrain.RIGHT_ENCODER_1,
 			RobotMap.Drivetrain.RIGHT_ENCODER_2, false, EncodingType.k4X);
