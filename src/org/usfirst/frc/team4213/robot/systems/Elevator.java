@@ -32,11 +32,15 @@ public class Elevator {
 	double safteyZone = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	double safteyTopSpeed = .5;
 
+
+	
 	private Elevator() {
 		// Singleton Pattern
-		ELEVATOR_MOTOR.setInverted(true);
-		bottomTics = getEncoderTics();
-		topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		if (null != ELEVATOR_MOTOR) {
+			ELEVATOR_MOTOR.setInverted(true);
+			bottomTics = getEncoderTics();
+			topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+		}
 	}
 
 	public void execute() {
@@ -63,7 +67,7 @@ public class Elevator {
 				moveElevator(elevatorSpeed);
 
 			//get current encoder reading
-			currentPosition = this.getEncoderTics();
+			//currentPosition = this.getEncoderTics();
 		}
 
 	}

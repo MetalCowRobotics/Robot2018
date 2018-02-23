@@ -62,9 +62,11 @@ public class DriveTrain {
 		printLeftEncoder();
 		double leftSpeed;
 		double rightSpeed;
+		
 		if (controller.invertDrive()) {
 			invert();
 		}
+		
 		if (inverted == 1) {
 			leftSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
 			rightSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
@@ -72,17 +74,18 @@ public class DriveTrain {
 			leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
 			rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
 		}
+		
 		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
 			drive.arcadeDrive(leftSpeed, rightSpeed, true);
 		} else { // Stay in regular Tank drive mode
-			// if (RobotMap.Drivetrain.DevinDrive) {
-			if (HamburgerDashboard.getInstance().getDevinMode()) {
-				double speed = controller.forwardSpeed() - controller.reverseSpeed();
-				arcadeDrive(speed, controller.direction());
-			} else {
-				drive.tankDrive(leftSpeed, rightSpeed, true);
-			}
-
+//			if (HamburgerDashboard.getInstance().getDevinMode()) {
+//				double speed = controller.forwardSpeed() - controller.reverseSpeed();
+//				arcadeDrive(speed, controller.direction());
+//			} else {
+//				drive.tankDrive(leftSpeed, rightSpeed, true);
+//			}
+			double speed = controller.forwardSpeed() - controller.reverseSpeed();
+			arcadeDrive(speed, controller.direction());
 		}
 	}
 

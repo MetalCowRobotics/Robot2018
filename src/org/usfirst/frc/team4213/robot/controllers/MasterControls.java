@@ -100,7 +100,8 @@ public class MasterControls {
 
 	public double getClimbThrottle() {
 		//add tolerance near 0
-		return (Math.abs(operator.getLY())>.02) ? operator.getLY() : 0;
+		//return (Math.abs(operator.getLY())>.02) ? operator.getLY() : 0;
+		return operator.getLY();
 	}
 	public boolean climbEnabled() {
 		return operator.getLB();
