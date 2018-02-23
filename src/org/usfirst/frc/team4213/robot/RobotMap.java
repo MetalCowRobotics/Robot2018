@@ -19,9 +19,9 @@ public class RobotMap {
 		public static final int[] LEFT_MOTORS = { 3, 4 };
 		public static final int[] RIGHT_MOTORS = { 1, 2 };
 		public static final int LEFT_MOTOR_CHANNEL1 = 3;// CAN
-		public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
+		//public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
 		public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN
+		//public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
 		public static final int WHEEL_DIAMETER = 6;
