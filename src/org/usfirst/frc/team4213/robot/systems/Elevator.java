@@ -11,7 +11,6 @@ import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 import java.util.logging.Logger;
 public class Elevator {
 	private static final Elevator instance = new Elevator();
-	private static final Intake intake = Intake.getInstance();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
@@ -27,10 +26,17 @@ public class Elevator {
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
 	boolean AutoPosition = false;
 	double encoderTarget;
+	double currentPosition;
+	double bottomTics;
+	double topTics;
+	double safteyZone = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+	double safteyTopSpeed = .5;
 
 	private Elevator() {
 		// Singleton Pattern
 		ELEVATOR_MOTOR.setInverted(true);
+		bottomTics = getEncoderTics();
+		topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	}
 
 	public void execute() {
@@ -54,22 +60,10 @@ public class Elevator {
 			else if (isElevatorAtBottom() && elevatorSpeed < 0)
 				stop();
 			else 
-				ELEVATOR_MOTOR.set(elevatorSpeed);
-			
-			
-//			if (elevatorSpeed > 0) {
-//				if (!isElevatorAtTop())
-//					ELEVATOR_MOTOR.set(elevatorSpeed);
-//				else
-//					stop();
-//			} else if (elevatorSpeed < 0){
-//				if (!isElevatorAtBottom())
-//					ELEVATOR_MOTOR.set(elevatorSpeed);
-//				else
-//					stop();
-//			} else
-//				stop();
+				moveElevator(elevatorSpeed);
 
+			//get current encoder reading
+			currentPosition = this.getEncoderTics();
 		}
 
 	}
@@ -78,19 +72,26 @@ public class Elevator {
 		return instance;
 	}
 
+	private void moveElevator(double elevatorSpeed) {
+		if (getEncoderTics() > (topTics - safteyZone) && elevatorSpeed > 0) {
+			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
+		} else if (getEncoderTics() < (bottomTics + safteyZone) && elevatorSpeed < 0) {
+			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
+		} else
+			ELEVATOR_MOTOR.set(elevatorSpeed);
+	}
+
+	
 	public void moveUp() {
 		if (!movingUp()) {
 			setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		}
-		// elevatorState = topLimit.get() ? ElevatorState.TOP : ElevatorState.MIDDLE;
 	}
 
 	public void moveDown() {
 		if (!movingDown()) {
 			setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
 		}
-		// elevatorState = bottomLimit.get() ? ElevatorState.BOTTOM :
-		// ElevatorState.MIDDLE;
 	}
 
 	private boolean movingUp() {
@@ -113,12 +114,11 @@ public class Elevator {
 	public void moveElevatorToPosition(double height) {
 		AutoPosition = true;
 		encoderTarget = getEncoderTics() - height;
-		moveUp();
+		setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		System.out.println("elevator target tics" + encoderTarget);
 	}
 
 	private double getEncoderTics() {
-		//return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
 		return elevatorEncoder.getDistance();
 	}
 

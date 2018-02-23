@@ -29,8 +29,12 @@ public class Climber {
 	}
 
 	public void execute() {
-		if (controller.climbEnabled())
+		if (controller.climbEnabled()) {
 			CLIMBER_MOTOR.set(controller.getClimbThrottle());
+		} else {
+			CLIMBER_MOTOR.stopMotor();
+		}
+			
 	}
 
 }
