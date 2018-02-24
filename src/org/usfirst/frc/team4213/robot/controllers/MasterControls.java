@@ -80,7 +80,7 @@ public class MasterControls {
 	public double getElevatorThrottle() {
 		//return operator.getLT() - operator.getRT();
 		//add tolerance for near 0
-		return (Math.abs(operator.getRY())>.05) ? -operator.getRY() : 0;
+		return (Math.abs(operator.getRY())>.08) ? -operator.getRY() : 0;
 		//return -operator.getRY();
 	}
 
@@ -125,6 +125,10 @@ public class MasterControls {
 	
 	public double direction() {
 		return driver.getLX();
+	}
+
+	public boolean isClimberSafetyOn() {
+		return operator.getLB();
 	}
 	
 }

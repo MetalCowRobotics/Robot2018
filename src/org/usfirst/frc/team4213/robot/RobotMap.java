@@ -100,10 +100,17 @@ public class RobotMap {
 		public static final int TICS_PER_ROTATION = 354; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Elevator.ELEVATOR_WINCH_DIAMETER;
 		public static final double SLOW_DOWN_DISTANCE = (8 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
+		public static final double kP = .4;
+		public static final double kI = 0;
+		public static final double kD = 0;
+		public static final double tolerance = 5;
+		public static final double outputMin = -.4;
+		public static final double outputMax = .6;
 	}
 
 	public final class Climber {
 		public static final int CLIMBER_MOTOR_CHANNEL1 = 3; // PWM - using Y-cable only needs 1 port
+		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 2;
 	}
 
 	public static final class LogLevels {

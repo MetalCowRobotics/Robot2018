@@ -6,6 +6,7 @@ import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
@@ -16,8 +17,12 @@ public class Climber {
 	private static final MasterControls controller = MasterControls.getInstance();
 
 	private static final SpeedController CLIMBER_MOTOR = new MCR_SRX(RobotMap.Climber.CLIMBER_MOTOR_CHANNEL1);
+	private static final SpeedController CLIMBER_HELPER_SERVO = new MCR_SRX(RobotMap.Climber.CLIMBER_HELPER_SERVO_CHANNEL);
 
 	// TODO: Motors
+
+	Servo ClimberHelperServo = new Servo(2);
+	boolean TouchingGear = true;
 
 	// TODO: Sensors
 
@@ -30,14 +35,21 @@ public class Climber {
 	}
 
 	public void execute() {
-		System.out.println("Clinber entry");
+		System.out.println("Climber entry");
 		if (controller.climbEnabled()) {
 			CLIMBER_MOTOR.set(controller.getClimbThrottle());
 			System.out.println(controller.getClimbThrottle());
+			//ClimberHelperServo.setAngle(90);
 		} else {
 			CLIMBER_MOTOR.stopMotor();
 		}
-			
+		
+		if (controller.isClimberSafetyOn()) {
+			ClimberHelperServo.setAngle(180);
+		}
+		else {
+			ClimberHelperServo.setAngle(0);
+		}
 	}
 
 }

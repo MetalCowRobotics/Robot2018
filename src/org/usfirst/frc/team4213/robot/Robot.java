@@ -80,6 +80,7 @@ public class Robot extends IterativeRobot {
 		HamburgerDashboard.getInstance().pushAutonomousMissions();
 		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushDevinDrive();
+		HamburgerDashboard.getInstance().pushPID();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
@@ -88,7 +89,7 @@ public class Robot extends IterativeRobot {
 		// Initialize Systems
 		//driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
-		//intake = Intake.getInstance();
+//		intake = Intake.getInstance();
 		//climber = Climber.getinstance();
 		//calibrate Gyro
 		//driveTrain.calibrateGyro();
@@ -187,8 +188,9 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		//System.out.println(driveTrain.wallSensorInches());
 		elevator.execute();
+		
 		if (firstTime) {
-			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+			elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			firstTime = false;
 		}
 	}
