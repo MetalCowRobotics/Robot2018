@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 		HamburgerDashboard.getInstance().initializeDashboard();
 		HamburgerDashboard.getInstance().pushAutonomousMissions();
 		HamburgerDashboard.getInstance().pushStartPositions();
-		HamburgerDashboard.getInstance().pushDevinDrive();
+		HamburgerDashboard.getInstance().pushMCRDriveMode();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();

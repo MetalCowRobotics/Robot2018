@@ -29,7 +29,7 @@ public class RobotMap {
 		public static final int LEFT_ENCODER_2 = 3; // DIO
 		public static final int RIGHT_ENCODER_1 = 0; // DIO
 		public static final int RIGHT_ENCODER_2 = 1; // DIO
-		public static final boolean DevinDrive = true;
+		public static final boolean MCR_DRIVE_MODE = true;
 	}
 
 	public final class DriveToWall {
