@@ -76,8 +76,8 @@ public class DriveTrain {
 		} else { // Stay in regular Tank drive mode
 			// if (RobotMap.Drivetrain.DevinDrive) {
 			if (HamburgerDashboard.getInstance().getDevinMode()) {
-				double speed = controller.forwardSpeed() - controller.reverseSpeed();
-				arcadeDrive(speed, controller.direction());
+				double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
+				arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)) * inverted);
 			} else {
 				drive.tankDrive(leftSpeed, rightSpeed, true);
 			}
