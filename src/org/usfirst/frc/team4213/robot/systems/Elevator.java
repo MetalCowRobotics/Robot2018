@@ -1,17 +1,18 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import edu.wpi.first.wpilibj.CounterBase;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import java.util.logging.Logger;
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 public class Elevator {
 	private static final Elevator instance = new Elevator();
-	private static final Intake intake = Intake.getInstance();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
 	private static final MasterControls controller = MasterControls.getInstance();
@@ -30,34 +31,50 @@ public class Elevator {
 	double currentPosition;
 	double bottomTics;
 	double topTics;
-	double safteyZone = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
-	double safteyTopSpeed = .5;
-
+	//double safteyZone = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+	//double safteyTopSpeed = .5;
+	PIDController holdPID; 
+	boolean firstTime = true;
+	
+	
 	private Elevator() {
 		// Singleton Pattern
-		ELEVATOR_MOTOR.setInverted(true);
-		bottomTics = getEncoderTics();
-		topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	}
 
 	public void execute() {
-		//System.out.println("elevator encoder tics:" + getEncoderTics());
-		
-		System.out.print("   Elevator Up: "+this.isElevatorAtTop()+"  Elevator Down: "+this.isElevatorAtBottom());
-		
-		
+		logger.fine("==================== elevator execute ====================");
+		initElevator();
+		logParameters();
+		logPID();
+		logParameters();
 		if (AutoPosition) {
-			//System.out.println("elevator encode:" + getEncoderTics());
-			//System.out.println("elevator target:" + encoderTarget);
-			//System.out.println("elevator boolean:" + (getEncoderTics() > encoderTarget));
-			if (getEncoderTics() < encoderTarget) {
+			logger.info("elevator boolean:" + (getEncoderTics() > encoderTarget));
+			if (getEncoderTics() >= encoderTarget) {
 				stop();
 				AutoPosition = false;
 			}
 		} else {
-			moveElevator(controller.getElevatorThrottle());
+			double elevatorSpeed = controller.getElevatorThrottle();
+			if (isElevatorAtTop() && elevatorSpeed > 0) {
+				stop();
+			} else if (isElevatorAtBottom() && elevatorSpeed < 0) {
+				stop();
+			} else {
+				moveElevator(elevatorSpeed);
+			}
 		}
 
+	}
+
+	private void initElevator() {
+		if (firstTime) {
+			// ELEVATOR_MOTOR.setInverted(true);
+			startEncoder();
+			topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+			logger.info("bottomTics:" + bottomTics);
+			logger.info("topTics:" + topTics);
+			firstTime = false;
+		}
 	}
 
 	public static Elevator getInstance() {
@@ -65,22 +82,48 @@ public class Elevator {
 	}
 
 	private void moveElevator(double elevatorSpeed) {
-		if (getEncoderTics() > (topTics - safteyZone) && elevatorSpeed > 0) {
-			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
-		} else if (getEncoderTics() < (bottomTics + safteyZone) && elevatorSpeed < 0) {
-			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
-		} else
-			ELEVATOR_MOTOR.set(elevatorSpeed);
+		//rampe the elevator speeds near the top and bottom
+		if (getEncoderTics() > (topTics - RobotMap.Elevator.SAFTEY_ZONE) && elevatorSpeed > 0) {
+			disablePID();
+			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, RobotMap.Elevator.SAFE_SPEED));
+			motorState = MotorState.ON;
+		} else if (getEncoderTics() < (bottomTics + RobotMap.Elevator.SAFTEY_ZONE) && elevatorSpeed < 0) {
+			disablePID();
+			ELEVATOR_MOTOR.set(Math.max(elevatorSpeed, -RobotMap.Elevator.SAFE_SPEED));
+			motorState = MotorState.ON;
+		} else {	
+			if (0 == elevatorSpeed) {
+				stop();
+			} else {
+				disablePID();
+				ELEVATOR_MOTOR.set(elevatorSpeed);
+				motorState = MotorState.ON;
+			}
+		}
 	}
 	
-	public void moveUp() {
+	private void disablePID() {
+ 		if (null != holdPID)
+ 			holdPID.disable();
+  	}
+	
+	private void startEncoder() {
+		if (null != holdPID)
+			holdPID.free();
+		holdPID = new PIDController(RobotMap.Elevator.kP, RobotMap.Elevator.kI, RobotMap.Elevator.kD, elevatorEncoder, ELEVATOR_MOTOR); // can add 20ms at end
+		holdPID.setOutputRange(RobotMap.Elevator.outputMin, RobotMap.Elevator.outputMax);
+		holdPID.setAbsoluteTolerance(RobotMap.Elevator.tolerance);
+		bottomTics = getEncoderTics();
+	}
+	
+	private void moveUp() {
 		if (!movingUp()) {
 			setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		}
 		// elevatorState = topLimit.get() ? ElevatorState.TOP : ElevatorState.MIDDLE;
 	}
 
-	public void moveDown() {
+	private void moveDown() {
 		if (!movingDown()) {
 			setElevatorSpeed(RobotMap.Elevator.DOWN_SPEED);
 		}
@@ -104,19 +147,26 @@ public class Elevator {
 	public void stop() {
 		ELEVATOR_MOTOR.stopMotor();
 		motorState = MotorState.OFF;
-		// get current encoder reading
-		currentPosition = this.getEncoderTics();
+		//if not at the bottom create a holdPID for the current height
+		if (!isElevatorAtBottom()) {
+			motorState = MotorState.HOLD;
+			startEncoder();
+			holdPID.setSetpoint(getEncoderTics());
+			holdPID.enable();
+		}
 	}
 
 	public void moveElevatorToPosition(double height) {
+		initElevator();
+		holdPID.disable();
 		AutoPosition = true;
-		encoderTarget = getEncoderTics() - height;
-		setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
-		System.out.println("elevator target tics" + encoderTarget);
+		encoderTarget = getEncoderTics() + ((height / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION);
+		ELEVATOR_MOTOR.set(RobotMap.Elevator.UP_SPEED);
+		motorState = MotorState.ON;
+		logger.info("moveElevatorToPosition encoderTarget:" + encoderTarget);
 	}
 
 	private double getEncoderTics() {
-		//return ELEVATOR_MOTOR2.getSensorCollection().getQuadraturePosition();
 		return elevatorEncoder.getDistance();
 	}
 
@@ -128,10 +178,26 @@ public class Elevator {
 	}
 	
 	private enum MotorState {
-		OFF, UP, DOWN
+		ON, OFF, UP, DOWN, HOLD
 	}
 
 	private enum ElevatorState {
 		TOP, MIDDLE, BOTTOM
 	}
+	
+	private void logParameters() {
+		logger.info("Elevator AutoPosition:" + AutoPosition);
+		logger.info("Elevator throttle:" + controller.getElevatorThrottle());
+		logger.info("Elevator Up limit: " + this.isElevatorAtTop() + " Elevator Down limit: " + this.isElevatorAtBottom());
+		logger.info("Speed:" + ELEVATOR_MOTOR.get());
+		logger.info("Elevator encoder tics:" + getEncoderTics() + "   Elevator target tics:" + encoderTarget);
+		logger.info("Elevator bottom tics:" + bottomTics + "   Elevator top tics:" + topTics);
+	}
+
+	private void logPID() {
+		logger.info("PID enabled:" + holdPID.isEnabled());
+		logger.info("PID error:" + holdPID.getSetpoint());
+		logger.info("PID error:" + holdPID.getError());
+	}
+	
 }

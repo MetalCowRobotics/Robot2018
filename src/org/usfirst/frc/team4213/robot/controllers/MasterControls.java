@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
+	private static final double throttleVariance = .01;
 	private static final MasterControls instance = new MasterControls();
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
@@ -68,7 +69,7 @@ public class MasterControls {
 	}
 
 	public double getElevatorThrottle() {
-		return (Math.abs(operator.getRY()) > .01) ? operator.getRY() : 0;
+		return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 	
 	public boolean raiseIntake() {
