@@ -83,16 +83,16 @@ public class Robot extends IterativeRobot {
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
-		driveTrain = DriveTrain.getInstance();
+		//driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
-		intake = Intake.getInstance();
-		climber = Climber.getinstance();
+		//intake = Intake.getInstance();
+		//climber = Climber.getinstance();
 		//calibrate Gyro
-		driveTrain.calibrateGyro();
-		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+		//driveTrain.calibrateGyro();
+		//DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 	}
 
 	/**
@@ -111,7 +111,6 @@ public class Robot extends IterativeRobot {
 		logger.entering("autonomousInit", "");
 		AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
 		StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
-		
 		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
 		if (rightSide == autoSelected) {
@@ -177,13 +176,21 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {	
+		
 	}
-
+	
+	private boolean firstTime = true;
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
+		//System.out.println(driveTrain.wallSensorInches());
+		elevator.execute();
+		if (firstTime) {
+			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+			firstTime = false;
+		}
 	}
 
 }

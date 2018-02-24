@@ -46,10 +46,12 @@ public class MasterControls {
 
 	public boolean isCubeIntake() {
 		//return operator.getRB();
+		logger.info("RightTrigger:" + operator.getRT());
 		return operator.getRT() > .25;
 	}
 
 	public boolean isCubeEject() {
+		logger.info("LeftTrigger:" + operator.getLT());
 		//return operator.getLB();
 		return operator.getLT() > .25;
 	}
@@ -78,7 +80,8 @@ public class MasterControls {
 	public double getElevatorThrottle() {
 		//return operator.getLT() - operator.getRT();
 		//add tolerance for near 0
-		return (Math.abs(operator.getRY())>.02) ? operator.getRY() : 0;
+		return (Math.abs(operator.getRY())>.05) ? -operator.getRY() : 0;
+		//return -operator.getRY();
 	}
 
 	public boolean raiseIntake() {
