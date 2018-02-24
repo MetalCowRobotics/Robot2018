@@ -30,13 +30,13 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
+		ELEVATOR_MOTOR.setInverted(true);
 	}
 
 	public void execute() {
 		//System.out.println("elevator encoder tics:" + getEncoderTics());
 		
 		System.out.print("   Elevator Up: "+this.isElevatorAtTop()+"  Elevator Down: "+this.isElevatorAtBottom());
-		
 		
 		if (AutoPosition) {
 			//System.out.println("elevator encode:" + getEncoderTics());
@@ -47,29 +47,14 @@ public class Elevator {
 				AutoPosition = false;
 			}
 		} else {
-			double elevatorSpeed =  controller.lowerElevator() - controller.raiseElevator();
-			if (isElevatorAtTop())
-				elevatorSpeed = controller.lowerElevator();
-			if (isElevatorAtBottom())
-				elevatorSpeed = -controller.raiseElevator();
-			ELEVATOR_MOTOR.set(elevatorSpeed);
-			
-			
-//			if (elevatorSpeed > 0) {
-//				if (!isElevatorAtTop())
-//					ELEVATOR_MOTOR.set(elevatorSpeed);
-//				else
-//					stop();
-//			} else if (elevatorSpeed < 0){
-//				if (!isElevatorAtBottom())
-//					ELEVATOR_MOTOR.set(elevatorSpeed);
-//				else
-//					stop();
-//			} else
-//				stop();
-
-		}
-
+			double elevatorSpeed = controller.getElevatorThrottle();
+			if (isElevatorAtTop() && elevatorSpeed > 0)
+				stop();
+			else if (isElevatorAtBottom() && elevatorSpeed < 0)
+				stop();
+			else
+				ELEVATOR_MOTOR.set(elevatorSpeed);
+		}			
 	}
 
 	public static Elevator getInstance() {

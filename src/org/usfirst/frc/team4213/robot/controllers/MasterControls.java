@@ -45,11 +45,11 @@ public class MasterControls {
 	}
 
 	public boolean isCubeIntake() {
-		return operator.getRB();
+		return operator.getRT() > .25;
 	}
 
 	public boolean isCubeEject() {
-		return operator.getLB();
+		return operator.getLT() > .25;
 	}
 
 	// public boolean isElevatorUp() {
@@ -68,8 +68,12 @@ public class MasterControls {
 
 	}
 
+	public double getElevatorThrottle() {
+		return (Math.abs(operator.getRY()) > .01) ? operator.getRY() : 0;
+	}
+	
 	public boolean raiseIntake() {
-		return operator.getBButton();
+		return operator.getYButton();
 	}
 
 	public boolean lowerIntake() {
@@ -86,10 +90,10 @@ public class MasterControls {
 	}
 
 	public double getClimbThrottle() {
-		return operator.getLY();
+		return (Math.abs(operator.getLY())>.01) ? operator.getLY() : 0;
 	}
 	public boolean climbEnabled() {
-		return operator.getStartButton();
+		return operator.getLB();
 	}
 	public boolean isTitltUp() {
 		return operator.getBButton();
