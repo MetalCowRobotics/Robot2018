@@ -151,6 +151,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
+		elevator.setPositionTics(500);
 	}
 
 	/**
@@ -158,10 +159,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		driveTrain.drive();
+//		driveTrain.drive();
 		elevator.execute();
-		intake.execute();
-		climber.execute();
+//		intake.execute();
+//		climber.execute();
 	}
 
 	
@@ -190,7 +191,8 @@ public class Robot extends IterativeRobot {
 		elevator.execute();
 		
 		if (firstTime) {
-			elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+//			elevator.hold(1000);
+//			elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			firstTime = false;
 		}
 	}

@@ -100,12 +100,13 @@ public class RobotMap {
 		public static final int TICS_PER_ROTATION = 354; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Elevator.ELEVATOR_WINCH_DIAMETER;
 		public static final double SLOW_DOWN_DISTANCE = (8 / INCHES_PER_ROTATION) * TICS_PER_ROTATION;
-		public static final double kP = .4;
+		public static final double kP = .01;
 		public static final double kI = 0;
 		public static final double kD = 0;
 		public static final double tolerance = 5;
 		public static final double outputMin = -.4;
 		public static final double outputMax = .6;
+		public static final double SafeSpeed = 0.5;
 	}
 
 	public final class Climber {
@@ -124,7 +125,7 @@ public class RobotMap {
 		public static final Level elevatorClass = Level.FINEST;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level turnDegreesClass = Level.WARNING;
-		public static final Level masterControlsClass = Level.FINE;
+		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level hamburgerDashboardClass = Level.WARNING;
 		public static final Level componentBuilderClass = Level.WARNING;
 		public static final Level missionClass = Level.WARNING;

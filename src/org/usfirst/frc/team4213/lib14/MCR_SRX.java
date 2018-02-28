@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MCR_SRX extends TalonSRX implements SpeedController {
+	private double speedPercentage = 0;
 
 	/**
 	 * Set the output to the value calculated by PIDController.
@@ -27,6 +29,7 @@ public class MCR_SRX extends TalonSRX implements SpeedController {
 	@Override // SpeedController
 	public void pidWrite(double output) {
 		super.set(ControlMode.PercentOutput, output);
+		this.speedPercentage = output;
 	}
 
 	/**
@@ -38,6 +41,8 @@ public class MCR_SRX extends TalonSRX implements SpeedController {
 	@Override // SpeedController
 	public void set(double speed) {
 		super.set(ControlMode.PercentOutput, speed);
+		this.speedPercentage = speed;
+		
 	}
 
 	/**
@@ -47,7 +52,8 @@ public class MCR_SRX extends TalonSRX implements SpeedController {
 	 */
 	@Override // SpeedController
 	public double get() {
-		return super.getMotorOutputPercent();
+		return this.speedPercentage;
+		//return super.getMotorOutputPercent();
 	}
 
 	/**
@@ -78,6 +84,7 @@ public class MCR_SRX extends TalonSRX implements SpeedController {
 	@Override // SpeedController
 	public void disable() {
 		super.neutralOutput();
+		this.speedPercentage = 0;
 	}
 
 	/**
@@ -87,6 +94,7 @@ public class MCR_SRX extends TalonSRX implements SpeedController {
 	@Override // SpeedController
 	public void stopMotor() {
 		super.set(ControlMode.PercentOutput, 0); // Stop the motor
+		this.speedPercentage = 0;
 	}
 
 }

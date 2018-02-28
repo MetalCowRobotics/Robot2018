@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4213.lib14;
 
+import org.usfirst.frc.team4213.robot.HamburgerDashboard;
+
 // calculate the error
 // Error = Setpoint Value - Current Value
 // determine the adjusted speeds of the motors.
@@ -11,8 +13,8 @@ public class PDController {
 
 
 	// must experiment to get these right
-	private double Kp = .4;
-	private double Kd = .1;
+	private double kP = .4;
+	private double kD = .1;
 
 	// control variables
 	private double setPoint;
@@ -24,11 +26,13 @@ public class PDController {
 
 	public PDController(double setPoint, double Kp, double Kd) {
 		this.setPoint = setPoint;
-		this.Kd = Kd;
-		this.Kp = Kp;
+		this.kD = Kd;
+		this.kP = Kp;
 	}
 
 	public double calculateAdjustment(double currentAngle) {
+		kP = HamburgerDashboard.getInstance().getKP();
+		kD = HamburgerDashboard.getInstance().getKD();
 		double currentError = calaculateError(setPoint, currentAngle);
 		double motorAdjustment = determineAdjustment(currentError, previousError);
 		previousError = currentError;
@@ -40,9 +44,23 @@ public class PDController {
 	}
 
 	private double determineAdjustment(double currentError, double previousError) {
-		return Kp * currentError + Kd * (currentError - previousError);
+		return kP * currentError + kD * (currentError - previousError);
 	}
 
+	public double getSetPoint() {
+		return setPoint;
+	}
 
+	public double getError() {
+		return previousError;
+	}
 
+	public void setSetPoint(double setPoint) {
+		this.setPoint = setPoint;
+	}
+	
+	public void reset() {
+		previousError = 0;
+	}
+	
 }

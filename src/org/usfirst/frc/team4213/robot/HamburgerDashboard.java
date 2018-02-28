@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4213.robot;
 
+import org.usfirst.frc.team4213.lib14.PDController;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -137,33 +139,39 @@ public class HamburgerDashboard {
 		SmartDashboard.putNumber("min output", RobotMap.Elevator.outputMin);
 		SmartDashboard.putNumber("max output", RobotMap.Elevator.outputMax);
 	}
+
 	public double getKP() {
 		return SmartDashboard.getNumber("kP", RobotMap.Elevator.kP);
 	}
+
 	public double getKI() {
 		return SmartDashboard.getNumber("kI", RobotMap.Elevator.kI);
 	}
+
 	public double getKD() {
 		return SmartDashboard.getNumber("kD", RobotMap.Elevator.kD);
 	}
+
 	public double getTolerance() {
 		return SmartDashboard.getNumber("tolerance", RobotMap.Elevator.tolerance);
 	}
+
 	public double getOutputMin() {
 		return SmartDashboard.getNumber("min output", RobotMap.Elevator.outputMin);
 	}
-	
+
 	public double getOutputMax() {
 		return SmartDashboard.getNumber("max output", RobotMap.Elevator.outputMax);
 	}
-	
-	public void pushPID(PIDController pid) {
-		if (null == pid) return;
-		SmartDashboard.putBoolean("PIDenabled", pid.isEnabled());
-		SmartDashboard.putNumber("PIDsetPoint", pid.getSetpoint());
-		SmartDashboard.putNumber("PIDerror", pid.getError());
-		SmartDashboard.putBoolean("PIDonTarget", pid.onTarget());
-		
+
+	public void pushPID(PDController pid) {
+		if (null == pid)
+			return;
+		// SmartDashboard.putBoolean("PIDenabled", pid.isEnabled());
+		 SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
+		 SmartDashboard.putNumber("PIDerror", pid.getError());
+		// SmartDashboard.putBoolean("PIDonTarget", pid.onTarget());
+
 	}
-	
+
 }
