@@ -1,10 +1,8 @@
 package org.usfirst.frc.team4213.robot.controllers;
 
-import java.util.logging.Logger;
-
 import org.usfirst.frc.team4213.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import java.util.logging.Logger;
 
 public class MasterControls {
 	private static final MasterControls instance = new MasterControls();
@@ -65,6 +63,9 @@ public class MasterControls {
 	public void intakeRumbleOn() {
 		operator.rumbleLeft(0.5);
 		System.out.println("rumble on");
+	}
+	public double getElevatorThrottle() {
+		return 0;
 	}
 	public void intakeRumbleOff() {
 		operator.rumbleLeft(0);

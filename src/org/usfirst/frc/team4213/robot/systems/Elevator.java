@@ -16,15 +16,10 @@ public class Elevator {
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	
-//e2
-	// private static final Talon ELEVATOR_MOTOR = new
-	// Talon(RobotMap.Elevator.ELEVATOR_CHANNEL);
 	private static final MCR_SRX ELEVATOR_MOTOR1 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1);
 	private static final MCR_SRX ELEVATOR_MOTOR2 = new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2);
 	private static SpeedControllerGroup ElevatorSpeedControllerGroup = new SpeedControllerGroup (ELEVATOR_MOTOR1, ELEVATOR_MOTOR2);
-
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1, RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
-
 	DigitalInput topLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit;// = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
