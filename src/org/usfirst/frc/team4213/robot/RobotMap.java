@@ -107,6 +107,7 @@ public class RobotMap {
 		public static final double outputMin = -.4;
 		public static final double outputMax = .6;
 		public static final double SafeSpeed = 0.5;
+		public static final double SafeZone = (12 / Elevator.INCHES_PER_ROTATION) * Elevator.TICS_PER_ROTATION;
 	}
 
 	public final class Climber {
