@@ -8,7 +8,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class RightSideToLeftSwitch extends Mission {
 	private enum MissionStates {
-		waiting, left, driving1, driving2, arrived1, larrived2, lturning1, lturning2, lturned1, lturned2, lreaching, lreached, ldeploying, ldeployed, lejecting, lejected, done
+		waiting, driving1, driving2, arrived2, turning1, turning2, lreaching, lreached, ldeploying, lejecting, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
@@ -19,8 +19,6 @@ public class RightSideToLeftSwitch extends Mission {
 	private AutoDrive driveStep2;
 	private AutoDrive driveDegrees2;
 	private AutoDrive driveToWall;
-
-	// The Go Straight For X Feet Mission
 
 	public void execute() {
 		switch (curState) {
@@ -37,43 +35,31 @@ public class RightSideToLeftSwitch extends Mission {
 		case driving1:
 			driveStep1.run();
 			if (driveStep1.isFinished())
-				curState = MissionStates.arrived1;
+				curState = MissionStates.turning1;
 			break;
-		case arrived1:
-			curState = MissionStates.lturning1;
-			break;
-		case lturning1:
+		case turning1:
 			driveDegrees1.run();
 			if (driveDegrees1.isFinished())
-				curState = MissionStates.lturned1;
-			break;
-		case lturned1:
-			curState = MissionStates.driving2;
+				curState = MissionStates.driving2;
 			break;
 		case driving2:
 			driveStep2.run();
 			if (driveStep2.isFinished())
-				curState = MissionStates.larrived2;
+				curState = MissionStates.arrived2;
 			break;
-		case larrived2:
-			curState = MissionStates.lturning2;
+		case arrived2:
+			curState = MissionStates.turning2;
 			elevator.setPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 			break;
-		case lturning2:
+		case turning2:
 			driveDegrees2.run();
 			if (driveDegrees2.isFinished())
-				curState = MissionStates.lturned2;
-			break;
-		case lturned2:
-			curState = MissionStates.ldeploying;
+				curState = MissionStates.ldeploying;
 			break;
 		case ldeploying:
 			if (elevator.isAtHeight(RobotMap.Elevator.SWITCHWALL_HEIGHT)) {
-				curState = MissionStates.ldeployed;
+				curState = MissionStates.lreaching;
 			}
-			break;
-		case ldeployed:
-			curState = MissionStates.lreaching;
 			break;
 		case lreaching:
 			driveToWall.run();
@@ -87,12 +73,8 @@ public class RightSideToLeftSwitch extends Mission {
 		case lejecting:
 			//intake.execute();
 			if (!intake.isIntakeRunning()) {
-				curState = MissionStates.lejected;
+				curState = MissionStates.done;
 			}
-			break;
-		case lejected:
-			// could do a secondary mission
-			curState = MissionStates.done;
 			break;
 		case done:
 			// turn stuff off an prepare for teleop
