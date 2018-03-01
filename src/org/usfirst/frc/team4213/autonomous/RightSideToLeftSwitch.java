@@ -8,7 +8,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class RightSideToLeftSwitch extends Mission {
 	private enum MissionStates {
-		waiting, driving1, driving2, arrived2, turning1, turning2, lreaching, lreached, ldeploying, lejecting, done
+		waiting, driving1, driving2, arrived2, turning1, turning2, reaching, reached, deploying, ejecting, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
@@ -54,23 +54,23 @@ public class RightSideToLeftSwitch extends Mission {
 		case turning2:
 			driveDegrees2.run();
 			if (driveDegrees2.isFinished())
-				curState = MissionStates.ldeploying;
+				curState = MissionStates.deploying;
 			break;
-		case ldeploying:
+		case deploying:
 			if (elevator.isAtHeight(RobotMap.Elevator.SWITCHWALL_HEIGHT)) {
-				curState = MissionStates.lreaching;
+				curState = MissionStates.reaching;
 			}
 			break;
-		case lreaching:
+		case reaching:
 			driveToWall.run();
 			if (driveToWall.isFinished())
-				curState = MissionStates.lreached;
+				curState = MissionStates.reached;
 			break;
-		case lreached:
+		case reached:
 			intake.autoEject();
-			curState = MissionStates.lejecting;
+			curState = MissionStates.ejecting;
 			break;
-		case lejecting:
+		case ejecting:
 			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.done;
