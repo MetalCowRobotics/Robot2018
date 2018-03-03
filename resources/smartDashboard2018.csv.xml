@@ -1,0 +1,64 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Auto choices" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="43" y="75"/>
+	</widget>
+	<widget field="Starting Position" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="6" y="14"/>
+	</widget>
+	<widget field="max output" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="26" y="600"/>
+	</widget>
+	<widget field="PIDerror" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="24" y="547"/>
+	</widget>
+	<widget field="tolerance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="47" y="697"/>
+	</widget>
+	<widget field="kP" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="59" y="641"/>
+	</widget>
+	<widget field="kI" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="55" y="507"/>
+	</widget>
+	<widget field="kD" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="55" y="479"/>
+	</widget>
+	<widget field="min output" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="26" y="444"/>
+	</widget>
+	<widget field="PIDsetPoint" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="23" y="414"/>
+	</widget>
+	<widget field="DevinDrive" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="19" y="15"/>
+	</widget>
+</dashboard>
+<live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="PowerDistributionPanel[0]" type="PowerDistributionPanel" class="edu.wpi.first.smartdashboard.livewindow.elements.PowerDistributionPanel">
+			<location x="6" y="16"/>
+			<height>195</height>
+			<width>326</width>
+		</widget>
+		<widget field="DigitalInput[6]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="211"/>
+			<height>20</height>
+			<width>326</width>
+		</widget>
+		<widget field="Encoder[0]" type="Quadrature Encoder" class="edu.wpi.first.smartdashboard.livewindow.elements.EncoderDisplay">
+			<location x="6" y="231"/>
+			<height>98</height>
+			<width>326</width>
+		</widget>
+		<widget field="DigitalInput[7]" type="Digital Input" class="edu.wpi.first.smartdashboard.livewindow.elements.DigitalInputDisplay">
+			<location x="6" y="329"/>
+			<height>20</height>
+			<width>326</width>
+		</widget>
+		<location x="16" y="8"/>
+		<width>338</width>
+		<height>356</height>
+	</widget>
+</live-window>
+</xml>

@@ -16,15 +16,15 @@ public class RobotMap {
 		public static final double SPRINT_SPEED = 1;
 		public static final double NORMAL_SPEED = 0.7;
 		public static final double CRAWL_SPEED = 0.5;
-		public static final int[] LEFT_MOTORS = { 3, 4 };
-		public static final int[] RIGHT_MOTORS = { 1, 2 };
+		public static final int[] LEFT_MOTORS = { 0, 1 };
+		public static final int[] RIGHT_MOTORS = { 2, 3 };
 		public static final int LEFT_MOTOR_CHANNEL1 = 1;// CAN 3
 		//public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
 		//public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
 		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN 2
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
-		public static final int WHEEL_DIAMETER = 6;
+		public static final int WHEEL_DIAMETER = 19/8;
 		public static final int LEFT_ENCODER_1 = 2; // DIO
 		public static final int LEFT_ENCODER_2 = 3; // DIO
 		
@@ -43,7 +43,7 @@ public class RobotMap {
 		public static final double MAX_ADJUSTMENT = .4;
 	}
 
-	public final class DriveWithEncoder {
+	public final class DriveWithEncoder {		
 		public static final double TOP_SPEED = .9;
 		public static final double BOTTOM_SPEED = .5;
 		public static final double MAX_ADJUSTMENT = .4;
@@ -110,8 +110,9 @@ public class RobotMap {
 	}
 
 	public final class Climber {
-		public static final int CLIMBER_MOTOR_CHANNEL1 = 3; // PWM - using Y-cable only needs 1 port
+		public static final int CLIMBER_MOTOR_CHANNEL =  8; // PWM - using Y-cable only needs 1 port
 		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 2;
+		public static final int LIMIT_SWITCH = 8; // DIO 
 	}
 
 	public static final class LogLevels {
