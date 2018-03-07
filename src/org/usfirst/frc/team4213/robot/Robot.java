@@ -3,15 +3,14 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.LeftPosLeftSwitchEnd;
 import org.usfirst.frc.team4213.autonomous.LeftPosition;
-import org.usfirst.frc.team4213.autonomous.LeftSideScale;
-import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
-import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
+import org.usfirst.frc.team4213.autonomous.RightPosToRigthSwitch;
+import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
-import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
-import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMission;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMissionOptions;
 import org.usfirst.frc.team4213.robot.HamburgerDashboard.StartPosition;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.Climber;
@@ -26,7 +25,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //import org.usfirst.frc.team4213.robot.systems.AutonomousDriveTrain;
 
@@ -38,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.c
  */
 public class Robot extends IterativeRobot {
-
+	private static final HamburgerDashboard dashboard = HamburgerDashboard.getInstance();
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
 	private static final Level loggingLevel = Level.WARNING;
 	// Define Autonomous Missions
@@ -76,11 +74,11 @@ public class Robot extends IterativeRobot {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
 		//setup the smartdashboard
-		HamburgerDashboard.getInstance().initializeDashboard();
-		HamburgerDashboard.getInstance().pushAutonomousMissions();
-		HamburgerDashboard.getInstance().pushStartPositions();
-		HamburgerDashboard.getInstance().pushDevinDrive();
-		HamburgerDashboard.getInstance().pushElevatorPID();
+		dashboard.initializeDashboard();
+		dashboard.pushAutonomousMissions();
+		dashboard.pushStartPositions();
+		dashboard.pushDevinDrive();
+		dashboard.pushElevatorPID();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
@@ -110,28 +108,52 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		logger.entering("autonomousInit", "");
-		AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
-		StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
-		
+		StartPosition position = dashboard.getStartPosition();
+		autoMission = selectMission(dashboard.getAutoMision());
 		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
-		autoSelected = autoChooser.getSelected();
-		if (rightSide == autoSelected) {
-			autoMission = new RightSideSwitch();
-		} else if (leftSide == autoSelected) {
-			autoMission = new LeftSideSwitch();
-		} else if (eitherSide == autoSelected) {
-			autoMission = new RightPosToSwitchEitherSide();
-		}		else if (leftSideOfScale == autoSelected) {
-			autoMission = new LeftSideScale();
-		}		else if (passLine == autoSelected){
-			autoMission = new PassLine();
-		} else if (rightPosition == autoSelected) {
-			autoMission = new RightPosition();
-		} else if (leftPosition == autoSelected) {
-			autoMission = new LeftPosition();
-		}
-		System.out.println("Auto selected: " + autoSelected);
+//		autoSelected = autoChooser.getSelected();
+//		if (rightSide == autoSelected) {
+//			autoMission = new RightSideSwitch();
+//		} else if (leftSide == autoSelected) {
+//			autoMission = new LeftSideSwitch();
+//		} else if (eitherSide == autoSelected) {
+//			autoMission = new RightPosToSwitchEitherSide();
+//		}		else if (leftSideOfScale == autoSelected) {
+//			autoMission = new LeftSideScale();
+//		}		else if (passLine == autoSelected){
+//			autoMission = new PassLine();
+//		} else if (rightPosition == autoSelected) {
+//			autoMission = new RightPosition();
+//		} else if (leftPosition == autoSelected) {
+//			autoMission = new LeftPosition();
+//		}
+		logger.info("Auto selected: " + autoSelected);
 		logger.exiting(getClass().getName(), "doIt");
+	}
+
+	private Mission selectMission(AutoMissionOptions chosenAuto) {
+		switch (chosenAuto) {
+		case rightSwitch:
+			return new RightPosToRigthSwitch();
+		case leftSwitch:
+			return new LeftPosLeftSwitchEnd();
+		case switchMySide:
+			return null;
+		case switchEitherSide:
+			return new RightPosToSwitchEitherSide();
+		case scaleMySide:
+			return null;
+		case leftScale:
+			return null;
+		case rightScale:
+			return new RightPosition();
+		case scaleOrSwitch:
+			return new LeftPosition();
+		case switchOrScale:
+			return null;
+		default:
+			return new PassLine();
+		}
 	}
 
 	/**
@@ -151,7 +173,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
-		System.out.println("Teleop Init!");
+		logger.info("Teleop Init!");
 	}
 
 	/**

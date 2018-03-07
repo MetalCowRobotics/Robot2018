@@ -8,7 +8,7 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class LeftSideSwitch extends Mission {
+public class LeftPosLeftSwitchEnd extends Mission {
 	private enum MissionStates {
 		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
 	}
@@ -26,7 +26,6 @@ public class LeftSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			elevator.setPosition(elevatorHeight);
 			driveStep = new DriveWithEncoder(159.5);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
@@ -35,6 +34,7 @@ public class LeftSideSwitch extends Mission {
 		case driving:
 			driveStep.run();
 			if (driveStep.isFinished())
+				elevator.setPosition(elevatorHeight);
 				curState = MissionStates.arrived;
 			break;
 		case arrived:

@@ -20,7 +20,7 @@ public class LeftPosition extends Mission {
 		switch (curState) {
 		case waiting:
 			if (onMySwitchSide(Hand.kLeft)) {
-				leftSideSwitch = new LeftSideSwitch();
+				leftSideSwitch = new LeftPosLeftSwitchEnd();
 				curState = MissionStates.Switch;
 			} else if (onMyScaleSide(Hand.kLeft)) {
 				leftSideOfScale = new LeftSideScale();
