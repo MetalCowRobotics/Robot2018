@@ -95,16 +95,22 @@ public class RobotMap {
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double SAFE_SPEED = .5;
 		//Elevator hold PID parameters
-		public static final	double kP = .2;
+		public static final	double kP = .01;
 		public static final	double kI = 0;
 		public static final	double kD = 0;
 		public static final	double tolerance = 5;
 		public static final	double outputMin = -.4;
 		public static final	double outputMax = .6;
+		public static final double SafeSpeed = 0.5;
+		public static final double SafeZone = (12 / Elevator.INCHES_PER_ROTATION) * Elevator.TICS_PER_ROTATION;
+		public static final double ELEVATOR_MAX_EXTEND = 72;
 	}
 
 	public final class Climber {
 		public static final int CLIMBER_MOTOR_CHANNEL1 = 2; // PWM - using Y-cable only needs 1 port
+		public static final int CLIMBER_MOTOR_CHANNEL =  8; // PWM - using Y-cable only needs 1 port
+		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 2;
+		public static final int LIMIT_SWITCH = 8; // DIO 
 	}
 
 	public static final class LogLevels {

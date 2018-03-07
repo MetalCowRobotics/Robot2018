@@ -80,6 +80,7 @@ public class Robot extends IterativeRobot {
 		HamburgerDashboard.getInstance().pushAutonomousMissions();
 		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushDevinDrive();
+		HamburgerDashboard.getInstance().pushElevatorPID();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
@@ -164,14 +165,6 @@ public class Robot extends IterativeRobot {
 		climber.execute();
 	}
 
-	
-	
-	
-	//DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
-	
-	
-	
-	
 	/**
 	 * This function is called periodically during test mode
 	 */

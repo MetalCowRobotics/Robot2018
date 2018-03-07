@@ -1,10 +1,10 @@
 package org.usfirst.frc.team4213.autonomous;
 
+import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
-import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -18,6 +18,7 @@ public class LeftSideSwitch extends Mission {
 	private AutoDrive driveStep;
 	private AutoDrive driveDegrees;
 	private AutoDrive driveToWall;
+	private double elevatorHeight = RobotMap.Elevator.SWITCHWALL_HEIGHT;
 
 	// The Go Straight For X Feet Mission
 
@@ -25,7 +26,7 @@ public class LeftSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+			elevator.setPosition(elevatorHeight);
 			driveStep = new DriveWithEncoder(159.5);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
@@ -48,9 +49,9 @@ public class LeftSideSwitch extends Mission {
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
-			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
-			curState = MissionStates.deployed;
-			// }
+			if (elevator.isAtHeight(elevatorHeight)) {
+				curState = MissionStates.deployed;
+			}
 			break;
 		case deployed:
 			curState = MissionStates.reaching;

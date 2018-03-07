@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4213.robot;
 
+import org.usfirst.frc.team4213.lib14.PDController;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -128,4 +130,44 @@ public class HamburgerDashboard {
 		return SmartDashboard.getBoolean("DevinDrive", RobotMap.Drivetrain.DevinDrive);
 	}
 
+	public void pushElevatorPID() {
+		SmartDashboard.putNumber("kP", RobotMap.Elevator.kP);
+		SmartDashboard.putNumber("kI", RobotMap.Elevator.kI);
+		SmartDashboard.putNumber("kD", RobotMap.Elevator.kD);
+		SmartDashboard.putNumber("tolerance", RobotMap.Elevator.tolerance);
+		SmartDashboard.putNumber("min output", RobotMap.Elevator.outputMin);
+		SmartDashboard.putNumber("max output", RobotMap.Elevator.outputMax);
+	}
+
+	public double getElevatorKP() {
+		return SmartDashboard.getNumber("kP", RobotMap.Elevator.kP);
+	}
+
+	public double getElevatorKI() {
+		return SmartDashboard.getNumber("kI", RobotMap.Elevator.kI);
+	}
+
+	public double getElevatorKD() {
+		return SmartDashboard.getNumber("kD", RobotMap.Elevator.kD);
+	}
+
+	public double getElevatorTolerance() {
+		return SmartDashboard.getNumber("tolerance", RobotMap.Elevator.tolerance);
+	}
+
+	public double getElevatorOutputMin() {
+		return SmartDashboard.getNumber("min output", RobotMap.Elevator.outputMin);
+	}
+
+	public double getElevatorOutputMax() {
+		return SmartDashboard.getNumber("max output", RobotMap.Elevator.outputMax);
+	}
+
+	public void pushElevatorPID(PDController pid) {
+		if (null == pid)
+			return;
+		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
+		SmartDashboard.putNumber("PIDerror", pid.getError());
+	}
+	
 }

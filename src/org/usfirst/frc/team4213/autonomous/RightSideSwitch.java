@@ -30,7 +30,7 @@ public class RightSideSwitch extends Mission {
 			break;
 		case deploying:
 			if (intake.isIntakeDown()) {
-				elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+				elevator.setPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 				curState = MissionStates.driving;				
 			}
 			break;

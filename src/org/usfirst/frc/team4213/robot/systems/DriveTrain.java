@@ -81,7 +81,6 @@ public class DriveTrain {
 			} else {
 				drive.tankDrive(leftSpeed, rightSpeed, true);
 			}
-
 		}
 	}
 
