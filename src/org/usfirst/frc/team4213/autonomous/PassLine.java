@@ -12,15 +12,15 @@ public class PassLine extends Mission {
 
 	private MissionStates curState = MissionStates.waiting;
 
-//	private AutoDrive driveStep;
-	private AutoDrive driveDegrees;
+	private AutoDrive driveStep;
+//	private AutoDrive driveDegrees;
 
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveDegrees = new TurnDegrees(90);
-//			driveStep = new DriveWithEncoder(96);// DriveWithEncoder(159.5);
+//			driveStep = new TurnDegrees(90);
+			driveStep = new DriveWithEncoder(159.5);// DriveWithEncoder(159.5);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
@@ -29,13 +29,13 @@ public class PassLine extends Mission {
 				elevator.setPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			}
 		case driving:
-			driveDegrees.run();
-			if (driveDegrees.isFinished()) {
+			driveStep.run();
+			if (driveStep.isFinished()) {
 				curState = MissionStates.done;
 			}
 			break;
 		case done:
-			driveDegrees = null;
+			driveStep = null;
 			break;
 		}
 	}

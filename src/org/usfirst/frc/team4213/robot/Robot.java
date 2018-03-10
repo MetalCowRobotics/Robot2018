@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.AngledAutonomous;
 import org.usfirst.frc.team4213.autonomous.LeftPosition;
 import org.usfirst.frc.team4213.autonomous.LeftSideScale;
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot {
 	final String leftPosition = "LeftPosition";
 	final String rightPosition = "RightPosition";
 	final String middlePosition = "MiddlePosition";
+	final String angledAutonomous = "AngledAutonomous";
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = passLine;
 
@@ -84,17 +86,18 @@ public class Robot extends IterativeRobot {
 		 autoChooser.addObject("RightPosition", rightPosition);
 		 autoChooser.addObject("LeftPosition", leftPosition);
 		 autoChooser.addObject("MiddlePosition", middlePosition);
+		 autoChooser.addObject("Angled Autonomous", angledAutonomous);
 		SmartDashboard.putData(autoChooser);
 		HamburgerDashboard.getInstance().initializeDashboard();
-		//HamburgerDashboard.getInstance().pushAutonomousMissions();
-		//HamburgerDashboard.getInstance().pushStartPositions();
+		HamburgerDashboard.getInstance().pushAutonomousMissions();
+		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushDevinDrive();
-//		HamburgerDashboard.getInstance().pushPID();
+		HamburgerDashboard.getInstance().pushElevatorPID();
 		HamburgerDashboard.getInstance().pushTurnPID();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
 		driveTrain = DriveTrain.getInstance();
@@ -140,6 +143,9 @@ public class Robot extends IterativeRobot {
 			autoMission = new RightPosition();
 		} else if (leftPosition == autoSelected) {
 			autoMission = new LeftPosition();
+		} else if (angledAutonomous == autoSelected) {
+			autoMission = new AngledAutonomous();
+			logger.info("in angle auto");
 		}
 		
 		
@@ -153,7 +159,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
-		//intake.execute();
+		intake.execute();
 		elevator.execute();
 		autoMission.execute();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
@@ -165,7 +171,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-		elevator.setPosition(6);
+		//elevator.setPosition(6);
 	}
 
 	/**

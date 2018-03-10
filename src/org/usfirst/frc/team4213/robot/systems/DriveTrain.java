@@ -18,9 +18,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveTrain {
-	private static final DriveTrain instance = new DriveTrain();
 	private static final Logger logger = Logger.getLogger(DriveTrain.class.getName());
-
 	private MasterControls controller = MasterControls.getInstance();
 
 	private static SpeedControllerGroup RightMotor = new SpeedControllerGroup(
@@ -40,7 +38,8 @@ public class DriveTrain {
 	private static BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
 
 	private MaxBotixRangeFinder wallSensor = new MaxBotixRangeFinder(RobotMap.Drivetrain.RANGE_FINDER);
-
+	private static final DriveTrain instance = new DriveTrain();
+	
 	public double wallSensorInches() {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
@@ -48,8 +47,7 @@ public class DriveTrain {
 	private int inverted = -1;
 
 	protected DriveTrain() {
-		// logger.setLevel(Level.FINE);
-
+		logger.setLevel(RobotMap.LogLevels.driveTrainClass);
 		// Singleton
 	}
 

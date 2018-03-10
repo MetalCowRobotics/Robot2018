@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public abstract class Mission {
-	private static final Logger logger = Logger.getLogger(DriveToWall.class.getName());
+	protected static final Logger logger = Logger.getLogger(DriveToWall.class.getName());
 	private static final Level loggingLevel = RobotMap.LogLevels.missionClass;
 	DriverStation driverStation = DriverStation.getInstance();
 	DriveTrain driveTrain = DriveTrain.getInstance();

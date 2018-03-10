@@ -5,11 +5,11 @@ import java.util.logging.Level;
 public class RobotMap {
 
 	public final class DriverController {
-		public static final int USB_PORT = 0;
+		public static final int USB_PORT = 1;
 	}
 
 	public final class OperatorController {
-		public static final int USB_PORT = 1;
+		public static final int USB_PORT = 2;
 	}
 
 	public static final class Drivetrain {
@@ -121,11 +121,11 @@ public class RobotMap {
 
 	public static final class LogLevels {
 		public static final Level robotClass = Level.FINEST;
-		public static final Level autoDriveClass = Level.FINEST;
+		public static final Level autoDriveClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level driveStraightTimeClass = Level.WARNING;
 		public static final Level driveToWallClass = Level.WARNING;
-		public static final Level driveTrainClass = Level.WARNING;
+		public static final Level driveTrainClass = Level.FINEST;
 		public static final Level driveWithEncoderClass = Level.WARNING;
 		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;

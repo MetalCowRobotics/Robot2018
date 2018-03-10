@@ -39,7 +39,7 @@ public class Elevator {
 	double bottomTics;
 	double topTics;
 	private double lastPosition;
-	private PDController holdPID = new PDController(0, .5, 0);
+	private PDController holdPID = new PDController(0, .01, 0);
 
 	private Elevator() {
 		// Singleton Pattern
@@ -62,6 +62,8 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
+			holdPID.setkP(HamburgerDashboard.getInstance().getElevatorKP());
+			holdPID.setkD(HamburgerDashboard.getInstance().getElevatorKD());
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushPID(holdPID);
 		} else {
