@@ -76,24 +76,34 @@ public class Robot extends IterativeRobot {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
 		//setup the smartdashboard
+		 autoChooser.addObject("Right Side Switch", rightSide);
+		 autoChooser.addObject("Left Side Switch", leftSide);
+		 autoChooser.addDefault("Pass Line", passLine);
+		 autoChooser.addObject("Switch Either Side", eitherSide);
+		 autoChooser.addObject("Left Scale", leftSideOfScale );
+		 autoChooser.addObject("RightPosition", rightPosition);
+		 autoChooser.addObject("LeftPosition", leftPosition);
+		 autoChooser.addObject("MiddlePosition", middlePosition);
+		SmartDashboard.putData(autoChooser);
 		HamburgerDashboard.getInstance().initializeDashboard();
-		HamburgerDashboard.getInstance().pushAutonomousMissions();
-		HamburgerDashboard.getInstance().pushStartPositions();
+		//HamburgerDashboard.getInstance().pushAutonomousMissions();
+		//HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushDevinDrive();
-		HamburgerDashboard.getInstance().pushPID();
+//		HamburgerDashboard.getInstance().pushPID();
+		HamburgerDashboard.getInstance().pushTurnPID();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();
 		//CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
-		//driveTrain = DriveTrain.getInstance();
+		driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
-//		intake = Intake.getInstance();
-		//climber = Climber.getinstance();
+		intake = Intake.getInstance();
+		climber = Climber.getinstance();
 		//calibrate Gyro
-		//driveTrain.calibrateGyro();
-		//DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
+		driveTrain.calibrateGyro();
+		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 	}
 
 	/**
@@ -110,25 +120,29 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		logger.entering("autonomousInit", "");
-		AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
-		StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
+		//AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
+		//StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
 		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+		
 		autoSelected = autoChooser.getSelected();
+		System.out.println("Auto Selected:"+ autoSelected);
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else if (leftSide == autoSelected) {
 			autoMission = new LeftSideSwitch();
 		} else if (eitherSide == autoSelected) {
 			autoMission = new RightPosToSwitchEitherSide();
-		}		else if (leftSideOfScale == autoSelected) {
+		} else if (leftSideOfScale == autoSelected) {
 			autoMission = new LeftSideScale();
-		}		else if (passLine == autoSelected){
+		} else if (passLine == autoSelected) {
 			autoMission = new PassLine();
 		} else if (rightPosition == autoSelected) {
 			autoMission = new RightPosition();
 		} else if (leftPosition == autoSelected) {
 			autoMission = new LeftPosition();
 		}
+		
+		
 		System.out.println("Auto selected: " + autoSelected);
 		logger.exiting(getClass().getName(), "doIt");
 	}
@@ -139,7 +153,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
-		intake.execute();
+		//intake.execute();
 		elevator.execute();
 		autoMission.execute();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
@@ -151,7 +165,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-		elevator.setPositionTics(500);
+		elevator.setPosition(6);
 	}
 
 	/**
@@ -159,10 +173,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-//		driveTrain.drive();
+		driveTrain.drive();
 		elevator.execute();
-//		intake.execute();
-//		climber.execute();
+		intake.execute();
+		climber.execute();
 	}
 
 	

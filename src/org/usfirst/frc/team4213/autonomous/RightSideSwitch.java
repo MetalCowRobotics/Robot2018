@@ -2,6 +2,7 @@ package org.usfirst.frc.team4213.autonomous;
 
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
+import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -25,12 +26,13 @@ public class RightSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveToWall(13);
+			//driveStep = new DriveToWall(13);
+			driveStep = new DriveWithEncoder(12);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
 			if (intake.isIntakeDown()) {
-				elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+				elevator.setPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 				curState = MissionStates.driving;				
 			}
 			break;

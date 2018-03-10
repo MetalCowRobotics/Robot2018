@@ -21,7 +21,7 @@ public class Intake {
 	private static final SpeedController LEFT_INTAKE_MOTOR = new Talon(RobotMap.Intake.LEFT_MOTOR_CHANNEL);
 	private static final SpeedController RIGHT_INTAKE_MOTOR = new Talon(RobotMap.Intake.RIGHT_MOTOR_CHANNEL);
 
-	private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
+	//private static final MCR_SRX INTAKE_ANGLE_MOTOR = new MCR_SRX(RobotMap.Intake.ANGLE_MOTOR_CHANNEL);
 
 	// private MaxBotixRangeFinder cubeSensor = new
 	// MaxBotixRangeFinder(RobotMap.Intake.RANGE_FINDER);
@@ -50,8 +50,8 @@ public class Intake {
 
 	public void execute() {
 
-		System.out.println("   Intake Up: " + isIntakeUp() + "  Down: " + isIntakeDown() + "  BoxDetected:"
-				+ this.isCubeSensorSwitchActive());
+//		System.out.println("   Intake Up: " + isIntakeUp() + "  Down: " + isIntakeDown() + "  BoxDetected:"
+//				+ this.isCubeSensorSwitchActive());
 
 		if (autoEject) {
 			if (ejectTimer.get() > RobotMap.Intake.AUTO_EJECT_SECONDS) {
@@ -78,7 +78,7 @@ public class Intake {
 		if (controller.isTiltDown()) {
 			deploy();
 		} else if (controller.isTitltUp()) {
-			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
+		//	INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 		} else {
 			if (autoDeploy) {
 				if (deployTimer.get() > 1) {
@@ -94,7 +94,7 @@ public class Intake {
 	}
 
 	public void stopIntakeDeploy() {
-		INTAKE_ANGLE_MOTOR.stopMotor();
+		//INTAKE_ANGLE_MOTOR.stopMotor();
 	}
 
 	public void autoEject() {
@@ -153,15 +153,16 @@ public class Intake {
 	}
 	
 	private void deploy() {
-		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
+		//INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
 
-	public boolean isIntakeUp() {
-		return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
-	}
+	//public boolean isIntakeUp() {
+		//return INTAKE_ANGLE_MOTOR.getSensorCollection().isFwdLimitSwitchClosed();
+	//}
 
 	public boolean isIntakeDown() {
-		return INTAKE_ANGLE_MOTOR.getSensorCollection().isRevLimitSwitchClosed();
+		return true; //this is a placeholder 
+//		return INTAKE_ANGLE_MOTOR.getSensorCollection().isRevLimitSwitchClosed();
 
 	}
 

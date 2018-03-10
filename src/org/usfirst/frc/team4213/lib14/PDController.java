@@ -14,6 +14,14 @@ public class PDController {
 
 	// must experiment to get these right
 	private double kP = .4;
+	public void setkP(double kP) {
+		this.kP = kP;
+	}
+
+	public void setkD(double kD) {
+		this.kD = kD;
+	}
+
 	private double kD = .1;
 
 	// control variables
@@ -31,8 +39,6 @@ public class PDController {
 	}
 
 	public double calculateAdjustment(double currentAngle) {
-		kP = HamburgerDashboard.getInstance().getKP();
-		kD = HamburgerDashboard.getInstance().getKD();
 		double currentError = calaculateError(setPoint, currentAngle);
 		double motorAdjustment = determineAdjustment(currentError, previousError);
 		previousError = currentError;

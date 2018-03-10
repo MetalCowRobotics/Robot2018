@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.autonomous;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
+import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 public class PassLine extends Mission {
 	private enum MissionStates {
@@ -11,13 +12,15 @@ public class PassLine extends Mission {
 
 	private MissionStates curState = MissionStates.waiting;
 
-	private AutoDrive driveStep;
+//	private AutoDrive driveStep;
+	private AutoDrive driveDegrees;
 
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveWithEncoder(36);// DriveWithEncoder(159.5);
+			driveDegrees = new TurnDegrees(90);
+//			driveStep = new DriveWithEncoder(96);// DriveWithEncoder(159.5);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
@@ -26,13 +29,13 @@ public class PassLine extends Mission {
 				elevator.setPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			}
 		case driving:
-			driveStep.run();
-			if (driveStep.isFinished()) {
+			driveDegrees.run();
+			if (driveDegrees.isFinished()) {
 				curState = MissionStates.done;
 			}
 			break;
 		case done:
-			driveStep = null;
+			driveDegrees = null;
 			break;
 		}
 	}

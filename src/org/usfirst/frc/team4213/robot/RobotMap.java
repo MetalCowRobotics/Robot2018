@@ -18,15 +18,15 @@ public class RobotMap {
 		public static final double CRAWL_SPEED = 0.5;
 		public static final int[] LEFT_MOTORS = { 0, 1 };
 		public static final int[] RIGHT_MOTORS = { 2, 3 };
-		public static final int LEFT_MOTOR_CHANNEL1 = 1;// CAN 3
-		//public static final int LEFT_MOTOR_CHANNEL2 = 4;// CAN
+		public static final int LEFT_MOTOR_CHANNEL1 = 2;// CAN 3
+		//public static final int LEFT_MOTOR_CHANNEL2 = 2;// CAN
 		//public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
-		public static final int RIGHT_MOTOR_CHANNEL2 = 2;// CAN 2
+		public static final int RIGHT_MOTOR_CHANNEL2 = 3;// CAN 2
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
-		public static final int WHEEL_DIAMETER = 19/8;
-		public static final int LEFT_ENCODER_1 = 2; // DIO
-		public static final int LEFT_ENCODER_2 = 3; // DIO
+		public static final int WHEEL_DIAMETER = 6;
+		public static final int LEFT_ENCODER_1 = 0; // DIO
+		public static final int LEFT_ENCODER_2 = 1; // DIO
 		
 //		public static final int RIGHT_ENCODER_1 = 0; // DIO
 //		public static final int RIGHT_ENCODER_2 = 1; // DIO
@@ -44,8 +44,8 @@ public class RobotMap {
 	}
 
 	public final class DriveWithEncoder {		
-		public static final double TOP_SPEED = .9;
-		public static final double BOTTOM_SPEED = .5;
+		public static final double TOP_SPEED = .6;
+		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
 		public static final int TICS_PER_ROTATION = 354; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Drivetrain.WHEEL_DIAMETER;
@@ -53,11 +53,14 @@ public class RobotMap {
 	}
 
 	public final class TurnDegrees {
+		public static final double kP = .6;
+		public static final double kI = 0;
+		public static final double kD = .05;
 		public static final double TOP_SPEED = 0;
-		public static final double MAX_ADJUSTMENT = .5;
-		public static final double VARIANCE = 3; // .25
-		public static final double SLOW_ADJUSTMENT = .2;
-		public static final double SLOW_VARIANCE = 5;
+		public static final double VARIANCE = .5; // .25
+		public static final double MAX_ADJUSTMENT = .7;
+		public static final double SLOW_VARIANCE = 10;
+		public static final double SLOW_ADJUSTMENT = .35;
 	}
 
 	public final class DriveStraightTime {
@@ -83,15 +86,15 @@ public class RobotMap {
 	public final class Elevator {
 		public static final double UP_SPEED = 0.4;// motor is reversed
 		public static final double DOWN_SPEED = -0.4;// motor is reversed
-		public static final int ELEVATOR_CHANNEL1 = 2;// CAN 5
+		public static final int ELEVATOR_CHANNEL1 = 1;// CAN 5
 		//public static final int ELEVATOR_CHANNEL2 = 6;// CAN
 		public static final int LIMIT_SWITCH_TOP = 6; // DIO -- VERIFIED via Multimeter
 		public static final int LIMIT_SWITCH_BOTTOM = 7; // DIO -- Two Stages are wired in series... as one switch.
 		
-		//public static final int ELEVATOR_ENCODER_1 = 4; // DIO
-		//public static final int ELEVATOR_ENCODER_2 = 5; // DIO
-		public static final int ELEVATOR_ENCODER_1 = 0; // DIO
-		public static final int ELEVATOR_ENCODER_2 = 1; // DIO
+		public static final int ELEVATOR_ENCODER_1 = 2; // DIO
+		public static final int ELEVATOR_ENCODER_2 = 3; // DIO
+//		public static final int ELEVATOR_ENCODER_1 = 0; // DIO
+//		public static final int ELEVATOR_ENCODER_2 = 1; // DIO
 		
 		public static final double EXCHANGE_HEIGHT = 1.75;
 		public static final double SWITCHWALL_HEIGHT = 20;
@@ -117,14 +120,14 @@ public class RobotMap {
 	}
 
 	public static final class LogLevels {
-		public static final Level robotClass = Level.WARNING;
-		public static final Level autoDriveClass = Level.WARNING;
+		public static final Level robotClass = Level.FINEST;
+		public static final Level autoDriveClass = Level.FINEST;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level driveStraightTimeClass = Level.WARNING;
 		public static final Level driveToWallClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.WARNING;
 		public static final Level driveWithEncoderClass = Level.WARNING;
-		public static final Level elevatorClass = Level.FINEST;
+		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
 		public static final Level turnDegreesClass = Level.WARNING;
 		public static final Level masterControlsClass = Level.WARNING;

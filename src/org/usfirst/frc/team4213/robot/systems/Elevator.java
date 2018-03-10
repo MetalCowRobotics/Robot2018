@@ -1,9 +1,7 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.lib14.UtilityMethods;
@@ -11,11 +9,14 @@ import org.usfirst.frc.team4213.robot.HamburgerDashboard;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
-import java.util.logging.Logger;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SpeedController;
 
 public class Elevator {
-	private static final Elevator instance = new Elevator();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
+	private static final Elevator instance = new Elevator();
 	private static final HamburgerDashboard dash = HamburgerDashboard.getInstance();
 	private static final MasterControls controller = MasterControls.getInstance();
 
@@ -42,6 +43,7 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
+		logger.setLevel(RobotMap.LogLevels.elevatorClass);
 	}
 
 	public static Elevator getInstance() {
@@ -60,7 +62,7 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
-			setElevatorSpeed(.03 + holdPID.calculateAdjustment(getEncoderTics()));
+			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushPID(holdPID);
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
@@ -74,7 +76,9 @@ public class Elevator {
 	}
 
 	public void setPosition(double inches) {
+		logger.info("================== elevator set position ==============================");
 		setPositionTics(inchesToTics(inches));
+		logger.info("Target Tics:" + inchesToTics(inches));
 	}
 
 	private double inchesToTics(double inches) {

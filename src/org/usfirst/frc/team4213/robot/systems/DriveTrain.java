@@ -199,6 +199,7 @@ public class DriveTrain {
 	// }
 
 	public double getEncoderTics() {
-		return (getRightEncoderTics() + getLeftEncoderTics()) / 2;
+//		return (getRightEncoderTics() + getLeftEncoderTics()) / 2;
+		return getLeftEncoderTics();
 	}
 }
