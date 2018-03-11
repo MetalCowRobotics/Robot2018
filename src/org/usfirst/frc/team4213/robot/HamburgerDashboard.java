@@ -1,6 +1,10 @@
 package org.usfirst.frc.team4213.robot;
 
+import java.util.logging.Logger;
+
 import org.usfirst.frc.team4213.lib14.PDController;
+import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -9,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HamburgerDashboard {
+	private static final Logger logger = Logger.getLogger(HamburgerDashboard.class.getName());
 	private static org.usfirst.frc.team4213.robot.HamburgerDashboard ourInstance = new org.usfirst.frc.team4213.robot.HamburgerDashboard();
 
 	public static org.usfirst.frc.team4213.robot.HamburgerDashboard getInstance() {
@@ -16,6 +21,7 @@ public class HamburgerDashboard {
 	}
 
 	private HamburgerDashboard() {
+		logger.setLevel(RobotMap.LogLevels.hamburgerDashboardClass);
 	}
 
 	public enum AutoMissionOptions {
@@ -132,36 +138,36 @@ public class HamburgerDashboard {
 	}
 
 	public void pushElevatorPID() {
-		SmartDashboard.putNumber("kP", RobotMap.Elevator.kP);
-		SmartDashboard.putNumber("kI", RobotMap.Elevator.kI);
-		SmartDashboard.putNumber("kD", RobotMap.Elevator.kD);
-		SmartDashboard.putNumber("tolerance", RobotMap.Elevator.tolerance);
-		SmartDashboard.putNumber("min output", RobotMap.Elevator.outputMin);
-		SmartDashboard.putNumber("max output", RobotMap.Elevator.outputMax);
+		SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
+		SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
+		SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
+		SmartDashboard.putNumber("Etolerance", RobotMap.Elevator.tolerance);
+		SmartDashboard.putNumber("Emin output", RobotMap.Elevator.outputMin);
+		SmartDashboard.putNumber("Emax output", RobotMap.Elevator.outputMax);
 	}
 
 	public double getElevatorKP() {
-		return SmartDashboard.getNumber("kP", RobotMap.Elevator.kP);
+		return SmartDashboard.getNumber("EkP", RobotMap.Elevator.kP);
 	}
 
 	public double getElevatorKI() {
-		return SmartDashboard.getNumber("kI", RobotMap.Elevator.kI);
+		return SmartDashboard.getNumber("EkI", RobotMap.Elevator.kI);
 	}
 
 	public double getElevatorKD() {
-		return SmartDashboard.getNumber("kD", RobotMap.Elevator.kD);
+		return SmartDashboard.getNumber("EkD", RobotMap.Elevator.kD);
 	}
 
 	public double getElevatorTolerance() {
-		return SmartDashboard.getNumber("tolerance", RobotMap.Elevator.tolerance);
+		return SmartDashboard.getNumber("Etolerance", RobotMap.Elevator.tolerance);
 	}
 
 	public double getElevatorOutputMin() {
-		return SmartDashboard.getNumber("min output", RobotMap.Elevator.outputMin);
+		return SmartDashboard.getNumber("Emin output", RobotMap.Elevator.outputMin);
 	}
 
 	public double getElevatorOutputMax() {
-		return SmartDashboard.getNumber("max output", RobotMap.Elevator.outputMax);
+		return SmartDashboard.getNumber("Emax output", RobotMap.Elevator.outputMax);
 	}
 
 	public void pushElevatorPID(PDController pid) {
@@ -169,6 +175,36 @@ public class HamburgerDashboard {
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
 		SmartDashboard.putNumber("PIDerror", pid.getError());
+	}
+	
+	public void pushTurnPID() {
+		SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
+		SmartDashboard.putNumber("TkI", RobotMap.TurnDegrees.kI);
+		SmartDashboard.putNumber("TkD", RobotMap.TurnDegrees.kD);
+	}
+
+	public double getTurnKP() {
+		return SmartDashboard.getNumber("TkP", RobotMap.Elevator.kP);
+	}
+
+	public double getTurnKI() {
+		return SmartDashboard.getNumber("TkI", RobotMap.Elevator.kI);
+	}
+
+	public double getTurnKD() {
+		return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
+	}
+	
+	public void pushGyro() {
+		SmartDashboard.putNumber("Gyro Reading", DriveTrain.getInstance().getAngle());
+	}
+	
+	public void pushIntakeEjectSpeed() {
+		SmartDashboard.putNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
+	}
+	
+	public double getIntakeEjectSpeed() {
+		return SmartDashboard.getNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
 	}
 	
 }

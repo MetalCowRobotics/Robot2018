@@ -36,9 +36,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * directory.c
  */
 public class Robot extends IterativeRobot {
-	private static final HamburgerDashboard dashboard = HamburgerDashboard.getInstance();
 	private static final Logger logger = Logger.getLogger(Robot.class.getName());
-	private static final Level loggingLevel = Level.WARNING;
+	private static final HamburgerDashboard dashboard = HamburgerDashboard.getInstance();
 	// Define Autonomous Missions
 	final String rightSide = "RightSide";
 	final String leftSide = "LeftSide";
@@ -71,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		logger.setLevel(loggingLevel);
+		logger.setLevel(RobotMap.LogLevels.robotClass);
 		logger.entering(this.getClass().getName(), "robotInit");
 		//setup the smartdashboard
 		dashboard.initializeDashboard();
@@ -79,6 +78,8 @@ public class Robot extends IterativeRobot {
 		dashboard.pushStartPositions();
 		dashboard.pushDevinDrive();
 		dashboard.pushElevatorPID();
+		dashboard.pushTurnPID();
+		dashboard.pushIntakeEjectSpeed();
 		
 		// Initialize Robot
 		//driverStation = DriverStation.getInstance();

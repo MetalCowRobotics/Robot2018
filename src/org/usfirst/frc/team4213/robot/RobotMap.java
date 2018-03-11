@@ -40,8 +40,8 @@ public class RobotMap {
 	}
 
 	public final class DriveWithEncoder {
-		public static final double TOP_SPEED = .9;
-		public static final double BOTTOM_SPEED = .5;
+		public static final double TOP_SPEED = .6;
+		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
 		public static final int TICS_PER_ROTATION = 354; // need to try 360
 		public static final double INCHES_PER_ROTATION = Math.PI * RobotMap.Drivetrain.WHEEL_DIAMETER;
@@ -49,11 +49,14 @@ public class RobotMap {
 	}
 
 	public final class TurnDegrees {
+		public static final double kP = .6; 
+		public static final double kI = 0; 
+		public static final double kD = .05; 
 		public static final double TOP_SPEED = 0;
-		public static final double MAX_ADJUSTMENT = .5;
-		public static final double VARIANCE = 3; // .25
+		public static final double VARIANCE = .5; // .25
+		public static final double MAX_ADJUSTMENT = .7;
+		public static final double SLOW_VARIANCE = 10;
 		public static final double SLOW_ADJUSTMENT = .2;
-		public static final double SLOW_VARIANCE = 5;
 	}
 
 	public final class DriveStraightTime {
@@ -115,19 +118,15 @@ public class RobotMap {
 
 	public static final class LogLevels {
 		public static final Level robotClass = Level.WARNING;
-		public static final Level autoDriveClass = Level.WARNING;
-		public static final Level climberClass = Level.WARNING;
-		public static final Level driveStraightTimeClass = Level.WARNING;
-		public static final Level driveToWallClass = Level.WARNING;
+		public static final Level hamburgerDashboardClass = Level.WARNING;
+		public static final Level masterControlsClass = Level.WARNING;
 		public static final Level driveTrainClass = Level.WARNING;
-		public static final Level driveWithEncoderClass = Level.WARNING;
 		public static final Level elevatorClass = Level.WARNING;
 		public static final Level intakeClass = Level.WARNING;
-		public static final Level turnDegreesClass = Level.WARNING;
-		public static final Level masterControlsClass = Level.WARNING;
-		public static final Level hamburgerDashboardClass = Level.WARNING;
-		public static final Level componentBuilderClass = Level.WARNING;
+		public static final Level climberClass = Level.WARNING;
 		public static final Level missionClass = Level.WARNING;
+		public static final Level autoDriveClass = Level.WARNING;
+		public static final Level componentBuilderClass = Level.WARNING;
 	}
 
 }

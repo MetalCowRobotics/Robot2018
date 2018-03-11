@@ -25,7 +25,7 @@ public class RightPosToRigthSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveToWall(13);
+			driveStep = new DriveToWall(18);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
@@ -52,7 +52,6 @@ public class RightPosToRigthSwitch extends Mission {
 			}
 			break;
 		case ejecting:
-			System.out.println("checking eject time");
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}

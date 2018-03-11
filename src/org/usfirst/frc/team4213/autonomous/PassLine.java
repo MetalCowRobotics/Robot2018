@@ -17,7 +17,7 @@ public class PassLine extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveWithEncoder(36);// DriveWithEncoder(159.5);
+			driveStep = new DriveWithEncoder(159.5);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:

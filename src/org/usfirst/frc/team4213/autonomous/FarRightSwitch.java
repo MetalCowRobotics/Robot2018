@@ -29,62 +29,56 @@ public class FarRightSwitch extends Mission {
 			driveToWall = new DriveToWall(13);
 			intake.autoDeploy();
 			// elevator.moveToSetPosition(SetPositions.switchWall);
-			System.out.println("waiting");
-			curState = MissionStates.driving;
+			setCurState(MissionStates.driving);
 			break;
 		case driving:
 			driveStep.run();
-			if (driveStep.isFinished())
-				curState = MissionStates.arrived;
-			System.out.println("driving");
+			if (driveStep.isFinished()) {
+				setCurState(MissionStates.arrived);
+			}
 			break;
 		case arrived:
-			System.out.println("arrived");
-			curState = MissionStates.turning;
+			setCurState(MissionStates.turning);
 			break;
 		case turning:
 			driveDegrees.run();
 			if (driveDegrees.isFinished())
-				curState = MissionStates.turned;
-			System.out.println("turning");
+			setCurState(MissionStates.turned);
 			break;
 		case turned:
-			curState = MissionStates.deploying;
+			setCurState(MissionStates.deploying);
 			break;
 		case deploying:
 			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
-			System.out.println("deploying");
-			curState = MissionStates.deployed;
+			setCurState(MissionStates.deployed);
 			// }
 			break;
 		case deployed:
-			curState = MissionStates.reaching;
+			setCurState(MissionStates.reaching);
 			break;
 		case reaching:
 			driveToWall.run();
 			if (driveToWall.isFinished()) {
-				curState = MissionStates.reached;
+				setCurState(MissionStates.reached);
 			}
 			break;
 		case reached:
 			if (onMySwitchSide(Hand.kLeft)) {
-				System.out.println("ejecting");
 				intake.autoEject();
-				curState = MissionStates.ejecting;
+				setCurState(MissionStates.ejecting);
 			} else {
-				curState = MissionStates.done;
+				setCurState(MissionStates.done);
 			}
 			break;
 		case ejecting:
-			System.out.println("checking eject time");
 			//intake.execute();
 			if (!intake.isIntakeRunning()) {
-				curState = MissionStates.ejected;
+				setCurState(MissionStates.ejected);
 			}
 			break;
 		case ejected:
 			// could do a secondary mission
-			curState = MissionStates.done;
+			setCurState(MissionStates.done);
 			break;
 		case done:
 			// turn stuff off an prepare for teleop
@@ -92,4 +86,9 @@ public class FarRightSwitch extends Mission {
 		}
 	}
 
+	private void setCurState(MissionStates curState) {
+		this.curState = curState;
+		logger.info("FarRightSwitch state change to:" + curState.name());
+	}
+	
 }

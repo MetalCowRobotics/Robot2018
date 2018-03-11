@@ -26,7 +26,7 @@ public class LeftPosLeftSwitchEnd extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveWithEncoder(159.5);
+			driveStep = new DriveWithEncoder(145);
 			driveDegrees = new TurnDegrees(90);
 			driveToWall = new DriveToWall(13);
 			curState = MissionStates.driving;

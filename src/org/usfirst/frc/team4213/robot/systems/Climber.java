@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Climber {
+	private static final Logger logger = Logger.getLogger(Climber.class.getName());
 	private static final SpeedController CLIMBER_MOTOR = new Talon(RobotMap.Climber.CLIMBER_MOTOR_CHANNEL);
 	private static final Servo CLIMBER_SERVO = new Servo(RobotMap.Climber.CLIMBER_HELPER_SERVO_CHANNEL);
  	private static final DigitalInput SERVO_SWITCH = new DigitalInput(RobotMap.Climber.LIMIT_SWITCH);
 	private static final MasterControls controller = MasterControls.getInstance();
  	private static final Climber instance = new Climber();
-	private static final Logger logger = Logger.getLogger(Climber.class.getName());
 
 	private enum ClimberState {
 			active, // saftey off, will take commands
@@ -32,6 +32,7 @@ public class Climber {
 	
 	private Climber() {
 		// Singleton
+		logger.setLevel(RobotMap.LogLevels.climberClass);
 	}
 
 	public static Climber getinstance() {

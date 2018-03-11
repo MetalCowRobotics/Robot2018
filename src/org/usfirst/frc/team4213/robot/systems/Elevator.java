@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public class Elevator {
-	private static final Elevator instance = new Elevator();
-	private static final MasterControls controller = MasterControls.getInstance();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 	private static final HamburgerDashboard dash = HamburgerDashboard.getInstance();
+	private static final Elevator instance = new Elevator();
+	private static final MasterControls controller = MasterControls.getInstance();
 
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
 			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
@@ -34,6 +34,7 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
+		logger.setLevel(RobotMap.LogLevels.elevatorClass);
 	}
 
 	public static Elevator getInstance() {
@@ -54,7 +55,9 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
-			setElevatorSpeed(.03 + holdPID.calculateAdjustment(getEncoderTics()));
+			holdPID.set_kP(dash.getElevatorKP()); 
+			holdPID.set_kD(dash.getElevatorKD()); 
+			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());

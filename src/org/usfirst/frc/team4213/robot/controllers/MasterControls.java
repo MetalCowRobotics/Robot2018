@@ -5,15 +5,16 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
+	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 	private static final double throttleVariance = .06;
 	private static final MasterControls instance = new MasterControls();
-	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
 	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
+		logger.setLevel(RobotMap.LogLevels.masterControlsClass);
 	}
 
 	public static MasterControls getInstance() {
@@ -81,6 +82,10 @@ public class MasterControls {
 	public boolean isClimberActivated() {
 		return operator.getLB();
 	}
+	
+	public boolean climbEnabled() {
+		return operator.getLB(); 
+	} 	
 	
 	public boolean isTitltUp() {
 		return operator.getBButton();
