@@ -36,15 +36,12 @@ public class Elevator {
 	private Elevator() {
 		// Singleton Pattern
 		ELEVATOR_MOTOR.setInverted(true);
-		bottomTics = getEncoderTics();
-		topTics = bottomTics + (72 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	}
 
 	public void execute() {
 		//System.out.println("elevator encoder tics:" + getEncoderTics());
 		
 		System.out.print("   Elevator Up: "+this.isElevatorAtTop()+"  Elevator Down: "+this.isElevatorAtBottom());
-		
 		
 		if (AutoPosition) {
 			//System.out.println("elevator encode:" + getEncoderTics());
@@ -55,8 +52,14 @@ public class Elevator {
 				AutoPosition = false;
 			}
 		} else {
-			moveElevator(controller.getElevatorThrottle());
-		}
+			double elevatorSpeed = controller.getElevatorThrottle();
+			if (isElevatorAtTop() && elevatorSpeed > 0)
+				stop();
+			else if (isElevatorAtBottom() && elevatorSpeed < 0)
+				stop();
+			else
+				ELEVATOR_MOTOR.set(elevatorSpeed);
+		}			
 
 	}
 
