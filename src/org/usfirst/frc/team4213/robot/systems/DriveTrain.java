@@ -64,7 +64,7 @@ public class DriveTrain {
 			invert();
 		}
 		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
-		arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)) * inverted);
+		arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)));
 	}
 
 	/**

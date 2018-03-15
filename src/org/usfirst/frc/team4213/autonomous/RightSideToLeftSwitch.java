@@ -28,7 +28,8 @@ public class RightSideToLeftSwitch extends Mission {
 			driveDegrees1 = new TurnDegrees(-90);
 			driveStep2 = new DriveWithEncoder(84);
 			driveDegrees2 = new TurnDegrees(90);
-			driveToWall = new DriveToWall(13);
+			//driveToWall = new DriveToWall(13);
+			driveToWall = new DriveWithEncoder(12);
 			intake.autoDeploy();
 			curState = MissionStates.driving1;
 			break;
@@ -48,7 +49,7 @@ public class RightSideToLeftSwitch extends Mission {
 		case driving2:
 			driveStep2.run();
 			if (driveStep2.isFinished())
-				curState = MissionStates.arrived2;
+				curState = MissionStates.turning2;
 			break;
 		case arrived2:
 			curState = MissionStates.turning2;
@@ -57,7 +58,7 @@ public class RightSideToLeftSwitch extends Mission {
 		case turning2:
 			driveDegrees2.run();
 			if (driveDegrees2.isFinished())
-				curState = MissionStates.deploying;
+				curState = MissionStates.reaching;
 			break;
 		case deploying:
 			if (elevator.isAtHeight(RobotMap.Elevator.SWITCHWALL_HEIGHT)) {

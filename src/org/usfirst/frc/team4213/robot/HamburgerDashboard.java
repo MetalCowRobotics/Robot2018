@@ -60,22 +60,22 @@ public class HamburgerDashboard {
 	public void pushAutonomousMissions() {
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
-		// autoChooser.addObject("Right Side Switch", rightSide);
-		// autoChooser.addObject("Left Side Switch", leftSide);
-		// autoChooser.addDefault("Pass Line", passLine);
-		// autoChooser.addObject("Switch Either Side", eitherSide);
-		// autoChooser.addObject("Left Scale", leftSideOfScale );
-		// autoChooser.addObject("RightPosition", rightPosition);
-		// autoChooser.addObject("LeftPosition", leftPosition);
-		// autoChooser.addObject("MiddlePosition", middlePosition);
-		autoChooser.addDefault("Pass Line", AutoMissionOptions.passLine.name());
-		autoChooser.addObject("Right Side Switch", AutoMissionOptions.rightSwitch.name());
-		autoChooser.addObject("Left Side Switch", AutoMissionOptions.leftSwitch.name());
-		autoChooser.addObject("Switch Either Side", AutoMissionOptions.switchEitherSide.name());
-		autoChooser.addObject("Left Scale", AutoMissionOptions.leftScale.name());
-		autoChooser.addObject("Right Scale", AutoMissionOptions.rightScale.name());
-		autoChooser.addObject("Scale or Switch My Side", AutoMissionOptions.scaleOrSwitch.name());
-		autoChooser.addObject("Switch or Scale My Side", AutoMissionOptions.switchOrScale.name());
+		 autoChooser.addObject("Right Side Switch", rightSide);
+		 autoChooser.addObject("Left Side Switch", leftSide);
+		 autoChooser.addDefault("Pass Line", passLine);
+		 autoChooser.addObject("Switch Either Side", eitherSide);
+		 autoChooser.addObject("Left Scale", leftSideOfScale );
+		 autoChooser.addObject("RightPosition", rightPosition);
+		 autoChooser.addObject("LeftPosition", leftPosition);
+		 autoChooser.addObject("MiddlePosition", middlePosition);
+//		autoChooser.addDefault("Pass Line", AutoMissionOptions.passLine.name());
+//		autoChooser.addObject("Right Side Switch", AutoMissionOptions.rightSwitch.name());
+//		autoChooser.addObject("Left Side Switch", AutoMissionOptions.leftSwitch.name());
+//		autoChooser.addObject("Switch Either Side", AutoMissionOptions.switchEitherSide.name());
+//		autoChooser.addObject("Left Scale", AutoMissionOptions.leftScale.name());
+//		autoChooser.addObject("Right Scale", AutoMissionOptions.rightScale.name());
+//		autoChooser.addObject("Scale or Switch My Side", AutoMissionOptions.scaleOrSwitch.name());
+//		autoChooser.addObject("Switch or Scale My Side", AutoMissionOptions.switchOrScale.name());
 		SmartDashboard.putData("Auto choices", autoChooser);
 	}
 

@@ -6,7 +6,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
-	private static final double throttleVariance = .06;
+	private static final double throttleVariance = .04;
 	private static final MasterControls instance = new MasterControls();
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
@@ -21,13 +21,13 @@ public class MasterControls {
 		return instance;
 	}
 
-	public double getDriveLeftThrottle() {
-		return driver.getLY();
-	}
-
-	public double getDriveRightThrottle() {
-		return driver.getRY();
-	}
+//	public double getDriveLeftThrottle() {
+//		return driver.getLY();
+//	}
+//
+//	public double getDriveRightThrottle() {
+//		return driver.getRY();
+//	}
 
 	// Arcade
 	public boolean isHalfArcadeToggle() {

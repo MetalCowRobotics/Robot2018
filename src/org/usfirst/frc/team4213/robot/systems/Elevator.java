@@ -17,15 +17,15 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 public class Elevator {
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 	private static final HamburgerDashboard dash = HamburgerDashboard.getInstance();
+	private static final Elevator instance = new Elevator();
 	private static final MasterControls controller = MasterControls.getInstance();
 
-	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
-	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
 			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
 			RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
-	private static final Elevator instance = new Elevator();
+	private DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
+	private DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
 
 	double bottomTics;
 	double topTics;
@@ -34,7 +34,7 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
-		//ELEVATOR_MOTOR.setInverted(true);
+		logger.setLevel(RobotMap.LogLevels.elevatorClass);
 	}
 
 	public static Elevator getInstance() {
@@ -55,8 +55,9 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
-			holdPID.set_kP(dash.getElevatorKP()); 
-			holdPID.set_kD(dash.getElevatorKD()); 
+//			holdPID.set_kP(dash.getElevatorKP()); 
+//			holdPID.set_kD(dash.getElevatorKD()); 
+			System.out.println("^^^^^^ Holding ^^^^^^");
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);
 		} else {
@@ -91,11 +92,11 @@ public class Elevator {
 	}
 
 	private boolean isMovingUp(double speed) {
-		return speed > 0;
+		return speed < 0;
 	}
 
 	private boolean isMovingDown(double speed) {
-		return speed < 0;
+		return speed > 0;
 	}
 
 	private double maxSpeed(double speed) {
