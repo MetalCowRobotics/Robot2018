@@ -65,9 +65,12 @@ public class MasterControls {
 
 	public double lowerElevator() {
 		return operator.getLT();
-
 	}
 
+	public double getElevatorThrottle() {
+		return (Math.abs(operator.getRY()) > .01) ? operator.getRY() : 0;
+	}
+	
 	public boolean raiseIntake() {
 		return operator.getBButton();
 	}
