@@ -21,11 +21,11 @@ public class Elevator {
 
 	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
-	private static final Elevator instance = new Elevator();
 	private static final SpeedControllerGroup ELEVATOR_MOTOR = new SpeedControllerGroup(
 			new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL1), new MCR_SRX(RobotMap.Elevator.ELEVATOR_CHANNEL2));
 	private static final Encoder elevatorEncoder = new Encoder(RobotMap.Elevator.ELEVATOR_ENCODER_1,
 			RobotMap.Elevator.ELEVATOR_ENCODER_2, false, CounterBase.EncodingType.k4X);
+	private static final Elevator instance = new Elevator();
 
 	double bottomTics;
 	double topTics;
@@ -34,7 +34,7 @@ public class Elevator {
 
 	private Elevator() {
 		// Singleton Pattern
-		ELEVATOR_MOTOR.setInverted(true);
+		//ELEVATOR_MOTOR.setInverted(true);
 	}
 
 	public static Elevator getInstance() {

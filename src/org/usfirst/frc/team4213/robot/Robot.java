@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 	DriveTrain driveTrain;
 	Intake intake;
 	Elevator elevator;
-	Climber climber;
+	//Climber climber;
 	DifferentialDrive autoDrive;
 
 	/**
@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = DriveTrain.getInstance();
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
-		climber = Climber.getinstance();
+		//climber = Climber.getinstance();
 		//calibrate Gyro
 		driveTrain.calibrateGyro();
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
@@ -182,7 +182,7 @@ public class Robot extends IterativeRobot {
 		driveTrain.drive();
 		elevator.execute();
 		intake.execute();
-		climber.execute();
+		//climber.execute();
 	}
 
 	/**
