@@ -120,12 +120,12 @@ public class HamburgerDashboard {
 		return StartPosition.right;
 	}
 
-	public void pushDevinDrive() {
-		SmartDashboard.putBoolean("DevinDrive", RobotMap.Drivetrain.DevinDrive);
+	public void pushMCRDriveMode() {
+		SmartDashboard.putBoolean("MCR_Drive_Mode", RobotMap.Drivetrain.MCR_DRIVE_MODE);
 	}
 
-	public boolean getDevinMode() {
-		return SmartDashboard.getBoolean("DevinDrive", RobotMap.Drivetrain.DevinDrive);
+	public boolean isMCRDriveMode() {
+		return SmartDashboard.getBoolean("MCR_Drive_Mode", RobotMap.Drivetrain.MCR_DRIVE_MODE);
 	}
 
 }

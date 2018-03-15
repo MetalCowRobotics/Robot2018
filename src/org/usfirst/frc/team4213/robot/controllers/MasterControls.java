@@ -33,11 +33,11 @@ public class MasterControls {
 	}
 
 	public boolean isSprintToggle() {
-		return driver.getRB();
+		return driver.getXButton();
 	}
 
 	public boolean isCrawlToggle() {
-		return driver.getLB();
+		return driver.getAButton();
 	}
 
 	public boolean invertDrive() {
@@ -65,7 +65,6 @@ public class MasterControls {
 
 	public double lowerElevator() {
 		return operator.getLT();
-
 	}
 
 	public double getElevatorThrottle() {

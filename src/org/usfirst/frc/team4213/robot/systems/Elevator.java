@@ -27,6 +27,11 @@ public class Elevator {
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
 	boolean AutoPosition = false;
 	double encoderTarget;
+	double currentPosition;
+	double bottomTics;
+	double topTics;
+	double safteyZone = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
+	double safteyTopSpeed = .5;
 
 	private Elevator() {
 		// Singleton Pattern
@@ -55,12 +60,22 @@ public class Elevator {
 			else
 				ELEVATOR_MOTOR.set(elevatorSpeed);
 		}			
+
 	}
 
 	public static Elevator getInstance() {
 		return instance;
 	}
 
+	private void moveElevator(double elevatorSpeed) {
+		if (getEncoderTics() > (topTics - safteyZone) && elevatorSpeed > 0) {
+			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
+		} else if (getEncoderTics() < (bottomTics + safteyZone) && elevatorSpeed < 0) {
+			ELEVATOR_MOTOR.set(Math.min(elevatorSpeed, safteyTopSpeed));
+		} else
+			ELEVATOR_MOTOR.set(elevatorSpeed);
+	}
+	
 	public void moveUp() {
 		if (!movingUp()) {
 			setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
@@ -92,12 +107,14 @@ public class Elevator {
 	public void stop() {
 		ELEVATOR_MOTOR.stopMotor();
 		motorState = MotorState.OFF;
+		// get current encoder reading
+		currentPosition = this.getEncoderTics();
 	}
 
 	public void moveElevatorToPosition(double height) {
 		AutoPosition = true;
 		encoderTarget = getEncoderTics() - height;
-		moveUp();
+		setElevatorSpeed(RobotMap.Elevator.UP_SPEED);
 		System.out.println("elevator target tics" + encoderTarget);
 	}
 

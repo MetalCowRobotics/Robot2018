@@ -16,10 +16,6 @@ public class Climber {
 
 	private static final SpeedController CLIMBER_MOTOR = new Talon(RobotMap.Climber.CLIMBER_MOTOR_CHANNEL1);
 
-	// TODO: Motors
-
-	// TODO: Sensors
-
 	private Climber() {
 		// Singleton
 	}
@@ -29,8 +25,11 @@ public class Climber {
 	}
 
 	public void execute() {
-		if (controller.climbEnabled())
+		if (controller.climbEnabled()) {
 			CLIMBER_MOTOR.set(controller.getClimbThrottle());
+		} else {
+			CLIMBER_MOTOR.stopMotor();
+		}
 	}
 
 }
