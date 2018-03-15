@@ -35,12 +35,12 @@ public class DriveStraightTime extends AutoDrive {
 				driveTrain.arcadeDrive(RobotMap.DriveStraightTime.TOP_SPEED, limitCorrection(correction, RobotMap.DriveStraightTime.MAX_ADJUSTMENT));
 				if (seconds - RobotMap.DriveStraightTime.SLOW_DOWN_TIME < timer.get()) {
 					driveTrain.arcadeDrive(RobotMap.DriveStraightTime.BOTTOM_SPEED, limitCorrection(correction, RobotMap.DriveStraightTime.MAX_ADJUSTMENT));
-					System.out.println("slow");
+					logger.info("Drive Straight Time - slow");
 				} else {
 					driveTrain.arcadeDrive(RobotMap.DriveStraightTime.TOP_SPEED, limitCorrection(correction, RobotMap.DriveStraightTime.MAX_ADJUSTMENT));
-					System.out.println("fast");
-				System.out.println("Angle:" + driveTrain.getAngle());
-				System.out.println("correction:" + correction);
+					logger.info("Drive Straight Time - fast");
+					logger.info("Angle:" + driveTrain.getAngle());
+					logger.info("correction:" + correction);
 				}
 			}
 			break;
@@ -48,6 +48,5 @@ public class DriveStraightTime extends AutoDrive {
 			break;
 		}
 	}
-
 }
 

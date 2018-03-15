@@ -3,6 +3,7 @@ package org.usfirst.frc.team4213.robot.systems;
 import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
@@ -12,8 +13,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Intake {
-	private static final Intake instance = new Intake();
 	private static final Logger logger = Logger.getLogger(Intake.class.getName());
+	private static final Intake instance = new Intake();
 
 	private static final MasterControls controller = MasterControls.getInstance();
 	// private static final Elevator elevator = Elevator.getInstance();
@@ -41,7 +42,7 @@ public class Intake {
 
 	private Intake() {
 		// Singleton Pattern
-
+		logger.setLevel(RobotMap.LogLevels.intakeClass);
 	}
 
 	public static Intake getInstance() {
@@ -50,7 +51,7 @@ public class Intake {
 
 	public void execute() {
 
-		System.out.println("   Intake Up: " + isIntakeUp() + "  Down: " + isIntakeDown() + "  BoxDetected:"
+		logger.info("   Intake Up: " + isIntakeUp() + "  Down: " + isIntakeDown() + "  BoxDetected:"
 				+ this.isCubeSensorSwitchActive());
 
 		if (autoEject) {
@@ -121,8 +122,8 @@ public class Intake {
 	}
 
 	private void powerCubeEject() {
-		LEFT_INTAKE_MOTOR.set(-RobotMap.Intake.EJECT_SPEED);// .setSpeed(RobotMap.Intake.EJECT_SPEED);
-		RIGHT_INTAKE_MOTOR.set(RobotMap.Intake.EJECT_SPEED);// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		LEFT_INTAKE_MOTOR.set(-HamburgerDashboard.getInstance().getIntakeEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.set(HamburgerDashboard.getInstance().getIntakeEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
 		currentIntakeState = IntakeState.OUT;
 	}
 

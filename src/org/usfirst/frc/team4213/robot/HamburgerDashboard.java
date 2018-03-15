@@ -1,11 +1,19 @@
 package org.usfirst.frc.team4213.robot;
 
+import java.util.logging.Logger;
+
+import org.usfirst.frc.team4213.lib14.PDController;
+import org.usfirst.frc.team4213.robot.systems.Climber;
+import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HamburgerDashboard {
+	private static final Logger logger = Logger.getLogger(HamburgerDashboard.class.getName());
 	private static org.usfirst.frc.team4213.robot.HamburgerDashboard ourInstance = new org.usfirst.frc.team4213.robot.HamburgerDashboard();
 
 	public static org.usfirst.frc.team4213.robot.HamburgerDashboard getInstance() {
@@ -13,9 +21,10 @@ public class HamburgerDashboard {
 	}
 
 	private HamburgerDashboard() {
+		logger.setLevel(RobotMap.LogLevels.hamburgerDashboardClass);
 	}
 
-	public enum AutoMission {
+	public enum AutoMissionOptions {
 		passLine, rightSwitch, leftSwitch, switchMySide, switchEitherSide, scaleMySide, leftScale, rightScale, scaleOrSwitch, switchOrScale
 	};
 
@@ -35,7 +44,7 @@ public class HamburgerDashboard {
 
 	private SendableChooser<String> autoChooser = new SendableChooser<>();
 	private SendableChooser<String> positionChooser = new SendableChooser<>();
-	private AutoMission mission = AutoMission.passLine;;
+	private AutoMissionOptions mission = AutoMissionOptions.passLine;;
 	private StartPosition position = StartPosition.right;
 	private String autoSelected = passLine; // remove if enum works
 
@@ -59,14 +68,14 @@ public class HamburgerDashboard {
 		// autoChooser.addObject("RightPosition", rightPosition);
 		// autoChooser.addObject("LeftPosition", leftPosition);
 		// autoChooser.addObject("MiddlePosition", middlePosition);
-		autoChooser.addDefault("Pass Line", AutoMission.passLine.name());
-		autoChooser.addObject("Right Side Switch", AutoMission.rightSwitch.name());
-		autoChooser.addObject("Left Side Switch", AutoMission.leftSwitch.name());
-		autoChooser.addObject("Switch Either Side", AutoMission.switchEitherSide.name());
-		autoChooser.addObject("Left Scale", AutoMission.leftScale.name());
-		autoChooser.addObject("Right Scale", AutoMission.rightScale.name());
-		autoChooser.addObject("Scale or Switch My Side", AutoMission.scaleOrSwitch.name());
-		autoChooser.addObject("Switch or Scale My Side", AutoMission.switchOrScale.name());
+		autoChooser.addDefault("Pass Line", AutoMissionOptions.passLine.name());
+		autoChooser.addObject("Right Side Switch", AutoMissionOptions.rightSwitch.name());
+		autoChooser.addObject("Left Side Switch", AutoMissionOptions.leftSwitch.name());
+		autoChooser.addObject("Switch Either Side", AutoMissionOptions.switchEitherSide.name());
+		autoChooser.addObject("Left Scale", AutoMissionOptions.leftScale.name());
+		autoChooser.addObject("Right Scale", AutoMissionOptions.rightScale.name());
+		autoChooser.addObject("Scale or Switch My Side", AutoMissionOptions.scaleOrSwitch.name());
+		autoChooser.addObject("Switch or Scale My Side", AutoMissionOptions.switchOrScale.name());
 		SmartDashboard.putData("Auto choices", autoChooser);
 	}
 
@@ -82,29 +91,29 @@ public class HamburgerDashboard {
 		return autoChooser.getSelected();
 	}
 
-	public AutoMission getAutoMision() {
+	public AutoMissionOptions getAutoMision() {
 		// autoSelected = SmartDashboard.getString("Auto
 		// Selector",AutoMission.passLine.name());
 		String missionString = autoChooser.getSelected();
-		if (missionString.equals(AutoMission.rightSwitch.name()))
-			return AutoMission.rightSwitch;
-		if (missionString.equals(AutoMission.leftSwitch.name()))
-			return AutoMission.leftSwitch;
-		if (missionString.equals(AutoMission.switchMySide.name()))
-			return AutoMission.switchMySide;
-		if (missionString.equals(AutoMission.switchEitherSide.name()))
-			return AutoMission.switchEitherSide;
-		if (missionString.equals(AutoMission.scaleMySide.name()))
-			return AutoMission.scaleMySide;
-		if (missionString.equals(AutoMission.leftScale.name()))
-			return AutoMission.leftScale;
-		if (missionString.equals(AutoMission.rightScale.name()))
-			return AutoMission.rightScale;
-		if (missionString.equals(AutoMission.scaleOrSwitch.name()))
-			return AutoMission.scaleOrSwitch;
-		if (missionString.equals(AutoMission.switchOrScale.name()))
-			return AutoMission.switchOrScale;
-		return AutoMission.passLine;
+		if (missionString.equals(AutoMissionOptions.rightSwitch.name()))
+			return AutoMissionOptions.rightSwitch;
+		if (missionString.equals(AutoMissionOptions.leftSwitch.name()))
+			return AutoMissionOptions.leftSwitch;
+		if (missionString.equals(AutoMissionOptions.switchMySide.name()))
+			return AutoMissionOptions.switchMySide;
+		if (missionString.equals(AutoMissionOptions.switchEitherSide.name()))
+			return AutoMissionOptions.switchEitherSide;
+		if (missionString.equals(AutoMissionOptions.scaleMySide.name()))
+			return AutoMissionOptions.scaleMySide;
+		if (missionString.equals(AutoMissionOptions.leftScale.name()))
+			return AutoMissionOptions.leftScale;
+		if (missionString.equals(AutoMissionOptions.rightScale.name()))
+			return AutoMissionOptions.rightScale;
+		if (missionString.equals(AutoMissionOptions.scaleOrSwitch.name()))
+			return AutoMissionOptions.scaleOrSwitch;
+		if (missionString.equals(AutoMissionOptions.switchOrScale.name()))
+			return AutoMissionOptions.switchOrScale;
+		return AutoMissionOptions.passLine;
 	}
 
 	public StartPosition getStartPosition() {
@@ -128,4 +137,74 @@ public class HamburgerDashboard {
 		return SmartDashboard.getBoolean("MCR_Drive_Mode", RobotMap.Drivetrain.MCR_DRIVE_MODE);
 	}
 
+	public void pushElevatorPID() {
+		SmartDashboard.putNumber("EkP", RobotMap.Elevator.kP);
+		SmartDashboard.putNumber("EkI", RobotMap.Elevator.kI);
+		SmartDashboard.putNumber("EkD", RobotMap.Elevator.kD);
+		SmartDashboard.putNumber("Etolerance", RobotMap.Elevator.tolerance);
+		SmartDashboard.putNumber("Emin output", RobotMap.Elevator.outputMin);
+		SmartDashboard.putNumber("Emax output", RobotMap.Elevator.outputMax);
+	}
+
+	public double getElevatorKP() {
+		return SmartDashboard.getNumber("EkP", RobotMap.Elevator.kP);
+	}
+
+	public double getElevatorKI() {
+		return SmartDashboard.getNumber("EkI", RobotMap.Elevator.kI);
+	}
+
+	public double getElevatorKD() {
+		return SmartDashboard.getNumber("EkD", RobotMap.Elevator.kD);
+	}
+
+	public double getElevatorTolerance() {
+		return SmartDashboard.getNumber("Etolerance", RobotMap.Elevator.tolerance);
+	}
+
+	public double getElevatorOutputMin() {
+		return SmartDashboard.getNumber("Emin output", RobotMap.Elevator.outputMin);
+	}
+
+	public double getElevatorOutputMax() {
+		return SmartDashboard.getNumber("Emax output", RobotMap.Elevator.outputMax);
+	}
+
+	public void pushElevatorPID(PDController pid) {
+		if (null == pid)
+			return;
+		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
+		SmartDashboard.putNumber("PIDerror", pid.getError());
+	}
+	
+	public void pushTurnPID() {
+		SmartDashboard.putNumber("TkP", RobotMap.TurnDegrees.kP);
+		SmartDashboard.putNumber("TkI", RobotMap.TurnDegrees.kI);
+		SmartDashboard.putNumber("TkD", RobotMap.TurnDegrees.kD);
+	}
+
+	public double getTurnKP() {
+		return SmartDashboard.getNumber("TkP", RobotMap.Elevator.kP);
+	}
+
+	public double getTurnKI() {
+		return SmartDashboard.getNumber("TkI", RobotMap.Elevator.kI);
+	}
+
+	public double getTurnKD() {
+		return SmartDashboard.getNumber("TkD", RobotMap.Elevator.kD);
+	}
+	
+	public void pushGyro() {
+		SmartDashboard.putNumber("Gyro Reading", DriveTrain.getInstance().getAngle());
+	}
+	
+	public void pushIntakeEjectSpeed() {
+		SmartDashboard.putNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
+	}
+	
+	public double getIntakeEjectSpeed() {
+		return SmartDashboard.getNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
+	}
+	
 }

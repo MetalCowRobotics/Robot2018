@@ -17,13 +17,13 @@ public class PassLine extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveWithEncoder(36);// DriveWithEncoder(159.5);
+			driveStep = new DriveWithEncoder(159.5);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
 			if (intake.isIntakeDown()) {
 				curState = MissionStates.driving;
-				elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+				elevator.setPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			}
 		case driving:
 			driveStep.run();

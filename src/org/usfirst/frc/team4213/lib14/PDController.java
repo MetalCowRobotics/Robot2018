@@ -8,11 +8,9 @@ package org.usfirst.frc.team4213.lib14;
 // RightMotorSpeed = RightBaseSpeed + MotorSpeed;
 // LeftMotorSpeed = LeftBaseSpeed - MotorSpeed;
 public class PDController {
-
-
 	// must experiment to get these right
-	private double Kp = .4;
-	private double Kd = .1;
+	private double kP = .4;
+	private double kD = .1;
 
 	// control variables
 	private double setPoint;
@@ -24,8 +22,8 @@ public class PDController {
 
 	public PDController(double setPoint, double Kp, double Kd) {
 		this.setPoint = setPoint;
-		this.Kd = Kd;
-		this.Kp = Kp;
+		this.kD = Kd;
+		this.kP = Kp;
 	}
 
 	public double calculateAdjustment(double currentAngle) {
@@ -40,9 +38,31 @@ public class PDController {
 	}
 
 	private double determineAdjustment(double currentError, double previousError) {
-		return Kp * currentError + Kd * (currentError - previousError);
+		return kP * currentError + kD * (currentError - previousError);
 	}
 
+	public double getSetPoint() {
+		return setPoint;
+	}
 
+	public double getError() {
+		return previousError;
+	}
+
+	public void setSetPoint(double setPoint) {
+		this.setPoint = setPoint;
+	}
+
+	public void set_kP(double kP) {
+		this.kP = kP;
+	}
+	
+	public void set_kD(double kD) {
+		this.kD = kD;
+	}
+	
+	public void reset() {
+		previousError = 0;
+	}
 
 }

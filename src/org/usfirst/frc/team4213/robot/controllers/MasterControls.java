@@ -5,14 +5,16 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
-	private static final MasterControls instance = new MasterControls();
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
+	private static final double throttleVariance = .06;
+	private static final MasterControls instance = new MasterControls();
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
 	private static final XboxControllerMetalCow operator = new XboxControllerMetalCow(RobotMap.OperatorController.USB_PORT);
 
 	private MasterControls() {
 		// Intentionally Blank for Singleton
+		logger.setLevel(RobotMap.LogLevels.masterControlsClass);
 	}
 
 	public static MasterControls getInstance() {
@@ -52,23 +54,8 @@ public class MasterControls {
 		return operator.getRT() > .25;
 	}
 
-	// public boolean isElevatorUp() {
-	// return operator.getLT();
-	// }
-
-	// public boolean isElevatorDown() {
-	// return operator.getRT();
-
-	public double raiseElevator() {
-		return operator.getRT();
-	}
-
-	public double lowerElevator() {
-		return operator.getLT();
-	}
-
 	public double getElevatorThrottle() {
-		return (Math.abs(operator.getRY()) > .01) ? operator.getRY() : 0;
+		return (Math.abs(operator.getRY()) > throttleVariance) ? operator.getRY() : 0;
 	}
 	
 	public boolean raiseIntake() {
@@ -81,7 +68,6 @@ public class MasterControls {
 
 	public void intakeRumbleOn() {
 		operator.rumbleLeft(0.5);
-		System.out.println("rumble on");
 	}
 
 	public void intakeRumbleOff() {
@@ -89,14 +75,19 @@ public class MasterControls {
 	}
 
 	public double getClimbThrottle() {
-		return (Math.abs(operator.getLY())>.01) ? operator.getLY() : 0;
+		//add tolerance near 0
+		return (Math.abs(operator.getLY())>.02) ? -operator.getLY() : 0;
 	}
-	public boolean climbEnabled() {
+	
+	public boolean isClimberActivated() {
 		return operator.getLB();
 	}
+	
+		
 	public boolean isTitltUp() {
 		return operator.getYButton();
 	}
+	
 	public boolean isTiltDown() {
 		return operator.getAButton();
 	}

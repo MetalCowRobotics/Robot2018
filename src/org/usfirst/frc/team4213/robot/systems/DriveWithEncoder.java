@@ -14,7 +14,7 @@ public class DriveWithEncoder extends AutoDrive {
 		this.targetInches = targetInches;
 		targetTics = (targetInches / RobotMap.DriveWithEncoder.INCHES_PER_ROTATION)
 				* RobotMap.DriveWithEncoder.TICS_PER_ROTATION;
-		System.out.println("target encoder drive:" + targetTics);
+		logger.info("target encoder drive:" + targetTics);
 	}
 
 	public void run() {
@@ -26,13 +26,13 @@ public class DriveWithEncoder extends AutoDrive {
 			driveController = new PDController(setPoint);
 			driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.TOP_SPEED, setPoint);
 			currentState = State.ACTIVE;
-			System.out.println("slowdown:" + RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE);
-			System.out.println("targettics:" + targetTics);
+			logger.info("slowdown:" + RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE);
+			logger.info("targettics:" + targetTics);
 
 			break;
 		case ACTIVE:
 			double pastTics = driveTrain.getEncoderTics() - startTics;
-			System.out.println("pastTics:" + pastTics);
+			logger.info("pastTics:" + pastTics);
 			if (targetTics < pastTics) {
 				driveTrain.stop();
 				currentState = State.DONE;
@@ -41,14 +41,13 @@ public class DriveWithEncoder extends AutoDrive {
 				if (targetTics - RobotMap.DriveWithEncoder.SLOW_DOWN_DISTANCE < pastTics) {
 					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.BOTTOM_SPEED,
 							limitCorrection(correction, RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
-					System.out.println("slow:");
+					logger.info("Drive Inches - slow:");
 				} else {
 					driveTrain.arcadeDrive(RobotMap.DriveWithEncoder.TOP_SPEED,
 							limitCorrection(correction, RobotMap.DriveWithEncoder.MAX_ADJUSTMENT));
-					System.out.println("fast");
-
+					logger.info("Drive inches - fast");
 				}
-				System.out.println("angle: " + driveTrain.getAngle());
+				logger.info("Drive Inches angle: " + driveTrain.getAngle());
 			}
 			break;
 		case DONE:
