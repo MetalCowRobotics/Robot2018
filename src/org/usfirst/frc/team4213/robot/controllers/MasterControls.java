@@ -45,11 +45,11 @@ public class MasterControls {
 	}
 
 	public boolean isCubeIntake() {
-		return operator.getRT() > .25;
+		return operator.getLT() > .25;
 	}
 
 	public boolean isCubeEject() {
-		return operator.getLT() > .25;
+		return operator.getRT() > .25;
 	}
 
 	// public boolean isElevatorUp() {
@@ -95,7 +95,7 @@ public class MasterControls {
 		return operator.getLB();
 	}
 	public boolean isTitltUp() {
-		return operator.getBButton();
+		return operator.getYButton();
 	}
 	public boolean isTiltDown() {
 		return operator.getAButton();
