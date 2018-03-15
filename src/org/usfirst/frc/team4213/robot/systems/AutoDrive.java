@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.lib14.PDController;
@@ -17,7 +16,7 @@ public abstract class AutoDrive {
 	}
 	
 	protected enum State {
-		IDLE, ACTIVE, DONE
+		IDLE, ACTIVE, DONE, RECHECK
 	};
 
 	protected State currentState = State.IDLE;
@@ -31,7 +30,6 @@ public abstract class AutoDrive {
 
 	public boolean isFinished() {
 		return State.DONE == currentState;
-
 	}
 
 	public abstract void run();

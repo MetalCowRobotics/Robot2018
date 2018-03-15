@@ -9,6 +9,7 @@ public class TurnDegrees extends AutoDrive {
 	private static final HamburgerDashboard dashboard = HamburgerDashboard.getInstance();
 	private double degrees;
 	private double setPoint;
+	private int rechecks = 0;
 	
 	public TurnDegrees(double degrees) {
 		super();
@@ -50,6 +51,22 @@ public class TurnDegrees extends AutoDrive {
 				}
 				logger.info("Current Angle:" + driveTrain.getAngle());
 				logger.info("correction:" + correction);
+			}
+			break;
+		case RECHECK:
+			if (rechecks < 3) {
+				rechecks += 1;
+				if (Math.abs(setPoint - driveTrain.getAngle()) < RobotMap.TurnDegrees.VARIANCE) {
+					logger.info("======== turn on target !!! =========");
+					driveTrain.stop();
+					currentState = State.DONE;
+				} else {
+					currentState = State.ACTIVE;
+				}
+			} else {
+				logger.info("======== tried enough =========");
+				driveTrain.stop();
+				currentState = State.DONE;
 			}
 			break;
 		case DONE:
