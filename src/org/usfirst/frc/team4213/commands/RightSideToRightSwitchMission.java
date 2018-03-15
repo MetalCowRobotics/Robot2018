@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4213.autonomous;
+package org.usfirst.frc.team4213.commands;
 
 import java.util.ArrayList;
 
@@ -9,23 +9,19 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class RightSideToLeftSwitchMission implements MCRCommand {
+public class RightSideToRightSwitchMission implements MCRCommand {
 	private MCRCommand command;
-	
-	public RightSideToLeftSwitchMission(Hand switchSide) {
+
+	public RightSideToRightSwitchMission(Hand switchSide) {
 		ArrayList<MCRCommand> missionSteps = new ArrayList<MCRCommand>();
 		missionSteps.add(new CommandIntakeDeploy());
-		missionSteps.add(new CommandDrive(12));
-		missionSteps.add(new CommandTurn(-90));
-		missionSteps.add(new CommandDrive(84));
-		missionSteps.add(new CommandTurn(90));
-		if (Hand.kLeft==switchSide) {
+		if (Hand.kRight == switchSide) {
 			missionSteps.add(new ParallelCommands(
-					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
-					new CommandDriveToObject(13))); 
+								new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
+								new CommandDriveToObject(RobotMap.Autonomous.wallBackOff)));
 			missionSteps.add(new CommandEjectCube());
 		} else {
-			missionSteps.add(new CommandDrive(48));
+			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance));
 		}
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];
 		command = new SequentialCommands((MCRCommand[]) missionSteps.toArray(a));

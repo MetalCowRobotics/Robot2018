@@ -121,7 +121,18 @@ public class RobotMap {
 
 	public static final class Autonomous {
 		public static final double wallBackOff = 13;
-		public static final double middleSwitchDistance = 48;
+		public static final double middleSwitchDistance = 145;
+		public static final double middleScaleDistance = 288;
+		public static final double passLineDistance = 159;
+		public static final double clearExchangeDistance = 12;
+		public static final double rightSideToLeftSideAngleDistance = 80;
+		public static final double rightSideToLeftSideDistance = 84;
+		public static final double switchWallDistance = 48; //unknown
+		public static final double distanceToScaleEnd = 30;
+		public static final double distanceToSwitchEnd = 18; //unknown
+		public static final double leftTurn = -90;
+		public static final double rightTurn = 90;
+		public static final double angleTurn = 45;
 	}
 	
 	public static final class LogLevels {

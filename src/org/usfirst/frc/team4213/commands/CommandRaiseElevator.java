@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4213.autonomous;
+package org.usfirst.frc.team4213.commands;
 
 import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
@@ -17,7 +17,7 @@ public class CommandRaiseElevator implements MCRCommand {
 			firstTime = false;
 			Elevator.getInstance().setPosition(height);
 		}
-		System.out.println("<<<< Raide Elevator >>>>");
+		System.out.println("<<<< Raise Elevator >>>>");
 	}
 
 	@Override

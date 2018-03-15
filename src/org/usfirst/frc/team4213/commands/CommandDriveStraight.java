@@ -1,19 +1,18 @@
-package org.usfirst.frc.team4213.autonomous;
+package org.usfirst.frc.team4213.commands;
 
 import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 
-public class CommandDrive implements MCRCommand {
+public class CommandDriveStraight implements MCRCommand {
 	private DriveWithEncoder thisCommand;
 
-	public CommandDrive(double inches) {
+	public CommandDriveStraight(double inches) {
 		thisCommand = new DriveWithEncoder(inches);
 	}
 
 	@Override
 	public void run() {
 		thisCommand.run();
-
 	}
 
 	@Override

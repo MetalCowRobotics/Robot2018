@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4213.autonomous;
+package org.usfirst.frc.team4213.commands;
 
 import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
@@ -13,7 +13,6 @@ public class CommandDriveToObject implements MCRCommand {
 	@Override
 	public void run() {
 		command.run();
-
 	}
 
 	@Override

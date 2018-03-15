@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4213.autonomous;
+package org.usfirst.frc.team4213.commands;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.lib14.ParallelCommands;
 import org.usfirst.frc.team4213.lib14.SequentialCommands;
 import org.usfirst.frc.team4213.robot.RobotMap;
+import org.usfirst.frc.team4213.robot.RobotMap.Autonomous;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
@@ -16,16 +17,16 @@ public class AngleSwitchMission implements MCRCommand {
 	public AngleSwitchMission(Hand mySwitchSide) {
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight.equals(mySwitchSide)) {
-			missionSteps.add(new CommandTurn(45));
+			missionSteps.add(new CommandTurn(Autonomous.angleTurn));
 			missionSteps.add(new ParallelCommands(
-					new CommandDriveToObject(13),
+					new CommandDriveToObject(Autonomous.wallBackOff),
 					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
 		} else {
-			missionSteps.add(new CommandDrive(80));
+			missionSteps.add(new CommandDriveStraight(Autonomous.rightSideToLeftSideAngleDistance));
 			missionSteps.add(new ParallelCommands(
-					new CommandTurn(45),
+					new CommandTurn(Autonomous.angleTurn),
 					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
-			missionSteps.add(new CommandDriveToObject(13));
+			missionSteps.add(new CommandDriveToObject(Autonomous.wallBackOff));
 		}
 		missionSteps.add(new CommandEjectCube());
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];
