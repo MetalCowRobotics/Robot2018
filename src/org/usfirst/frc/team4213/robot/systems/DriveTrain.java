@@ -44,7 +44,7 @@ public class DriveTrain {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
 
-	private int inverted = -1;
+	private int inverted = 1;
 
 	protected DriveTrain() {
 		// logger.setLevel(Level.FINE);
@@ -64,24 +64,9 @@ public class DriveTrain {
 		if (controller.invertDrive()) {
 			invert();
 		}
-		if (inverted == 1) {
-			leftSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-			rightSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-		} else {
-			leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-			rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-		}
-		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
-			drive.arcadeDrive(leftSpeed, rightSpeed, true);
-		} else { // Stay in regular Tank drive mode
-			if (HamburgerDashboard.getInstance().isMCRDriveMode()) {
-				double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
-				arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)) * inverted);
-			} else {
-				drive.tankDrive(leftSpeed, rightSpeed, true);
-			}
-
-		}
+		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
+		System.out.println("THIS IS THE SPEED: " + speed);
+		arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)) * inverted);
 	}
 
 	/**
@@ -133,6 +118,7 @@ public class DriveTrain {
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {
+			System.out.println("crawling---------");
 			return RobotMap.Drivetrain.CRAWL_SPEED;
 		} else if (controller.isSprintToggle()) {
 			return RobotMap.Drivetrain.SPRINT_SPEED;

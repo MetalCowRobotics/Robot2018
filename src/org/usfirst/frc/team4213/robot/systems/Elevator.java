@@ -10,7 +10,6 @@ import org.usfirst.frc.team4213.robot.controllers.MasterControls;
 
 import java.util.logging.Logger;
 public class Elevator {
-	private static final Elevator instance = new Elevator();
 	private static final Intake intake = Intake.getInstance();
 	private static final Logger logger = Logger.getLogger(Elevator.class.getName());
 
@@ -22,6 +21,7 @@ public class Elevator {
 
 	DigitalInput topLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_TOP);
 	DigitalInput bottomLimit = new DigitalInput(RobotMap.Elevator.LIMIT_SWITCH_BOTTOM);
+	private static final Elevator instance = new Elevator();
 
 	MotorState motorState = MotorState.OFF; // start state is off
 	ElevatorState elevatorState = ElevatorState.BOTTOM;
