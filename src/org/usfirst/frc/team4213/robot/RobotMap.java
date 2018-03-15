@@ -19,31 +19,31 @@ public class RobotMap {
 		public static final int[] LEFT_MOTORS = { 0, 1 };
 		public static final int[] RIGHT_MOTORS = { 2, 3 };
 		public static final int LEFT_MOTOR_CHANNEL1 = 2;// CAN 3
-		//public static final int LEFT_MOTOR_CHANNEL2 = 2;// CAN
-		//public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
+		// public static final int LEFT_MOTOR_CHANNEL2 = 2;// CAN
+		// public static final int RIGHT_MOTOR_CHANNEL1 = 1;// CAN
 		public static final int RIGHT_MOTOR_CHANNEL2 = 3;// CAN 2
 		public static final double MY_GYRO_CHANNEL = 1;
 		public static final int RANGE_FINDER = 1;// Analog Input/Output
 		public static final int WHEEL_DIAMETER = 6;
 		public static final int LEFT_ENCODER_1 = 0; // DIO
 		public static final int LEFT_ENCODER_2 = 1; // DIO
-		
-//		public static final int RIGHT_ENCODER_1 = 0; // DIO
-//		public static final int RIGHT_ENCODER_2 = 1; // DIO
+
+		// public static final int RIGHT_ENCODER_1 = 0; // DIO
+		// public static final int RIGHT_ENCODER_2 = 1; // DIO
 		public static final int RIGHT_ENCODER_1 = 4; // DIO
 		public static final int RIGHT_ENCODER_2 = 5; // DIO
-		
+
 		public static final boolean DevinDrive = true;
 	}
 
 	public final class DriveToWall {
-		public static final double TOP_SPEED = .7;
+		public static final double TOP_SPEED = .6;
 		public static final int SLOW_DOWN_DISTANCE = 18;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
 	}
 
-	public final class DriveWithEncoder {		
+	public final class DriveWithEncoder {
 		public static final double TOP_SPEED = .6;
 		public static final double BOTTOM_SPEED = .4;
 		public static final double MAX_ADJUSTMENT = .4;
@@ -87,15 +87,15 @@ public class RobotMap {
 		public static final double UP_SPEED = 0.4;// motor is reversed
 		public static final double DOWN_SPEED = -0.4;// motor is reversed
 		public static final int ELEVATOR_CHANNEL1 = 1;// CAN 5
-		//public static final int ELEVATOR_CHANNEL2 = 6;// CAN
+		// public static final int ELEVATOR_CHANNEL2 = 6;// CAN
 		public static final int LIMIT_SWITCH_TOP = 6; // DIO -- VERIFIED via Multimeter
 		public static final int LIMIT_SWITCH_BOTTOM = 7; // DIO -- Two Stages are wired in series... as one switch.
-		
+
 		public static final int ELEVATOR_ENCODER_1 = 2; // DIO
 		public static final int ELEVATOR_ENCODER_2 = 3; // DIO
-//		public static final int ELEVATOR_ENCODER_1 = 0; // DIO
-//		public static final int ELEVATOR_ENCODER_2 = 1; // DIO
-		
+		// public static final int ELEVATOR_ENCODER_1 = 0; // DIO
+		// public static final int ELEVATOR_ENCODER_2 = 1; // DIO
+
 		public static final double EXCHANGE_HEIGHT = 1.75;
 		public static final double SWITCHWALL_HEIGHT = 20;
 		public static final double SCALE_MID_HEIGHT = 80;
@@ -114,11 +114,16 @@ public class RobotMap {
 	}
 
 	public final class Climber {
-		public static final int CLIMBER_MOTOR_CHANNEL =  8; // PWM - using Y-cable only needs 1 port
+		public static final int CLIMBER_MOTOR_CHANNEL = 8; // PWM - using Y-cable only needs 1 port
 		public static final int CLIMBER_HELPER_SERVO_CHANNEL = 2;
-		public static final int LIMIT_SWITCH = 8; // DIO 
+		public static final int LIMIT_SWITCH = 8; // DIO
 	}
 
+	public static final class Autonomous {
+		public static final double wallBackOff = 13;
+		public static final double middleSwitchDistance = 48;
+	}
+	
 	public static final class LogLevels {
 		public static final Level robotClass = Level.FINEST;
 		public static final Level autoDriveClass = Level.WARNING;

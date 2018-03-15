@@ -3,17 +3,22 @@ package org.usfirst.frc.team4213.robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.AngleSwitchMission;
 import org.usfirst.frc.team4213.autonomous.AngledAutonomous;
 import org.usfirst.frc.team4213.autonomous.LeftPosition;
 import org.usfirst.frc.team4213.autonomous.LeftSideScale;
 import org.usfirst.frc.team4213.autonomous.LeftSideSwitch;
-import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.autonomous.PassLine;
+import org.usfirst.frc.team4213.autonomous.PassLineMission;
+import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
-import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMission;
-import org.usfirst.frc.team4213.robot.HamburgerDashboard.StartPosition;
+import org.usfirst.frc.team4213.autonomous.RightSideToLeftSwitchMission;
+import org.usfirst.frc.team4213.autonomous.RightSideToRightSwitchMission;
+import org.usfirst.frc.team4213.autonomous.ScaleEndMission;
+import org.usfirst.frc.team4213.autonomous.SwitchEndMission;
+import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
@@ -24,6 +29,7 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -77,16 +83,16 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		logger.setLevel(loggingLevel);
 		logger.entering(this.getClass().getName(), "robotInit");
-		//setup the smartdashboard
-		 autoChooser.addObject("Right Side Switch", rightSide);
-		 autoChooser.addObject("Left Side Switch", leftSide);
-		 autoChooser.addDefault("Pass Line", passLine);
-		 autoChooser.addObject("Switch Either Side", eitherSide);
-		 autoChooser.addObject("Left Scale", leftSideOfScale );
-		 autoChooser.addObject("RightPosition", rightPosition);
-		 autoChooser.addObject("LeftPosition", leftPosition);
-		 autoChooser.addObject("MiddlePosition", middlePosition);
-		 autoChooser.addObject("Angled Autonomous", angledAutonomous);
+		// setup the smartdashboard
+		autoChooser.addObject("Right Side Switch", rightSide);
+		autoChooser.addObject("Left Side Switch", leftSide);
+		autoChooser.addDefault("Pass Line", passLine);
+		autoChooser.addObject("Switch Either Side", eitherSide);
+		autoChooser.addObject("Left Scale", leftSideOfScale);
+		autoChooser.addObject("RightPosition", rightPosition);
+		autoChooser.addObject("LeftPosition", leftPosition);
+		autoChooser.addObject("MiddlePosition", middlePosition);
+		autoChooser.addObject("Angled Autonomous", angledAutonomous);
 		SmartDashboard.putData(autoChooser);
 		HamburgerDashboard.getInstance().initializeDashboard();
 		HamburgerDashboard.getInstance().pushAutonomousMissions();
@@ -94,9 +100,9 @@ public class Robot extends IterativeRobot {
 		HamburgerDashboard.getInstance().pushDevinDrive();
 		HamburgerDashboard.getInstance().pushElevatorPID();
 		HamburgerDashboard.getInstance().pushTurnPID();
-		
+
 		// Initialize Robot
-		//driverStation = DriverStation.getInstance();
+		driverStation = DriverStation.getInstance();
 		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
@@ -104,10 +110,12 @@ public class Robot extends IterativeRobot {
 		elevator = Elevator.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getinstance();
-		//calibrate Gyro
+		// calibrate Gyro
 		driveTrain.calibrateGyro();
 		DriverStation.reportWarning("ROBOT SETUP COMPLETE!  Ready to Rumble!", false);
 	}
+	
+	private MCRCommand robotMission;
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -123,12 +131,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		logger.entering("autonomousInit", "");
-		//AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
-		//StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
-		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
-		
+		// AutoMission mission = HamburgerDashboard.getInstance().getAutoMision();
+		// StartPosition position = HamburgerDashboard.getInstance().getStartPosition();
+		// autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
+
 		autoSelected = autoChooser.getSelected();
-		System.out.println("Auto Selected:"+ autoSelected);
+		System.out.println("Auto Selected:" + autoSelected);
 		if (rightSide == autoSelected) {
 			autoMission = new RightSideSwitch();
 		} else if (leftSide == autoSelected) {
@@ -147,8 +155,8 @@ public class Robot extends IterativeRobot {
 			autoMission = new AngledAutonomous();
 			logger.info("in angle auto");
 		}
-		
-		
+
+		robotMission = buildMission();
 		System.out.println("Auto selected: " + autoSelected);
 		logger.exiting(getClass().getName(), "doIt");
 	}
@@ -161,7 +169,8 @@ public class Robot extends IterativeRobot {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
 		elevator.execute();
-		autoMission.execute();
+//		autoMission.execute();
+		robotMission.run();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
 	}
 
@@ -171,7 +180,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		System.out.println("Teleop Init!");
-		//elevator.setPosition(6);
+		// elevator.setPosition(6);
 	}
 
 	/**
@@ -185,36 +194,61 @@ public class Robot extends IterativeRobot {
 		climber.execute();
 	}
 
-	
-	
-	
-	//DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
-	
-	
-	
-	
+	// DigitalInput ElevatorUp, ElevatorDown, IntakeUp, IntakeDown;
+
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testInit() {	
-		
+	public void testInit() {
+
 	}
-	
+
 	private boolean firstTime = true;
+
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
-		//System.out.println(driveTrain.wallSensorInches());
+		// System.out.println(driveTrain.wallSensorInches());
 		elevator.execute();
-		
+
 		if (firstTime) {
-//			elevator.hold(1000);
-//			elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+			// elevator.hold(1000);
+			// elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
 			firstTime = false;
 		}
+	}
+
+	private MCRCommand buildMission() {
+		if (rightSide == autoSelected) {
+			return new RightSideToRightSwitchMission(getNearSwitch());
+		} else if (leftSide == autoSelected) {
+			return new SwitchEndMission(Hand.kLeft, getNearSwitch());
+		} else if (eitherSide == autoSelected) {
+			if (Hand.kRight.equals(getNearSwitch())) {
+				return new RightSideToRightSwitchMission(getNearSwitch());
+			} else {
+				return new RightSideToLeftSwitchMission(getNearSwitch());
+			}
+		} else if (leftSideOfScale == autoSelected) {
+			return new ScaleEndMission(Hand.kLeft, getScale());
+		} else if (rightPosition == autoSelected) { // not sure what this is
+			return new ScaleEndMission(Hand.kRight, getScale());
+		} else if (angledAutonomous == autoSelected) {
+			return new AngleSwitchMission(getNearSwitch());
+		} else {
+			return new PassLineMission();
+		}
+	}
+
+	private Hand getNearSwitch() {
+		return driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L' ? Hand.kLeft : Hand.kRight;
+	}
+
+	private Hand getScale() {
+		return driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
 
 }
