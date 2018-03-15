@@ -1,59 +1,58 @@
 package org.usfirst.frc.team4213.autonomous;
 
+import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
-import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class LeftSideSwitch extends Mission {
+public class DeliverToSwitchEnd extends Mission {
+
 	private enum MissionStates {
-		waiting, driving, arrived, turning, turned, reaching, reached, deploying, deployed, ejecting, ejected, done
+		waiting, driving, turning, reaching, reached, deploying, ejecting, done
 	}
 
 	private MissionStates curState = MissionStates.waiting;
-
-	private AutoDrive driveStep;
-	private AutoDrive driveDegrees;
+	private Hand mySide;
+	private double elevatorHeight = RobotMap.Elevator.SWITCHWALL_HEIGHT;
+	private AutoDrive driveForward;
+	private AutoDrive turnDegrees;
 	private AutoDrive driveToWall;
 
-	// The Go Straight For X Feet Mission
+	public DeliverToSwitchEnd(Hand side) {
+		mySide = side;
+		driveForward = new DriveWithEncoder(159.5);
+		if (side.equals(Hand.kLeft)) {
+			turnDegrees = new TurnDegrees(90);
+		} else {
+			turnDegrees = new TurnDegrees(-90);
+		}
+		driveToWall = new DriveToWall(13);
+	}
 
 	public void execute() {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
-			driveStep = new DriveWithEncoder(159.5);
-			driveDegrees = new TurnDegrees(90);
-			driveToWall = new DriveToWall(13);
 			curState = MissionStates.driving;
 			break;
 		case driving:
-			driveStep.run();
-			if (driveStep.isFinished())
-				curState = MissionStates.arrived;
-			break;
-		case arrived:
+			driveForward.run();
+			if (driveForward.isFinished())
+				elevator.setPosition(elevatorHeight);
 			curState = MissionStates.turning;
 			break;
 		case turning:
-			driveDegrees.run();
-			if (driveDegrees.isFinished())
-				curState = MissionStates.turned;
-			break;
-		case turned:
-			curState = MissionStates.deploying;
+			turnDegrees.run();
+			if (turnDegrees.isFinished())
+				curState = MissionStates.deploying;
 			break;
 		case deploying:
-			// if (SetPositions.switchWall == elevator.getCurrentSetPostion()) {
-			curState = MissionStates.deployed;
-			// }
-			break;
-		case deployed:
-			curState = MissionStates.reaching;
+			if (elevator.isAtHeight(elevatorHeight)) {
+				curState = MissionStates.reaching;
+			}
 			break;
 		case reaching:
 			driveToWall.run();
@@ -62,7 +61,7 @@ public class LeftSideSwitch extends Mission {
 			}
 			break;
 		case reached:
-			if (onMySwitchSide(Hand.kLeft)) {
+			if (onMySwitchSide(mySide)) {
 				intake.autoEject();
 				curState = MissionStates.ejecting;
 			} else {
@@ -71,12 +70,8 @@ public class LeftSideSwitch extends Mission {
 			break;
 		case ejecting:
 			if (!intake.isIntakeRunning()) {
-				curState = MissionStates.ejected;
+				curState = MissionStates.done;
 			}
-			break;
-		case ejected:
-			// could do a secondary mission
-			curState = MissionStates.done;
 			break;
 		case done:
 			// turn stuff off an prepare for teleop

@@ -1,20 +1,13 @@
 package org.usfirst.frc.team4213.robot.systems;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class DriveToWall extends AutoDrive {
-	private static final Logger logger = Logger.getLogger(DriveToWall.class.getName());
-	private static final Level loggingLevel = RobotMap.LogLevels.driveToWallClass;
-
 	private double howClose = 0;
 
 	public DriveToWall(double howClose) {
 		super();
-		logger.setLevel(loggingLevel);
 		this.howClose = howClose;
 		logger.info("howClose:" + howClose);
 	}

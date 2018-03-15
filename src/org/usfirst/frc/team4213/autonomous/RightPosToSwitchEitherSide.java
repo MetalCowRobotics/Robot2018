@@ -18,7 +18,7 @@ public class RightPosToSwitchEitherSide extends Mission {
 		switch (curState) {
 		case waiting:
 			if (onMySwitchSide(Hand.kRight)) {
-				rightSideSwitch = new RightSideSwitch();
+				rightSideSwitch = new RightPosToRigthSwitch();
 				curState = MissionStates.right;
 			} else if (onMySwitchSide(Hand.kLeft)) {
 				rightSideToLeftSwitch = new RightSideToLeftSwitch();

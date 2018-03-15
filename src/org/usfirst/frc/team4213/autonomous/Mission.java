@@ -1,10 +1,8 @@
 package org.usfirst.frc.team4213.autonomous;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.robot.RobotMap;
-import org.usfirst.frc.team4213.robot.systems.DriveToWall;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
 import org.usfirst.frc.team4213.robot.systems.Elevator;
 import org.usfirst.frc.team4213.robot.systems.Intake;
@@ -13,15 +11,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public abstract class Mission {
-	private static final Logger logger = Logger.getLogger(DriveToWall.class.getName());
-	private static final Level loggingLevel = RobotMap.LogLevels.missionClass;
+	protected static final Logger logger = Logger.getLogger(Mission.class.getName());
 	DriverStation driverStation = DriverStation.getInstance();
 	DriveTrain driveTrain = DriveTrain.getInstance();
 	Intake intake = Intake.getInstance();
 	Elevator elevator = Elevator.getInstance();
 	
 	public Mission() {
-		logger.setLevel(loggingLevel);
+		logger.setLevel(RobotMap.LogLevels.missionClass);
 	}
 
 	// state machine steps

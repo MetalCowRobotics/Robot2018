@@ -6,7 +6,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class RightSideSwitch extends Mission {
+public class RightPosToRigthSwitch extends Mission {
 
 	private enum MissionStates {
 		waiting, driving, arrived, deploying, deployed, ejecting, ejected, done
@@ -25,12 +25,12 @@ public class RightSideSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveToWall(13);
+			driveStep = new DriveToWall(18);
 			curState = MissionStates.deploying;
 			break;
 		case deploying:
 			if (intake.isIntakeDown()) {
-				elevator.moveElevatorToPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
+				elevator.setPosition(RobotMap.Elevator.SWITCHWALL_HEIGHT);
 				curState = MissionStates.driving;				
 			}
 			break;
@@ -46,15 +46,12 @@ public class RightSideSwitch extends Mission {
 		case deployed:
 			if (onMySwitchSide(Hand.kRight)) {
 				intake.autoEject();
-				System.out.println("ejecting");
 				curState = MissionStates.ejecting;
 			} else {
 				curState = MissionStates.done;
 			}
 			break;
 		case ejecting:
-			System.out.println("checking eject time");
-			//intake.execute();
 			if (!intake.isIntakeRunning()) {
 				curState = MissionStates.ejected;
 			}
