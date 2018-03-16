@@ -123,7 +123,7 @@ public class RobotMap {
 		public static final double clearExchangeDistance = 12;
 		public static final double rightSideToLeftSideAngleDistance = 80;
 		public static final double rightSideToLeftSideDistance = 84;
-		public static final double switchWallDistance = 104;
+		public static final double switchWallDistance = 100;
 		public static final double distanceToScaleEnd = 30;
 		public static final double distanceToSwitchEnd = 18; //unknown
 		public static final double leftTurn = -90;

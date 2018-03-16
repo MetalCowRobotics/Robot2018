@@ -11,6 +11,7 @@ import org.usfirst.frc.team4213.autonomous.RightPosToRigthSwitch;
 import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
 import org.usfirst.frc.team4213.commands.AngleSwitchMission;
+import org.usfirst.frc.team4213.commands.CommandDriveTime;
 import org.usfirst.frc.team4213.commands.PassLineMission;
 import org.usfirst.frc.team4213.commands.RightSideToLeftSwitchMission;
 import org.usfirst.frc.team4213.commands.RightSideToRightSwitchMission;
@@ -60,6 +61,7 @@ public class Robot extends IterativeRobot {
 	final String rightScaleSwitch = "RightScaleOrSwitchPosition";
 	final String middlePosition = "MiddlePosition";
 	final String angledAutonomous = "AngledAutonomous";
+	final String driveTime = "driveTime";
 	MCRCommand robotMission; 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = passLine;
@@ -101,6 +103,7 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("LeftScaleOrSwitch", leftScaleSwitch);
 		autoChooser.addObject("MiddlePosition", middlePosition);
 		autoChooser.addObject("Angled Autonomous", angledAutonomous);
+		autoChooser.addObject("Drive Straight with Time", driveTime);
 		 SmartDashboard.putData("Auto choices", autoChooser);
 		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushMCRDriveMode();
@@ -218,6 +221,8 @@ public class Robot extends IterativeRobot {
 			return new ScaleOrSwitchMission(Hand.kLeft, getNearSwitch(), getScale());
 		} else if (angledAutonomous.equals(autoSelected)) {
 			return new AngleSwitchMission(getNearSwitch());
+		} else if (driveTime.equals(autoSelected)) {
+			return new CommandDriveTime(5);
 		} else {
 			return new PassLineMission();
 		}

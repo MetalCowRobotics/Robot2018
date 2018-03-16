@@ -17,7 +17,7 @@ public class RightSideToRightSwitchMission implements MCRCommand {
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight == switchSide) {
 			missionSteps.add(new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT));
-			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance));
+			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 4));
 			missionSteps.add(new CommandEjectCube());
 //			missionSteps.add(new CommandDriveToObject(RobotMap.Autonomous.wallBackOff));
 //			missionSteps.add(new ParallelCommands(
