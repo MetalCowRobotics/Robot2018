@@ -99,7 +99,7 @@ public class Intake {
 	}
 
 	public void autoEject() {
-		System.out.println("Ejevt cube");
+		System.out.println("Eject cube");
 		autoEject = true;
 		powerCubeEject();
 		ejectTimer.reset();

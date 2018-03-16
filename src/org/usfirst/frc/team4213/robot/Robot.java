@@ -10,8 +10,15 @@ import org.usfirst.frc.team4213.autonomous.PassLine;
 import org.usfirst.frc.team4213.autonomous.RightPosToRigthSwitch;
 import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
-import org.usfirst.frc.team4213.robot.HamburgerDashboard.AutoMissionOptions;
-import org.usfirst.frc.team4213.robot.HamburgerDashboard.StartPosition;
+import org.usfirst.frc.team4213.commands.AngleSwitchMission;
+import org.usfirst.frc.team4213.commands.PassLineMission;
+import org.usfirst.frc.team4213.commands.RightSideToLeftSwitchMission;
+import org.usfirst.frc.team4213.commands.RightSideToRightSwitchMission;
+import org.usfirst.frc.team4213.commands.ScaleEndMission;
+import org.usfirst.frc.team4213.commands.ScaleOrSwitchMission;
+import org.usfirst.frc.team4213.commands.SwitchEndMission;
+import org.usfirst.frc.team4213.commands.SwitchOrScaleMySideMission;
+import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
@@ -22,6 +29,7 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,12 +53,17 @@ public class Robot extends IterativeRobot {
 	final String passLine = "PassLine";
 	final String eitherSide = "eitherSide";
 	final String leftSideOfScale = "leftSideOfScale";
-	final String leftPosition = "LeftPosition";
-	final String rightPosition = "RightPosition";
+	final String rightSideOfScale = "rightSideOfScale";
+	final String leftSwitchScale = "LeftSwitchScalePosition";
+	final String rightSwitchScale = "RightSwitchScalePosition";
+	final String leftScaleSwitch = "LeftScaleOrSwitchPosition";
+	final String rightScaleSwitch = "RightScaleOrSwitchPosition";
 	final String middlePosition = "MiddlePosition";
+	final String angledAutonomous = "AngledAutonomous";
+	MCRCommand robotMission; 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	String autoSelected = passLine;
-
+	
 	Mission autoMission;
 	AutoDrive driveStraight;
 	TurnDegrees turnDegrees;
@@ -76,21 +89,25 @@ public class Robot extends IterativeRobot {
 		//setup the smartdashboard
 		HamburgerDashboard.getInstance().initializeDashboard();
 //		HamburgerDashboard.getInstance().pushAutonomousMissions();
-		 autoChooser.addObject("Right Side Switch", rightSide);
-		 autoChooser.addObject("Left Side Switch", leftSide);
-		 autoChooser.addDefault("Pass Line", passLine);
-		 autoChooser.addObject("Switch Either Side", eitherSide);
-		 autoChooser.addObject("Left Scale", leftSideOfScale );
-		 autoChooser.addObject("RightPosition", rightPosition);
-		 autoChooser.addObject("LeftPosition", leftPosition);
-		 autoChooser.addObject("MiddlePosition", middlePosition);
+		autoChooser.addDefault("Pass Line", passLine);
+		autoChooser.addObject("Right Side Switch", rightSide);
+		autoChooser.addObject("Left Side Switch", leftSide);
+		autoChooser.addObject("Switch Either Side", eitherSide);
+		autoChooser.addObject("Left Scale", leftSideOfScale);
+		autoChooser.addObject("Right Scale", rightSideOfScale);
+		autoChooser.addObject("RightSwitchOrScale", rightSwitchScale);
+		autoChooser.addObject("LeftSwitchOrScale", leftSwitchScale);
+		autoChooser.addObject("RightScaleOrSwitch", rightScaleSwitch);
+		autoChooser.addObject("LeftScaleOrSwitch", leftScaleSwitch);
+		autoChooser.addObject("MiddlePosition", middlePosition);
+		autoChooser.addObject("Angled Autonomous", angledAutonomous);
 		 SmartDashboard.putData("Auto choices", autoChooser);
 		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushMCRDriveMode();
 		HamburgerDashboard.getInstance().pushElevatorPID();
 		
 		// Initialize Robot
-		//driverStation = DriverStation.getInstance();
+		driverStation = DriverStation.getInstance();
 		CameraServer.getInstance().startAutomaticCapture();
 
 		// Initialize Systems
@@ -121,51 +138,12 @@ public class Robot extends IterativeRobot {
 		//autoMission = selectMission(dashboard.getAutoMision());
 		//autoSelected = SmartDashboard.getString("Auto Selector",defaultAuto);
 		autoSelected = autoChooser.getSelected();
-		if (rightSide == autoSelected) {
-			autoMission = new RightPosToRigthSwitch();
-		} else if (leftSide == autoSelected) {
-			autoMission = new LeftPosLeftSwitchEnd();
-		} else if (eitherSide == autoSelected) {
-			autoMission = new RightPosToSwitchEitherSide();
-		} else if (leftSideOfScale == autoSelected) {
-			autoMission = new LeftSideScale();
-		} else if (passLine == autoSelected) {
-			autoMission = new PassLine();
-		} else if (rightPosition == autoSelected) {
-			autoMission = new RightPosition();
-		} else if (leftPosition == autoSelected) {
-			autoMission = new LeftPosition();
-		} else {
-			autoMission = new PassLine();
-		}
+		robotMission = buildMission();
 		logger.info("Auto selected: " + autoSelected);
+		System.out.println(autoSelected);
 		logger.exiting(getClass().getName(), "doIt");
 	}
 
-	private Mission selectMission(AutoMissionOptions chosenAuto) {
-		switch (chosenAuto) {
-		case rightSwitch:
-			return new RightPosToRigthSwitch();
-		case leftSwitch:
-			return new LeftPosLeftSwitchEnd();
-		case switchMySide:
-			return null;
-		case switchEitherSide:
-			return new RightPosToSwitchEitherSide();
-		case scaleMySide:
-			return null;
-		case leftScale:
-			return null;
-		case rightScale:
-			return new RightPosition();
-		case scaleOrSwitch:
-			return new LeftPosition();
-		case switchOrScale:
-			return null;
-		default:
-			return new PassLine();
-		}
-	}
 
 	/**
 	 * This function is called periodically during autonomous
@@ -174,9 +152,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
-		elevator.execute();
-		autoMission.execute();
+		//autoMission.execute();
+		robotMission.run();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
+		System.out.println();
 	}
 
 	/**
@@ -203,6 +182,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {	
+		elevator = Elevator.getInstance();
 	}
 
 	/**
@@ -210,6 +190,45 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		elevator.execute();
+	}
+	
+	private MCRCommand buildMission() {
+		if (rightSide.equals(autoSelected)) {
+			return new RightSideToRightSwitchMission(getNearSwitch());
+		} else if (leftSide.equals(autoSelected)) {
+			return new SwitchEndMission(Hand.kLeft, getNearSwitch());
+		} else if (eitherSide.equals(autoSelected)) {
+			if (Hand.kRight.equals(getNearSwitch())) {
+				return new RightSideToRightSwitchMission(getNearSwitch());
+			} else {
+				return new RightSideToLeftSwitchMission(getNearSwitch());
+			}
+		} else if (leftSideOfScale.equals(autoSelected)) {
+			return new ScaleEndMission(Hand.kLeft, getScale());
+		} else if (rightSideOfScale.equals(autoSelected)) {
+			return new ScaleEndMission(Hand.kRight, getScale());
+		} else if (rightSwitchScale.equals(autoSelected)) { 
+			return new SwitchOrScaleMySideMission(Hand.kRight, getNearSwitch(), getScale());
+		} else if (leftSwitchScale.equals(autoSelected)) { 
+			return new SwitchOrScaleMySideMission(Hand.kLeft, getNearSwitch(), getScale());
+		} else if (rightScaleSwitch.equals(autoSelected)) { 
+			return new ScaleOrSwitchMission(Hand.kRight, getNearSwitch(), getScale());
+		} else if (leftScaleSwitch.equals(autoSelected)) { 
+			return new ScaleOrSwitchMission(Hand.kLeft, getNearSwitch(), getScale());
+		} else if (angledAutonomous.equals(autoSelected)) {
+			return new AngleSwitchMission(getNearSwitch());
+		} else {
+			return new PassLineMission();
+		}
+	}
+
+	private Hand getNearSwitch() {
+		return driverStation.getGameSpecificMessage().toUpperCase().charAt(0) == 'L' ? Hand.kLeft : Hand.kRight;
+	}
+
+	private Hand getScale() {
+		return driverStation.getGameSpecificMessage().toUpperCase().charAt(1) == 'L' ? Hand.kLeft : Hand.kRight;
 	}
 
 }

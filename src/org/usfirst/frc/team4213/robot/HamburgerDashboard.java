@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -52,7 +53,7 @@ public class HamburgerDashboard {
 	private DriverStation driverStation;
 
 	public void initializeDashboard() {
-		pdp = new PowerDistributionPanel();
+		//pdp = new PowerDistributionPanel();
 		driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
 	}
@@ -175,6 +176,7 @@ public class HamburgerDashboard {
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
 		SmartDashboard.putNumber("PIDerror", pid.getError());
+		SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
 	public void pushTurnPID() {

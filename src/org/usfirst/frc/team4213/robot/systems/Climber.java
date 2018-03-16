@@ -44,7 +44,7 @@ public class Climber {
 			if (controller.getClimbThrottle() > 0.1) {// push up to feed rope
 				if (SERVO_SWITCH.get()) {
 					climberState = ClimberState.preparing;
-					CLIMBER_MOTOR.set(-.30);
+					CLIMBER_MOTOR.set(-.10);
 					CLIMBER_SERVO.setAngle(servoDisengagedAngle);
 					logger.info(SERVO_SWITCH.get() + " ############### Preparing to climb: " + CLIMBER_SERVO.getAngle());
 				} else {
