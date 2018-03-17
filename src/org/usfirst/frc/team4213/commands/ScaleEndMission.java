@@ -19,7 +19,7 @@ public class ScaleEndMission implements MCRCommand {
 		missionSteps.add(new CommandDriveStraight(Autonomous.middleScaleDistance));
 		if (mySide.equals(scaleSide)) {
 			missionSteps.add(new CommandTurn(turnDirection(mySide)));
-			missionSteps.add(new ParallelCommands(new CommandDriveStraight(Autonomous.distanceToScaleEnd),
+			missionSteps.add(new ParallelCommands(new CommandDriveStraight(Autonomous.distanceToScaleEnd, 5.0),
 					new CommandRaiseElevator(RobotMap.Elevator.SCALE_MID_HEIGHT))); // change to _HIGH_
 			missionSteps.add(new CommandEjectCube());
 			MCRCommand[] a = new MCRCommand[missionSteps.size()];
