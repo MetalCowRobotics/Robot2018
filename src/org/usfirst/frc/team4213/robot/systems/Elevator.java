@@ -57,8 +57,8 @@ public class Elevator {
 			firstTime = false;
 		}
 		if (0 == controller.getElevatorThrottle()) {
-//			holdPID.set_kP(dash.getElevatorKP()); 
-//			holdPID.set_kD(dash.getElevatorKD()); 
+			holdPID.set_kP(dash.getElevatorKP()); 
+			holdPID.set_kD(dash.getElevatorKD()); 
 			System.out.println("^^^^^^ Holding ^^^^^^");
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);

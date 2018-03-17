@@ -98,7 +98,7 @@ public class RobotMap {
 		public static final double SAFTEY_ZONE = (12 / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 		public static final double SAFE_SPEED = .5;
 		//Elevator hold PID parameters
-		public static final	double kP = 0;
+		public static final	double kP = -0.01;
 		public static final	double kI = 0;
 		public static final	double kD = 0;
 		public static final	double tolerance = 5;
