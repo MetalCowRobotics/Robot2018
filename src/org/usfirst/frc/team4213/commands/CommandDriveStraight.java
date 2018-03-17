@@ -10,9 +10,9 @@ public class CommandDriveStraight implements MCRCommand {
 	
 	private Timer timer = new Timer();
 	private boolean firstTime = true;
-	private int targetTime = 10;
+	private double targetTime = 10;
 	
-	public CommandDriveStraight(double inches, int expectedTime) {
+	public CommandDriveStraight(double inches, double expectedTime) {
 		thisCommand = new DriveWithEncoder(inches);
 		targetTime = expectedTime;
 	}
@@ -29,11 +29,12 @@ public class CommandDriveStraight implements MCRCommand {
 			timer.start();
 		}
 		thisCommand.run();
+		System.out.println(targetTime +"     " +timer.get());
 	}
 
 	@Override
 	public boolean isFinished() {
-		if(timer.get()>10) {
+		if(timer.get()>targetTime) {
 			return true;
 		}
 		return thisCommand.isFinished();		

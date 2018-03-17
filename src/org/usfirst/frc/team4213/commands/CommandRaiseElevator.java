@@ -21,7 +21,7 @@ public class CommandRaiseElevator implements MCRCommand {
 			elevator.setElevatorSpeed(-.3);
 		}
 		System.out.println("<<<< Raise Elevator >>>>");
-		if (elevator.getEncoderTics()>1000 + 100) {
+		if (elevator.getEncoderTics()>1300) {
 			elevator.setElevatorSpeed(-.1);
 			atHeight=true;
 		}

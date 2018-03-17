@@ -108,10 +108,11 @@ public class Robot extends IterativeRobot {
 		HamburgerDashboard.getInstance().pushStartPositions();
 		HamburgerDashboard.getInstance().pushMCRDriveMode();
 		HamburgerDashboard.getInstance().pushElevatorPID();
+		HamburgerDashboard.getInstance().pushTurnPID();
 		
 		// Initialize Robot
 		driverStation = DriverStation.getInstance();
-		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture(0);
 
 		// Initialize Systems
 		driveTrain = DriveTrain.getInstance();
@@ -185,7 +186,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {	
-		elevator = Elevator.getInstance();
+		driveTrain = DriveTrain.getInstance();
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		elevator.execute();
+		driveTrain.drive();
 	}
 	
 	private MCRCommand buildMission() {

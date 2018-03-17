@@ -19,7 +19,7 @@ public class TurnDegrees extends AutoDrive {
 		case IDLE:
 			driveTrain.resetGyro();
 			setPoint = driveTrain.getAngle() + degrees; 
-			logger.info("TurnDegrees SetPoint:" + setPoint);
+			System.out.println(("TurnDegrees SetPoint:" + setPoint));
 			driveController = new PDController(setPoint, dashboard.getTurnKP(), dashboard.getTurnKI()); 
 			driveTrain.arcadeDrive(RobotMap.TurnDegrees.TOP_SPEED, driveController.calculateAdjustment(setPoint));
 			currentState = State.ACTIVE;

@@ -139,10 +139,13 @@ public class DriveTrain {
 
 	public void printRightEncoder() {
 		// System.out.println("rightEncoder:" + getRightEncoderTics());
+		System.out.println(getRightEncoderTics() + "RightEncoder");
 	}
 
 	public void printLeftEncoder() {
 		// System.out.println("leftEncoder:" + getLeftEncoderTics());
+		System.out.println(getLeftEncoderTics() + "LeftEncoder");
+
 	}
 
 	public double encoderDifference() {

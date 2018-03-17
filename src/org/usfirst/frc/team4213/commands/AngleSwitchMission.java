@@ -17,16 +17,17 @@ public class AngleSwitchMission implements MCRCommand {
 	public AngleSwitchMission(Hand mySwitchSide) {
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight.equals(mySwitchSide)) {
-			missionSteps.add(new CommandTurn(Autonomous.angleTurn));
 			missionSteps.add(new ParallelCommands(
-					new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 4),
-					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
+					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
+					new CommandTurn(Autonomous.rightAngleTurn, 2.0)));
+			// missionSteps.add(new CommandTurn(Autonomous.angleTurn));
+			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 1.8));
 		} else {
-			missionSteps.add(new CommandDriveStraight(Autonomous.rightSideToLeftSideAngleDistance, 5));
+			missionSteps.add(new CommandDriveStraight(Autonomous.rightSideToLeftSideAngleDistance, 3.3));
 			missionSteps.add(new ParallelCommands(
-					new CommandTurn(Autonomous.angleTurn),
+					new CommandTurn(Autonomous.angleTurn, 2.0),
 					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
-			missionSteps.add(new CommandDriveStraight(12, 2));
+			missionSteps.add(new CommandDriveStraight(24, 1.7));
 		}
 		missionSteps.add(new CommandEjectCube());
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];
