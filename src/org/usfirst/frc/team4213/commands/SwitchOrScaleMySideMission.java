@@ -11,7 +11,7 @@ public class SwitchOrScaleMySideMission implements MCRCommand {
 		if (mySide.equals(switchSide)) {
 			command = new SwitchEndMission(mySide, switchSide);
 		} else if (mySide.equals(scaleSide)) {
-			command = new SwitchEndMission(mySide, scaleSide);
+			command = new ScaleEndMission(mySide, scaleSide);
 		} else {
 			command = new PassLineMission();
 		}

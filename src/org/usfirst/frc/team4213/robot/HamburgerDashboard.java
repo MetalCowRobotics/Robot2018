@@ -56,6 +56,7 @@ public class HamburgerDashboard {
 		//pdp = new PowerDistributionPanel();
 		driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
+		SmartDashboard.putBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 
 	public void pushAutonomousMissions() {
@@ -207,6 +208,10 @@ public class HamburgerDashboard {
 	
 	public double getIntakeEjectSpeed() {
 		return SmartDashboard.getNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
+	}
+	
+	public boolean doSecondaryMission() {
+		return SmartDashboard.getBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 	
 }

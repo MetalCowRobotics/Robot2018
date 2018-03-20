@@ -130,6 +130,7 @@ public class RobotMap {
 		public static final double rightTurn = 90;
 		public static final double angleTurn = 45;
 		public static final double rightAngleTurn = 50;
+		public static boolean SecondaryCube = false;
 	}
 
 	public static final class LogLevels {

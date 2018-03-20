@@ -9,7 +9,7 @@ public class ScaleOrSwitchMission implements MCRCommand {
 
 	public ScaleOrSwitchMission(Hand mySide, Hand switchSide, Hand scaleSide) {
 		if (mySide.equals(scaleSide)) {
-			command = new SwitchEndMission(mySide, scaleSide);
+			command = new ScaleEndMission(mySide, scaleSide);
 		} else if (mySide.equals(switchSide)) {
 			command = new SwitchEndMission(mySide, switchSide);
 		} else {

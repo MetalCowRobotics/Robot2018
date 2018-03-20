@@ -16,12 +16,14 @@ public class ScaleEndMission implements MCRCommand {
 	public ScaleEndMission(Hand mySide, Hand scaleSide) {
 		ArrayList<MCRCommand> missionSteps = new ArrayList<MCRCommand>();
 		missionSteps.add(new CommandIntakeDeploy());
-		missionSteps.add(new CommandDriveStraight(Autonomous.middleScaleDistance));
+		missionSteps.add(new CommandDriveStraight(Autonomous.middleScaleDistance, 5.0));
 		if (mySide.equals(scaleSide)) {
-			missionSteps.add(new CommandTurn(turnDirection(mySide)));
-			missionSteps.add(new ParallelCommands(new CommandDriveStraight(Autonomous.distanceToScaleEnd, 5.0),
+			missionSteps.add(new ParallelCommands(
+					new CommandTurn(turnDirection(mySide), 1.5),
 					new CommandRaiseElevator(RobotMap.Elevator.SCALE_MID_HEIGHT))); // change to _HIGH_
+			missionSteps.add(new CommandDriveStraight(Autonomous.distanceToScaleEnd, 5.0));
 			missionSteps.add(new CommandEjectCube());
+			missionSteps.add(new CommandDriveStraight(-12, 2)); //back off the scale
 			MCRCommand[] a = new MCRCommand[missionSteps.size()];
 			command = new SequentialCommands((MCRCommand[]) missionSteps.toArray(a));
 		} else {
