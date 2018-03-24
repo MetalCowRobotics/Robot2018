@@ -208,5 +208,8 @@ public class HamburgerDashboard {
 	public double getIntakeEjectSpeed() {
 		return SmartDashboard.getNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
 	}
+	public double getIntakeSlowEjectSpeed() {
+		return SmartDashboard.getNumber("SlowEjectSpeed", RobotMap.Intake.SLOW_EJECT_SPEED);
+	}
 	
 }

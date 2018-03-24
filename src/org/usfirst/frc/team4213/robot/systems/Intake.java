@@ -70,25 +70,27 @@ public class Intake {
 				powerCubeIntake();
 			} else if (controller.isCubeEject()) {
 				powerCubeEject();
+			} else if (controller.isSlowCubeEject()) {
+				powerSlowCubeEject();
 			} else {
 				powerCubeIdle();
 			}
-		}
 
-		// intake angle raise and lower
-		if (controller.isTiltDown()) {
-			deploy();
-		} else if (controller.isTitltUp()) {
-			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
-		} else {
-			if (autoDeploy) {
-				if (deployTimer.get() > 2) {
-					stopIntakeDeploy();
-					deployTimer.stop();
-					autoDeploy = false;
-				}
+			// intake angle raise and lower
+			if (controller.isTiltDown()) {
+				deploy();
+			} else if (controller.isTitltUp()) {
+				INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 			} else {
-				stopIntakeDeploy();
+				if (autoDeploy) {
+					if (deployTimer.get() > 2) {
+						stopIntakeDeploy();
+						deployTimer.stop();
+						autoDeploy = false;
+					}
+				} else {
+					stopIntakeDeploy();
+				}
 			}
 		}
 
@@ -128,6 +130,12 @@ public class Intake {
 		currentIntakeState = IntakeState.OUT;
 	}
 
+	private void powerSlowCubeEject() {
+		LEFT_INTAKE_MOTOR.set(-HamburgerDashboard.getInstance().getIntakeSlowEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.set(HamburgerDashboard.getInstance().getIntakeSlowEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		currentIntakeState = IntakeState.OUT;
+	}
+
 	private void powerCubeIdle() {
 		if (IntakeState.OFF == currentIntakeState) {
 			return;
@@ -149,12 +157,12 @@ public class Intake {
 	}
 
 	public void autoDeploy() {
-		autoDeploy=true;
+		autoDeploy = true;
 		deployTimer.reset();
 		deployTimer.start();
 		deploy();
 	}
-	
+
 	private void deploy() {
 		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}

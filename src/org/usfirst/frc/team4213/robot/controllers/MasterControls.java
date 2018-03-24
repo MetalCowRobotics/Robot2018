@@ -49,6 +49,10 @@ public class MasterControls {
 	public boolean isCubeIntake() {
 		return operator.getLT() > .25;
 	}
+	
+	public boolean isSlowCubeEject() {
+		return operator.getRB();
+	}
 
 	public boolean isCubeEject() {
 		return operator.getRT() > .25;
