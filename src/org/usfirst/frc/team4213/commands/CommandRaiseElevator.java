@@ -8,6 +8,7 @@ public class CommandRaiseElevator implements MCRCommand {
 	private double height;
 	private Elevator elevator = Elevator.getInstance();
 	private boolean atHeight = false;
+
 	public CommandRaiseElevator(double heightInches) {
 		height = heightInches;
 	}
@@ -18,18 +19,18 @@ public class CommandRaiseElevator implements MCRCommand {
 			firstTime = false;
 			System.out.println("AM I RAISING THE ELEVATOR");
 			Elevator.getInstance().setPosition(height);
-			//elevator.setElevatorSpeed(-.3);
+			// elevator.setElevatorSpeed(-.3);
 		}
 		System.out.println("<<<< Raise Elevator >>>>");
-//		if (elevator.getEncoderTics()>1300) {
-//			elevator.setElevatorSpeed(-.1);
-//			atHeight=true;
-//		}
+		// if (elevator.getEncoderTics()>1300) {
+		// elevator.setElevatorSpeed(-.1);
+		// atHeight=true;
+		// }
 	}
 
 	@Override
 	public boolean isFinished() {
-		return atHeight;
+		return elevator.isAtHeight(height);
 	}
 
 }
