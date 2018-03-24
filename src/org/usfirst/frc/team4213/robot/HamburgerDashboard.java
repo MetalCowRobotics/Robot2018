@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.usfirst.frc.team4213.lib14.PDController;
 import org.usfirst.frc.team4213.robot.systems.Climber;
 import org.usfirst.frc.team4213.robot.systems.DriveTrain;
+import org.usfirst.frc.team4213.robot.systems.Elevator;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -52,30 +53,31 @@ public class HamburgerDashboard {
 	private DriverStation driverStation;
 
 	public void initializeDashboard() {
-		pdp = new PowerDistributionPanel();
+		//pdp = new PowerDistributionPanel();
 		driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
+		SmartDashboard.putBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 
 	public void pushAutonomousMissions() {
 		// Load available Autonomous missions to the driverstation
 		autoSelected = rightSide;
-		// autoChooser.addObject("Right Side Switch", rightSide);
-		// autoChooser.addObject("Left Side Switch", leftSide);
-		// autoChooser.addDefault("Pass Line", passLine);
-		// autoChooser.addObject("Switch Either Side", eitherSide);
-		// autoChooser.addObject("Left Scale", leftSideOfScale );
-		// autoChooser.addObject("RightPosition", rightPosition);
-		// autoChooser.addObject("LeftPosition", leftPosition);
-		// autoChooser.addObject("MiddlePosition", middlePosition);
-		autoChooser.addDefault("Pass Line", AutoMissionOptions.passLine.name());
-		autoChooser.addObject("Right Side Switch", AutoMissionOptions.rightSwitch.name());
-		autoChooser.addObject("Left Side Switch", AutoMissionOptions.leftSwitch.name());
-		autoChooser.addObject("Switch Either Side", AutoMissionOptions.switchEitherSide.name());
-		autoChooser.addObject("Left Scale", AutoMissionOptions.leftScale.name());
-		autoChooser.addObject("Right Scale", AutoMissionOptions.rightScale.name());
-		autoChooser.addObject("Scale or Switch My Side", AutoMissionOptions.scaleOrSwitch.name());
-		autoChooser.addObject("Switch or Scale My Side", AutoMissionOptions.switchOrScale.name());
+		 autoChooser.addObject("Right Side Switch", rightSide);
+		 autoChooser.addObject("Left Side Switch", leftSide);
+		 autoChooser.addDefault("Pass Line", passLine);
+		 autoChooser.addObject("Switch Either Side", eitherSide);
+		 autoChooser.addObject("Left Scale", leftSideOfScale );
+		 autoChooser.addObject("RightPosition", rightPosition);
+		 autoChooser.addObject("LeftPosition", leftPosition);
+		 autoChooser.addObject("MiddlePosition", middlePosition);
+//		autoChooser.addDefault("Pass Line", AutoMissionOptions.passLine.name());
+//		autoChooser.addObject("Right Side Switch", AutoMissionOptions.rightSwitch.name());
+//		autoChooser.addObject("Left Side Switch", AutoMissionOptions.leftSwitch.name());
+//		autoChooser.addObject("Switch Either Side", AutoMissionOptions.switchEitherSide.name());
+//		autoChooser.addObject("Left Scale", AutoMissionOptions.leftScale.name());
+//		autoChooser.addObject("Right Scale", AutoMissionOptions.rightScale.name());
+//		autoChooser.addObject("Scale or Switch My Side", AutoMissionOptions.scaleOrSwitch.name());
+//		autoChooser.addObject("Switch or Scale My Side", AutoMissionOptions.switchOrScale.name());
 		SmartDashboard.putData("Auto choices", autoChooser);
 	}
 
@@ -129,12 +131,12 @@ public class HamburgerDashboard {
 		return StartPosition.right;
 	}
 
-	public void pushDevinDrive() {
-		SmartDashboard.putBoolean("DevinDrive", RobotMap.Drivetrain.DevinDrive);
+	public void pushMCRDriveMode() {
+		SmartDashboard.putBoolean("MCR_Drive_Mode", RobotMap.Drivetrain.MCR_DRIVE_MODE);
 	}
 
-	public boolean getDevinMode() {
-		return SmartDashboard.getBoolean("DevinDrive", RobotMap.Drivetrain.DevinDrive);
+	public boolean isMCRDriveMode() {
+		return SmartDashboard.getBoolean("MCR_Drive_Mode", RobotMap.Drivetrain.MCR_DRIVE_MODE);
 	}
 
 	public void pushElevatorPID() {
@@ -175,6 +177,7 @@ public class HamburgerDashboard {
 			return;
 		SmartDashboard.putNumber("PIDsetPoint", pid.getSetPoint());
 		SmartDashboard.putNumber("PIDerror", pid.getError());
+		SmartDashboard.putNumber("Elevator Encoder Tics: ", Elevator.getInstance().getEncoderTics());
 	}
 	
 	public void pushTurnPID() {
@@ -205,6 +208,10 @@ public class HamburgerDashboard {
 	
 	public double getIntakeEjectSpeed() {
 		return SmartDashboard.getNumber("EjectSpeed", RobotMap.Intake.EJECT_SPEED);
+	}
+	
+	public boolean doSecondaryMission() {
+		return SmartDashboard.getBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 	
 }

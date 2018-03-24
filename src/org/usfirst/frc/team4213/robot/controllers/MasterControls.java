@@ -6,7 +6,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 
 public class MasterControls {
 	private static final Logger logger = Logger.getLogger(MasterControls.class.getName());
-	private static final double throttleVariance = .06;
+	private static final double throttleVariance = .04;
 	private static final MasterControls instance = new MasterControls();
 
 	private static final XboxControllerMetalCow driver = new XboxControllerMetalCow(RobotMap.DriverController.USB_PORT);
@@ -21,13 +21,13 @@ public class MasterControls {
 		return instance;
 	}
 
-	public double getDriveLeftThrottle() {
-		return driver.getLY();
-	}
-
-	public double getDriveRightThrottle() {
-		return driver.getRY();
-	}
+//	public double getDriveLeftThrottle() {
+//		return driver.getLY();
+//	}
+//
+//	public double getDriveRightThrottle() {
+//		return driver.getRY();
+//	}
 
 	// Arcade
 	public boolean isHalfArcadeToggle() {
@@ -35,11 +35,11 @@ public class MasterControls {
 	}
 
 	public boolean isSprintToggle() {
-		return driver.getRB();
+		return driver.getXButton();
 	}
 
 	public boolean isCrawlToggle() {
-		return driver.getLB();
+		return driver.getAButton();
 	}
 
 	public boolean invertDrive() {
@@ -47,11 +47,11 @@ public class MasterControls {
 	}
 
 	public boolean isCubeIntake() {
-		return operator.getRT() > .25;
+		return operator.getLT() > .25;
 	}
 
 	public boolean isCubeEject() {
-		return operator.getLT() > .25;
+		return operator.getRT() > .25;
 	}
 
 	public double getElevatorThrottle() {
@@ -59,7 +59,7 @@ public class MasterControls {
 	}
 	
 	public boolean raiseIntake() {
-		return operator.getBButton();
+		return operator.getYButton();
 	}
 
 	public boolean lowerIntake() {
@@ -83,12 +83,9 @@ public class MasterControls {
 		return operator.getLB();
 	}
 	
-	public boolean climbEnabled() {
-		return operator.getLB(); 
-	} 	
-	
+		
 	public boolean isTitltUp() {
-		return operator.getBButton();
+		return operator.getYButton();
 	}
 	
 	public boolean isTiltDown() {

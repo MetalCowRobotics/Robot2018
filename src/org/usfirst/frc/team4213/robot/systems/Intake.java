@@ -82,7 +82,7 @@ public class Intake {
 			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 		} else {
 			if (autoDeploy) {
-				if (deployTimer.get() > 1) {
+				if (deployTimer.get() > 2) {
 					stopIntakeDeploy();
 					deployTimer.stop();
 					autoDeploy = false;
@@ -99,6 +99,7 @@ public class Intake {
 	}
 
 	public void autoEject() {
+		System.out.println("Eject cube");
 		autoEject = true;
 		powerCubeEject();
 		ejectTimer.reset();
@@ -142,12 +143,13 @@ public class Intake {
 	}
 
 	public boolean isCubeSensorSwitchActive() {
-		return cubeSwitch.get();
+		return !cubeSwitch.get();
 		// return cubeSensor.getDistanceInches(mail) < 12;
 		// return cubeSensorSwitch.get();
 	}
 
 	public void autoDeploy() {
+		autoDeploy=true;
 		deployTimer.reset();
 		deployTimer.start();
 		deploy();

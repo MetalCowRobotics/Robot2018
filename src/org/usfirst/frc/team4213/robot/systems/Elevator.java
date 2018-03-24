@@ -42,6 +42,8 @@ public class Elevator {
 	}
 
 	public void execute() {
+		System.out.println("THIS IS THE ENCODER TICS: "+ getEncoderTics());
+		System.out.println("THIS IS THE ELEVATOR MOTOR SPEED: "+ELEVATOR_MOTOR.get());
 		logger.info("================== elevator iteration ==============================");
 		logger.info("Elevator Up: " + this.isElevatorAtTop() + " Elevator Down: " + this.isElevatorAtBottom());
 		logger.info("elevator encoder tics:" + getEncoderTics());
@@ -57,12 +59,14 @@ public class Elevator {
 		if (0 == controller.getElevatorThrottle()) {
 			holdPID.set_kP(dash.getElevatorKP()); 
 			holdPID.set_kD(dash.getElevatorKD()); 
+			System.out.println("^^^^^^ Holding ^^^^^^");
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);
 		} else {
 			setElevatorSpeed(controller.getElevatorThrottle());
 			setPositionTics(getEncoderTics());
 		}
+			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);
 	}
 
 	public void setPositionTics(double tics) {
@@ -80,7 +84,7 @@ public class Elevator {
 		return (inches / RobotMap.Elevator.INCHES_PER_ROTATION) * RobotMap.Elevator.TICS_PER_ROTATION;
 	}
 
-	private void setElevatorSpeed(double speed) {
+	public void setElevatorSpeed(double speed) {
 		if (isMovingUp(speed) && isElevatorAtTop()) {
 			stop();
 		} else if (isMovingDown(speed) && isElevatorAtBottom()) {
@@ -91,11 +95,11 @@ public class Elevator {
 	}
 
 	private boolean isMovingUp(double speed) {
-		return speed > 0;
+		return speed < 0;
 	}
 
 	private boolean isMovingDown(double speed) {
-		return speed < 0;
+		return speed > 0;
 	}
 
 	private double maxSpeed(double speed) {
@@ -132,7 +136,7 @@ public class Elevator {
 		return !bottomLimit.get(); // for some reason this is inverted in hardware, correcting here in software
 	}
 
-	private double getEncoderTics() {
+	public double getEncoderTics() {
 		return elevatorEncoder.getDistance();
 	}
 

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.usfirst.frc.team4213.lib14.MCR_SRX;
 import org.usfirst.frc.team4213.lib14.MaxBotixRangeFinder;
+import org.usfirst.frc.team4213.lib14.UtilityMethods;
 import org.usfirst.frc.team4213.robot.HamburgerDashboard;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.controllers.MasterControls;
@@ -43,7 +44,7 @@ public class DriveTrain {
 		return wallSensor.getDistanceInches() - 11.4;
 	}
 
-	private int inverted = -1;
+	private int inverted = 1;
 
 	// Singleton
 	protected DriveTrain() {
@@ -62,24 +63,8 @@ public class DriveTrain {
 		if (controller.invertDrive()) {
 			invert();
 		}
-		if (inverted == 1) {
-			leftSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-			rightSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-		} else {
-			leftSpeed = controller.getDriveLeftThrottle() * getThrottle() * inverted;
-			rightSpeed = controller.getDriveRightThrottle() * getThrottle() * inverted;
-		}
-		if (controller.isHalfArcadeToggle()) { // Go into arcade mode
-			drive.arcadeDrive(leftSpeed, rightSpeed, true);
-		} else { // Stay in regular Tank drive mode
-			// if (RobotMap.Drivetrain.DevinDrive) {
-			if (HamburgerDashboard.getInstance().getDevinMode()) {
-				double speed = controller.forwardSpeed() - controller.reverseSpeed();
-				arcadeDrive(speed, controller.direction());
-			} else {
-				drive.tankDrive(leftSpeed, rightSpeed, true);
-			}
-		}
+		double speed = (controller.forwardSpeed() - controller.reverseSpeed()) * inverted * getThrottle();
+		arcadeDrive(speed, UtilityMethods.copySign(controller.direction(), Math.pow(controller.direction(), 2)));
 	}
 
 	/**
@@ -131,6 +116,7 @@ public class DriveTrain {
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {
+			System.out.println("crawling---------");
 			return RobotMap.Drivetrain.CRAWL_SPEED;
 		} else if (controller.isSprintToggle()) {
 			return RobotMap.Drivetrain.SPRINT_SPEED;
@@ -153,10 +139,13 @@ public class DriveTrain {
 
 	public void printRightEncoder() {
 		// System.out.println("rightEncoder:" + getRightEncoderTics());
+		System.out.println(getRightEncoderTics() + "RightEncoder");
 	}
 
 	public void printLeftEncoder() {
 		// System.out.println("leftEncoder:" + getLeftEncoderTics());
+		System.out.println(getLeftEncoderTics() + "LeftEncoder");
+
 	}
 
 	public double encoderDifference() {
@@ -165,6 +154,6 @@ public class DriveTrain {
 
 	public double getEncoderTics() {
 		//return (getRightEncoderTics() + getLeftEncoderTics()) / 2;
-		return getLeftEncoderTics();
+		return getRightEncoderTics();
 	}
 }

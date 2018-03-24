@@ -2,6 +2,7 @@ package org.usfirst.frc.team4213.autonomous;
 
 import org.usfirst.frc.team4213.robot.systems.AutoDrive;
 import org.usfirst.frc.team4213.robot.systems.DriveToWall;
+import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
 import org.usfirst.frc.team4213.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -25,8 +26,9 @@ public class RightPosToRigthSwitch extends Mission {
 		switch (curState) {
 		case waiting: // like a firstTime
 			intake.autoDeploy();
-			driveStep = new DriveToWall(18);
-			curState = MissionStates.deploying;
+			//driveStep = new DriveToWall(18);
+			driveStep = new DriveWithEncoder(95);
+			curState = MissionStates.driving;
 			break;
 		case deploying:
 			if (intake.isIntakeDown()) {
@@ -36,14 +38,17 @@ public class RightPosToRigthSwitch extends Mission {
 			break;
 		case driving:
 			driveStep.run();
+			System.out.println("Driving");
 			if (driveStep.isFinished()) {
-				curState = MissionStates.arrived;
+				System.out.println("Drive is done");
+				curState = MissionStates.deployed;
 			}
 			break;
 		case arrived:
 			curState = MissionStates.deployed;
 			break;
 		case deployed:
+			System.out.println("ON MY SIDE" +onMySwitchSide(Hand.kRight) );
 			if (onMySwitchSide(Hand.kRight)) {
 				intake.autoEject();
 				curState = MissionStates.ejecting;
