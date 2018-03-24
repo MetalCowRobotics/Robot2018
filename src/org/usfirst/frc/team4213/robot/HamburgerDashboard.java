@@ -50,6 +50,7 @@ public class HamburgerDashboard {
 		pdp = new PowerDistributionPanel();
 		driverStation = edu.wpi.first.wpilibj.DriverStation.getInstance();
 		// CameraServer.getInstance().startAutomaticCapture();
+		SmartDashboard.putBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 
 	public void pushAutonomousMissions() {
@@ -196,6 +197,10 @@ public class HamburgerDashboard {
 
 	public void pushGyro() {
 		SmartDashboard.putNumber("Gyro Reading", DriveTrain.getInstance().getAngle());
+	}
+	
+	public boolean doSecondaryMission() {
+		return SmartDashboard.getBoolean("Auto Position For Second Cube", RobotMap.Autonomous.SecondaryCube);
 	}
 	
 }

@@ -13,6 +13,7 @@ import org.usfirst.frc.team4213.autonomous.RightPosToSwitchEitherSide;
 import org.usfirst.frc.team4213.autonomous.RightPosition;
 import org.usfirst.frc.team4213.autonomous.RightSideSwitch;
 import org.usfirst.frc.team4213.commands.AngleSwitchMission;
+import org.usfirst.frc.team4213.commands.CommandDriveBackwards;
 import org.usfirst.frc.team4213.commands.PassLineMission;
 import org.usfirst.frc.team4213.commands.RightSideToLeftSwitchMission;
 import org.usfirst.frc.team4213.commands.RightSideToRightSwitchMission;
@@ -72,6 +73,7 @@ public class Robot extends IterativeRobot {
 	// PowerDistributionPanel pdp;
 	DriverStation driverStation;
 	DriveWithEncoder driveWithEncoder;
+	MCRCommand testCommand;
 
 	// Systems
 	DriveTrain driveTrain;
@@ -209,6 +211,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testInit() {
+		testCommand = new CommandDriveBackwards(-36, 1.5);
 
 	}
 
@@ -220,13 +223,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		// System.out.println(driveTrain.wallSensorInches());
-		elevator.execute();
-
-		if (firstTime) {
-			// elevator.hold(1000);
-			// elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
-			firstTime = false;
-		}
+//		elevator.execute();
+//
+//		if (firstTime) {
+//			// elevator.hold(1000);
+//			// elevator.moveElevatorToPosition(RobotMap.Elevator.EXCHANGE_HEIGHT);
+//			firstTime = false;
+//		}
+		
+		testCommand.run();
 	}
 
 	private MCRCommand buildMission() {

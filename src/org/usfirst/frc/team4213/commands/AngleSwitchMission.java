@@ -33,6 +33,7 @@ public class AngleSwitchMission implements MCRCommand {
 		missionSteps.add(new CommandEjectCube());
 		//do a secondary command set to position for a second power cube
 		if (HamburgerDashboard.getInstance().doSecondaryMission()) {
+			System.out.println("Doing secondary mission");
 			missionSteps.add(PositionForSecondPowerCube.getCommandsFromSwitchFront(mySwitchSide));
 		}
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];

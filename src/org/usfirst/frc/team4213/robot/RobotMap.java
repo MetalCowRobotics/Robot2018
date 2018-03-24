@@ -57,7 +57,7 @@ public class RobotMap {
 		public static final double kI = 0;
 		public static final double kD = .05;
 		public static final double TOP_SPEED = 0;
-		public static final double VARIANCE = .5; // .25
+		public static final double VARIANCE = .25; // .25
 		public static final double MAX_ADJUSTMENT = .7;
 		public static final double SLOW_VARIANCE = 10;
 		public static final double SLOW_ADJUSTMENT = .35;
@@ -133,10 +133,12 @@ public class RobotMap {
 		public static final double leftTurn = -90;
 		public static final double rightTurn = 90;
 		public static final double angleTurn = 45;
+		public static final double rightAngleTurn = 50;
+		public static boolean SecondaryCube = true;
 	}
 	
 	public static final class LogLevels {
-		public static final Level robotClass = Level.FINEST;
+		public static final Level robotClass = Level.WARNING;
 		public static final Level autoDriveClass = Level.WARNING;
 		public static final Level climberClass = Level.WARNING;
 		public static final Level driveStraightTimeClass = Level.WARNING;

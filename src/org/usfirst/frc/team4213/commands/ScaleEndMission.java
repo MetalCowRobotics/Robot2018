@@ -16,7 +16,7 @@ public class ScaleEndMission implements MCRCommand {
 	public ScaleEndMission(Hand mySide, Hand scaleSide) {
 		ArrayList<MCRCommand> missionSteps = new ArrayList<MCRCommand>();
 		missionSteps.add(new CommandIntakeDeploy());
-		missionSteps.add(new CommandDriveStraight(Autonomous.middleScaleDistance, 5.0));
+		missionSteps.add(new CommandDriveStraight(Autonomous.middleScaleDistance, 15.0));
 		if (mySide.equals(scaleSide)) {
 			missionSteps.add(new ParallelCommands(
 					new CommandTurn(turnDirection(mySide), 1.5),

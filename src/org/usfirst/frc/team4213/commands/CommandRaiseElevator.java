@@ -29,7 +29,7 @@ public class CommandRaiseElevator implements MCRCommand {
 
 	@Override
 	public boolean isFinished() {
-		return atHeight;
+		return firstTime;
 	}
 
 }
