@@ -88,7 +88,7 @@ public class MasterControls {
 	}
 	
 		
-	public boolean isTitltUp() {
+	public boolean isTiltUp() {
 		return operator.getYButton();
 	}
 	
@@ -105,6 +105,10 @@ public class MasterControls {
 	
 	public double direction() {
 		return driver.getLX();
+	}
+	
+	public boolean isTiltMid() {
+		return operator.getXButton();
 	}
 	
 }

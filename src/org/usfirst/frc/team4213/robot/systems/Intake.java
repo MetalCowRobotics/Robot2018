@@ -39,6 +39,8 @@ public class Intake {
 	private boolean autoEject = false;
 	private Timer deployTimer = new Timer();
 	private boolean autoDeploy = false;
+	private boolean teleopMidDeploy = false;
+	private Timer deployMidTimer = new Timer();
 
 	private Intake() {
 		// Singleton Pattern
@@ -72,15 +74,18 @@ public class Intake {
 				powerCubeEject();
 			} else if (controller.isSlowCubeEject()) {
 				powerSlowCubeEject();
+			} else if (controller.isTiltMid()) {
+				teleopMidDeploy();
 			} else {
 				powerCubeIdle();
+				teleopMidDeploy = false;
 			}
 
 			// intake angle raise and lower
 			if (controller.isTiltDown()) {
 				deploy();
-			} else if (controller.isTitltUp()) {
-				INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
+			} else if (controller.isTiltUp()) {
+				storeIntake();
 			} else {
 				if (autoDeploy) {
 					if (deployTimer.get() > 2) {
@@ -94,6 +99,10 @@ public class Intake {
 			}
 		}
 
+	}
+
+	private void storeIntake() {
+		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 	}
 
 	public void stopIntakeDeploy() {
@@ -176,4 +185,22 @@ public class Intake {
 
 	}
 
+	public void teleopMidDeploy() {
+		if (!teleopMidDeploy) {
+			teleopMidDeploy = true;
+			deployMidTimer.reset();
+			deployMidTimer.start();
+			storeIntake();
+		}
+		if (deployMidTimer.get() > 0.5) {
+			stopMidDeploy();
+			deployMidTimer.stop();
+			teleopMidDeploy = false;
+			powerCubeEject();
+			deploy();
+		}
+	}
+	public void stopMidDeploy() {
+		INTAKE_ANGLE_MOTOR.stopMotor();
+	}
 }

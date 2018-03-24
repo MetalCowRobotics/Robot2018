@@ -156,6 +156,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		logger.entering(this.getClass().getName(), "autonomousPeriodic");
 		intake.execute();
+		elevator.execute();
 		//autoMission.execute();
 		robotMission.run();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
