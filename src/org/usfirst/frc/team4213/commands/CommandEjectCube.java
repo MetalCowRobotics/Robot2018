@@ -4,12 +4,13 @@ import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.robot.systems.Intake;
 
 public class CommandEjectCube implements MCRCommand {
-	private boolean firstTime = false;
+	private boolean firstTime = true;
 	private final Intake intake = Intake.getInstance();
 
 	@Override
 	public void run() {
 		if(firstTime) {
+			System.out.println("Starting the eject");
 			intake.autoEject();
 			firstTime = false;
 		}
@@ -17,7 +18,8 @@ public class CommandEjectCube implements MCRCommand {
 
 	@Override
 	public boolean isFinished() {
-		return !intake.isIntakeRunning();
+		return !firstTime;
+//				intake.isIntakeRunning();
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.lib14.ParallelCommands;
 import org.usfirst.frc.team4213.lib14.SequentialCommands;
+import org.usfirst.frc.team4213.robot.HamburgerDashboard;
 import org.usfirst.frc.team4213.robot.RobotMap;
 import org.usfirst.frc.team4213.robot.RobotMap.Autonomous;
 
@@ -17,18 +18,23 @@ public class AngleSwitchMission implements MCRCommand {
 	public AngleSwitchMission(Hand mySwitchSide) {
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight.equals(mySwitchSide)) {
-			missionSteps.add(new CommandTurn(Autonomous.angleTurn));
 			missionSteps.add(new ParallelCommands(
-					new CommandDriveToObject(Autonomous.wallBackOff),
-					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
+					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
+					new CommandTurn(Autonomous.rightAngleTurn, 2.0)));
+			// missionSteps.add(new CommandTurn(Autonomous.angleTurn));
+			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 1.8));
 		} else {
-			missionSteps.add(new CommandDriveStraight(Autonomous.rightSideToLeftSideAngleDistance));
+			missionSteps.add(new CommandDriveStraight(Autonomous.rightSideToLeftSideAngleDistance, 3.3));
 			missionSteps.add(new ParallelCommands(
-					new CommandTurn(Autonomous.angleTurn),
+					new CommandTurn(Autonomous.angleTurn, 2.0),
 					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT)));
-			missionSteps.add(new CommandDriveToObject(Autonomous.wallBackOff));
+			missionSteps.add(new CommandDriveStraight(24, 1.7));
 		}
 		missionSteps.add(new CommandEjectCube());
+		//do a secondary command set to position for a second power cube
+		if (HamburgerDashboard.getInstance().doSecondaryMission()) {
+			missionSteps.add(PositionForSecondPowerCube.getCommandsFromSwitchFront(mySwitchSide));
+		}
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];
 		mission = new SequentialCommands((MCRCommand[]) missionSteps.toArray(a));
 	}

@@ -5,25 +5,17 @@ import org.usfirst.frc.team4213.robot.systems.TurnDegrees;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class CommandTurn implements MCRCommand {
-	private TurnDegrees thisCommand;
+public class CommandPause implements MCRCommand {
 	private boolean firstTime = true;
 	private Timer timer = new Timer();
 	private double expectedTime = 5;
-	public CommandTurn(double turnDegrees) {
-		
-		thisCommand = new TurnDegrees(turnDegrees);
-	}
-	
-	public CommandTurn(double turnDegrees, double seconds) {
-		
-		thisCommand = new TurnDegrees(turnDegrees);
+
+	public CommandPause(double seconds) {
 		expectedTime = seconds;
 	}
 
 	@Override
 	public void run() {
-		thisCommand.run();
 		if (firstTime) {
 			firstTime = false;
 			timer.reset();
@@ -33,13 +25,14 @@ public class CommandTurn implements MCRCommand {
 
 	@Override
 	public boolean isFinished() {
-		if(firstTime) {
+		if (firstTime) {
 			return false;
 		}
-		if (timer.get()>expectedTime) {
+		if (timer.get() > expectedTime) {
+			timer.stop();
 			return true;
 		}
-		return thisCommand.isFinished();	
+		return false;
 	}
 
 }

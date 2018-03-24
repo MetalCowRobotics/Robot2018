@@ -17,11 +17,15 @@ public class RightSideToRightSwitchMission implements MCRCommand {
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight == switchSide) {
 			missionSteps.add(new ParallelCommands(
-								new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
-								new CommandDriveToObject(RobotMap.Autonomous.wallBackOff)));
+					new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
+					new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 4)));
 			missionSteps.add(new CommandEjectCube());
+//			missionSteps.add(new CommandDriveToObject(RobotMap.Autonomous.wallBackOff));
+//			missionSteps.add(new ParallelCommands(
+//								new CommandRaiseElevator(RobotMap.Elevator.SWITCHWALL_HEIGHT),
+//								new CommandDriveToObject(RobotMap.Autonomous.wallBackOff)));
 		} else {
-			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance));
+			missionSteps.add(new CommandDriveStraight(RobotMap.Autonomous.switchWallDistance, 4));
 		}
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];
 		command = new SequentialCommands((MCRCommand[]) missionSteps.toArray(a));
