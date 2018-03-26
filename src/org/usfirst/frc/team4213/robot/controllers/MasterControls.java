@@ -49,6 +49,10 @@ public class MasterControls {
 	public boolean isCubeIntake() {
 		return operator.getLT() > .25;
 	}
+	
+	public boolean isSlowCubeEject() {
+		return operator.getRB();
+	}
 
 	public boolean isCubeEject() {
 		return operator.getRT() > .25;
@@ -84,7 +88,7 @@ public class MasterControls {
 	}
 	
 		
-	public boolean isTitltUp() {
+	public boolean isTiltUp() {
 		return operator.getYButton();
 	}
 	
@@ -101,6 +105,10 @@ public class MasterControls {
 	
 	public double direction() {
 		return driver.getLX();
+	}
+	
+	public boolean isTiltMid() {
+		return operator.getXButton();
 	}
 	
 }

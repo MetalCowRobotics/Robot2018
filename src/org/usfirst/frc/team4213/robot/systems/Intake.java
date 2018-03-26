@@ -39,6 +39,8 @@ public class Intake {
 	private boolean autoEject = false;
 	private Timer deployTimer = new Timer();
 	private boolean autoDeploy = false;
+	private boolean teleopMidDeploy = false;
+	private Timer deployMidTimer = new Timer();
 
 	private Intake() {
 		// Singleton Pattern
@@ -70,28 +72,37 @@ public class Intake {
 				powerCubeIntake();
 			} else if (controller.isCubeEject()) {
 				powerCubeEject();
+			} else if (controller.isSlowCubeEject()) {
+				powerSlowCubeEject();
+			} else if (controller.isTiltMid()) {
+				teleopMidDeploy();
 			} else {
 				powerCubeIdle();
+				teleopMidDeploy = false;
 			}
-		}
 
-		// intake angle raise and lower
-		if (controller.isTiltDown()) {
-			deploy();
-		} else if (controller.isTitltUp()) {
-			INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
-		} else {
-			if (autoDeploy) {
-				if (deployTimer.get() > 2) {
-					stopIntakeDeploy();
-					deployTimer.stop();
-					autoDeploy = false;
-				}
+			// intake angle raise and lower
+			if (controller.isTiltDown()) {
+				deploy();
+			} else if (controller.isTiltUp()) {
+				storeIntake();
 			} else {
-				stopIntakeDeploy();
+				if (autoDeploy) {
+					if (deployTimer.get() > 2) {
+						stopIntakeDeploy();
+						deployTimer.stop();
+						autoDeploy = false;
+					}
+				} else {
+					stopIntakeDeploy();
+				}
 			}
 		}
 
+	}
+
+	private void storeIntake() {
+		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.RAISE_INTAKE_SPEED);
 	}
 
 	public void stopIntakeDeploy() {
@@ -128,6 +139,12 @@ public class Intake {
 		currentIntakeState = IntakeState.OUT;
 	}
 
+	private void powerSlowCubeEject() {
+		LEFT_INTAKE_MOTOR.set(-HamburgerDashboard.getInstance().getIntakeSlowEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		RIGHT_INTAKE_MOTOR.set(HamburgerDashboard.getInstance().getIntakeSlowEjectSpeed());// .setSpeed(RobotMap.Intake.EJECT_SPEED);
+		currentIntakeState = IntakeState.OUT;
+	}
+
 	private void powerCubeIdle() {
 		if (IntakeState.OFF == currentIntakeState) {
 			return;
@@ -149,12 +166,12 @@ public class Intake {
 	}
 
 	public void autoDeploy() {
-		autoDeploy=true;
+		autoDeploy = true;
 		deployTimer.reset();
 		deployTimer.start();
 		deploy();
 	}
-	
+
 	private void deploy() {
 		INTAKE_ANGLE_MOTOR.set(RobotMap.Intake.LOWER_INTAKE_SPEED);
 	}
@@ -168,4 +185,22 @@ public class Intake {
 
 	}
 
+	public void teleopMidDeploy() {
+		if (!teleopMidDeploy) {
+			teleopMidDeploy = true;
+			deployMidTimer.reset();
+			deployMidTimer.start();
+			storeIntake();
+		}
+		if (deployMidTimer.get() > 0.5) {
+			stopMidDeploy();
+			deployMidTimer.stop();
+			teleopMidDeploy = false;
+			powerCubeEject();
+			deploy();
+		}
+	}
+	public void stopMidDeploy() {
+		INTAKE_ANGLE_MOTOR.stopMotor();
+	}
 }
