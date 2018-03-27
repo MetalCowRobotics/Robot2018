@@ -144,7 +144,6 @@ public class Robot extends IterativeRobot {
 		autoSelected = autoChooser.getSelected();
 		robotMission = buildMission();
 		logger.info("Auto selected: " + autoSelected);
-		System.out.println(autoSelected);
 		logger.exiting(getClass().getName(), "doIt");
 	}
 
@@ -160,7 +159,6 @@ public class Robot extends IterativeRobot {
 		//autoMission.execute();
 		robotMission.run();
 		logger.exiting(this.getClass().getName(), "autonomousPeriodic");
-		System.out.println();
 	}
 
 	/**

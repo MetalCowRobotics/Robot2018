@@ -10,13 +10,12 @@ public class CommandTurn implements MCRCommand {
 	private boolean firstTime = true;
 	private Timer timer = new Timer();
 	private double expectedTime = 5;
+	
 	public CommandTurn(double turnDegrees) {
-		
 		thisCommand = new TurnDegrees(turnDegrees);
 	}
 	
 	public CommandTurn(double turnDegrees, double seconds) {
-		
 		thisCommand = new TurnDegrees(turnDegrees);
 		expectedTime = seconds;
 	}

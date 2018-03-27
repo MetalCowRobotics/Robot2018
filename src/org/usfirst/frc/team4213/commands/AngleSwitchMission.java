@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4213.commands;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
+import org.usfirst.frc.team4213.autonomous.Mission;
 import org.usfirst.frc.team4213.lib14.MCRCommand;
 import org.usfirst.frc.team4213.lib14.ParallelCommands;
 import org.usfirst.frc.team4213.lib14.SequentialCommands;
@@ -12,10 +14,12 @@ import org.usfirst.frc.team4213.robot.RobotMap.Autonomous;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class AngleSwitchMission implements MCRCommand {
+	private static final Logger logger = Logger.getLogger(Mission.class.getName());
 	private ArrayList<MCRCommand> missionSteps = new ArrayList<MCRCommand>();
 	private MCRCommand mission;
 
 	public AngleSwitchMission(Hand mySwitchSide) {
+		logger.setLevel(RobotMap.LogLevels.missionClass);
 		missionSteps.add(new CommandIntakeDeploy());
 		if (Hand.kRight.equals(mySwitchSide)) {
 			missionSteps.add(new ParallelCommands(
@@ -33,6 +37,7 @@ public class AngleSwitchMission implements MCRCommand {
 		missionSteps.add(new CommandEjectCube());
 		//do a secondary command set to position for a second power cube
 		if (HamburgerDashboard.getInstance().doSecondaryMission()) {
+			logger.info("Doing secondary mission!");
 			missionSteps.add(PositionForSecondPowerCube.getCommandsFromSwitchFront(mySwitchSide));
 		}
 		MCRCommand[] a = new MCRCommand[missionSteps.size()];

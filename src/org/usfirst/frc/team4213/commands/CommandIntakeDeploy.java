@@ -9,7 +9,6 @@ public class CommandIntakeDeploy implements MCRCommand {
 	@Override
 	public void run() {
 		if (firstTime) {
-			System.out.println("ARE WE DEPLOYING????");
 			Intake.getInstance().autoDeploy();
 			firstTime = false;
 		}

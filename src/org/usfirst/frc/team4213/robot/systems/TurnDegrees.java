@@ -7,6 +7,7 @@ import org.usfirst.frc.team4213.robot.RobotMap;
 public class TurnDegrees extends AutoDrive {
 	private double degrees;
 	private double setPoint;
+	private int rechecks = 0;
 	
 	public TurnDegrees(double degrees) {
 		super();
@@ -19,7 +20,6 @@ public class TurnDegrees extends AutoDrive {
 		case IDLE:
 			driveTrain.resetGyro();
 			setPoint = driveTrain.getAngle() + degrees; 
-			System.out.println(("TurnDegrees SetPoint:" + setPoint));
 			driveController = new PDController(setPoint, dashboard.getTurnKP(), dashboard.getTurnKI()); 
 			driveTrain.arcadeDrive(RobotMap.TurnDegrees.TOP_SPEED, driveController.calculateAdjustment(setPoint));
 			currentState = State.ACTIVE;
@@ -46,6 +46,22 @@ public class TurnDegrees extends AutoDrive {
 				logger.info("correction:" + correction);
 			}
 			break;
+		case RECHECK: 
+			if (rechecks < 3) { 
+				rechecks += 1; 
+				if (Math.abs(setPoint - driveTrain.getAngle()) < RobotMap.TurnDegrees.VARIANCE) { 
+					logger.info("======== turn on target !!! ========="); 
+					driveTrain.stop(); 
+					currentState = State.DONE; 
+				} else { 
+					currentState = State.ACTIVE; 
+				} 
+			} else { 
+				logger.info("======== tried enough ========="); 
+				driveTrain.stop(); 
+				currentState = State.DONE; 
+			} 
+			break; 
 		case DONE:
 			break;
 		}

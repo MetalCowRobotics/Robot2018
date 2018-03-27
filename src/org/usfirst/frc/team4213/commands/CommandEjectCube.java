@@ -10,7 +10,6 @@ public class CommandEjectCube implements MCRCommand {
 	@Override
 	public void run() {
 		if(firstTime) {
-			System.out.println("Starting the eject");
 			intake.autoEject();
 			firstTime = false;
 		}

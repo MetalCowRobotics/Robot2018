@@ -32,7 +32,6 @@ public class DriveWithEncoder extends AutoDrive {
 			break;
 		case ACTIVE:
 			double pastTics = driveTrain.getEncoderTics() - startTics;
-			System.out.println("THIS IS THE ENCODER TICS: "+driveTrain.getEncoderTics());
 			logger.info("pastTics:" + pastTics);
 			if (targetTics < pastTics) {
 				driveTrain.stop();

@@ -38,9 +38,7 @@ public class RightPosToRigthSwitch extends Mission {
 			break;
 		case driving:
 			driveStep.run();
-			System.out.println("Driving");
 			if (driveStep.isFinished()) {
-				System.out.println("Drive is done");
 				curState = MissionStates.deployed;
 			}
 			break;
@@ -48,7 +46,6 @@ public class RightPosToRigthSwitch extends Mission {
 			curState = MissionStates.deployed;
 			break;
 		case deployed:
-			System.out.println("ON MY SIDE" +onMySwitchSide(Hand.kRight) );
 			if (onMySwitchSide(Hand.kRight)) {
 				intake.autoEject();
 				curState = MissionStates.ejecting;

@@ -17,11 +17,9 @@ public class CommandRaiseElevator implements MCRCommand {
 	public void run() {
 		if (firstTime) {
 			firstTime = false;
-			System.out.println("AM I RAISING THE ELEVATOR");
-			Elevator.getInstance().setPosition(height);
+			elevator.setPosition(height);
 			// elevator.setElevatorSpeed(-.3);
 		}
-		System.out.println("<<<< Raise Elevator >>>>");
 		// if (elevator.getEncoderTics()>1300) {
 		// elevator.setElevatorSpeed(-.1);
 		// atHeight=true;
@@ -30,7 +28,8 @@ public class CommandRaiseElevator implements MCRCommand {
 
 	@Override
 	public boolean isFinished() {
-		return elevator.isAtHeight(height);
+//		return elevator.isAtHeight(height);
+		return !firstTime;
 	}
 
 }

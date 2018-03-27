@@ -13,11 +13,9 @@ public class ParallelCommands implements MCRCommand {
 
 	@Override
 	public void run() {
-		int numTimes =0;
 		for (MCRCommand command : parallelCommands) {
-//			if (!command.isFinished()) {
+			//if (!command.isFinished()) {
 				command.run();
-				System.out.println("NUMBER OF TIMES : "+(numTimes+=1));				
 			//}
 		}
 	}

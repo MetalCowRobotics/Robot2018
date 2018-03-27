@@ -13,7 +13,7 @@ public abstract class AutoDrive {
 	protected DriveTrain driveTrain = DriveTrain.getInstance();
 
 	protected enum State {
-		IDLE, ACTIVE, DONE
+		IDLE, ACTIVE, DONE, RECHECK
 	};
 
 	protected State currentState = State.IDLE;

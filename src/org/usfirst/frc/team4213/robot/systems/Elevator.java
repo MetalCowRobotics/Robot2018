@@ -42,8 +42,6 @@ public class Elevator {
 	}
 
 	public void execute() {
-		System.out.println("THIS IS THE ENCODER TICS: " + getEncoderTics());
-		System.out.println("THIS IS THE ELEVATOR MOTOR SPEED: " + ELEVATOR_MOTOR.get());
 		logger.info("================== elevator iteration ==============================");
 		logger.info("Elevator Up: " + this.isElevatorAtTop() + " Elevator Down: " + this.isElevatorAtBottom());
 		logger.info("elevator encoder tics:" + getEncoderTics());
@@ -59,7 +57,7 @@ public class Elevator {
 		if (0 == controller.getElevatorThrottle()) {
 			holdPID.set_kP(dash.getElevatorKP());
 			holdPID.set_kD(dash.getElevatorKD());
-			System.out.println("^^^^^^ Holding ^^^^^^");
+			//System.out.println("^^^^^^ Holding ^^^^^^");
 			setElevatorSpeed(holdPID.calculateAdjustment(getEncoderTics()));
 			HamburgerDashboard.getInstance().pushElevatorPID(holdPID);
 		} else {

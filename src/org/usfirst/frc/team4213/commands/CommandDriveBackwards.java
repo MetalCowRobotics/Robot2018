@@ -1,23 +1,24 @@
 package org.usfirst.frc.team4213.commands;
 
 import org.usfirst.frc.team4213.lib14.MCRCommand;
-import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder;
+import org.usfirst.frc.team4213.robot.systems.DriveBackwardWithEncoder;
 
+//import org.usfirst.frc.team4213.robot.systems.DriveWithEncoder; 
 import edu.wpi.first.wpilibj.Timer;
 
-public class CommandDriveStraight implements MCRCommand {
-	private DriveWithEncoder thisCommand;
+public class CommandDriveBackwards implements MCRCommand {
+	private DriveBackwardWithEncoder thisCommand;
 	private Timer timer = new Timer();
 	private boolean firstTime = true;
-	private double targetTime = 10;
+	private double targetTime = 6;
 
-	public CommandDriveStraight(double inches, double expectedTime) {
-		thisCommand = new DriveWithEncoder(inches);
+	public CommandDriveBackwards(double inches, double expectedTime) {
+		thisCommand = new DriveBackwardWithEncoder(inches);
 		targetTime = expectedTime;
 	}
 
-	public CommandDriveStraight(double inches) {
-		thisCommand = new DriveWithEncoder(inches);
+	public CommandDriveBackwards(double inches) {
+		thisCommand = new DriveBackwardWithEncoder(inches);
 	}
 
 	@Override
@@ -37,5 +38,4 @@ public class CommandDriveStraight implements MCRCommand {
 		}
 		return thisCommand.isFinished();
 	}
-
 }

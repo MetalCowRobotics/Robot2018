@@ -116,7 +116,6 @@ public class DriveTrain {
 	 */
 	private double getThrottle() {
 		if (controller.isCrawlToggle()) {
-			System.out.println("crawling---------");
 			return RobotMap.Drivetrain.CRAWL_SPEED;
 		} else if (controller.isSprintToggle()) {
 			return RobotMap.Drivetrain.SPRINT_SPEED;
@@ -138,13 +137,11 @@ public class DriveTrain {
 	}
 
 	public void printRightEncoder() {
-		// System.out.println("rightEncoder:" + getRightEncoderTics());
-		System.out.println(getRightEncoderTics() + "RightEncoder");
+		System.out.println(getRightEncoderTics() + " RightEncoder");
 	}
 
 	public void printLeftEncoder() {
-		// System.out.println("leftEncoder:" + getLeftEncoderTics());
-		System.out.println(getLeftEncoderTics() + "LeftEncoder");
+		System.out.println(getLeftEncoderTics() + " LeftEncoder");
 
 	}
 
